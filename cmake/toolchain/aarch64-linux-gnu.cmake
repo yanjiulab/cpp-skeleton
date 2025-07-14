@@ -1,0 +1,29 @@
+# the name of the target os
+set(CMAKE_SYSTEM_NAME Linux)
+# target arch
+set(CMAKE_SYSTEM_PROCESSOR aarch64)
+
+# set(ENV{PATH} "/opt/Z7_cross_compiler/bin:$ENV{PATH}")
+set(TOOLCHAIN_PATH /opt/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu)
+set(TOOLCHAIN_PREFIX aarch64-linux-gnu)
+
+set(CMAKE_C_COMPILER ${TOOLCHAIN_PATH}/bin/${TOOLCHAIN_PREFIX}-gcc)
+set(CMAKE_CXX_COMPILER ${TOOLCHAIN_PATH}/bin/${TOOLCHAIN_PREFIX}-g++)
+#set(CMAKE_SYSROOT ${TOOLCHAIN_PATH}/sysroot)
+
+# where is the target environment located
+set(CMAKE_FIND_ROOT_PATH 
+	${TOOLCHAIN_PATH}/sysroot
+)
+# adjust the default behavior of the FIND_XXX() commands:
+# search the program in the host environment
+# find_program
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+
+# search headers and libraries in the target environment
+# find_library
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY NEVER) 
+# find_path or find_file
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE NEVER) 
+# find package
+set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE NEVER)
