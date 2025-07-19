@@ -5,6 +5,9 @@
 #include <liblog.h>
 #include <libposix.h>
 
+#include "config.h"
+#include <event2/event.h>
+
 static int on_timer(aeEventLoop* eventLoop, long long id, void* clientData) {
     printf("In the raw mode, two consecutive lines ended with \\n will cause \n");
     printf("the second line not to start from the beginning.\n");
@@ -31,6 +34,10 @@ static int cmd_do_hello(vty_t* vty, cmd_arglist_t* arglist) {
 
 int main(int argc, char** argv) {
 
+    printf("VERSION: %d.%d.%d\n", proj_VERSION_MAJOR, proj_VERSION_MINOR, proj_VERSION_PATCH);
+
+    event_base_new();
+        
     vty_register_command(cmd_do_hello, "hello", "<world>", "Hello world.");
     
     if (argc == 2) {

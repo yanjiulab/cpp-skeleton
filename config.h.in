@@ -1,0 +1,8 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#define proj_VERSION_MAJOR @proj_VERSION_MAJOR@
+#define proj_VERSION_MINOR @proj_VERSION_MINOR@
+#define proj_VERSION_PATCH @proj_VERSION_PATCH@
+
+#endif
