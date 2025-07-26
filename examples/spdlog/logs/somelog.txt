@@ -1,0 +1,1 @@
+[2025-07-26 09:48:45.767] [new_default_logger] [debug] This message should be displayed..

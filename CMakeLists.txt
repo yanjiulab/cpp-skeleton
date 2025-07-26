@@ -1,10 +1,59 @@
 #######################################
-# Project
+# Project settings
 #######################################
 cmake_minimum_required(VERSION 3.10)
 project(proj VERSION 0.1.0)
 
-configure_file(config.h.in config.h)
+# C standard can be overridden when this is used as a sub-project.
+if(NOT CMAKE_C_STANDARD)
+  # This project can use C11, but will gracefully decay down to C89.
+  set(CMAKE_C_STANDARD 11)
+  set(CMAKE_C_STANDARD_REQUIRED OFF)
+  set(CMAKE_C_EXTENSIONS OFF)
+endif(NOT CMAKE_C_STANDARD)
+
+# C++ standard can be overridden when this is used as a sub-project.
+if(NOT CMAKE_CXX_STANDARD)
+  # This project requires C++11.
+  set(CMAKE_CXX_STANDARD 11)
+  set(CMAKE_CXX_STANDARD_REQUIRED ON)
+  set(CMAKE_CXX_EXTENSIONS OFF)
+endif(NOT CMAKE_CXX_STANDARD)
+
+# build dynamically linked executable file by default
+option(BUILD_STATIC "build staticly linked executable file" OFF)
+
+# include(CheckIncludeFile)
+# check_include_file("unistd.h" HAVE_UNISTD_H)
+
+# include(CheckLibraryExists)
+# check_library_exists(libevent crc32c_value "" HAVE_CRC32C)
+# check_library_exists(snappy snappy_compress "" HAVE_SNAPPY)
+# check_library_exists(zstd zstd_compress "" HAVE_ZSTD)
+# check_library_exists(tcmalloc malloc "" HAVE_TCMALLOC)
+
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/config.h.in
+    ${CMAKE_CURRENT_SOURCE_DIR}/config.h
+)
+
+set(INCDIR include)
+set(SRCDIR src)
+set(LIBDIR lib)
+set(BINDIR bin)
+
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${LIBDIR})
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${LIBDIR})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${BINDIR})
+file(INSTALL etc DESTINATION ${CMAKE_BINARY_DIR})
+file(INSTALL etc DESTINATION ${CMAKE_BINARY_DIR}/bin)
+file(INSTALL doc/CHANGELOG.md DESTINATION ${CMAKE_BINARY_DIR}/doc)
+file(INSTALL doc/USAGE.md DESTINATION ${CMAKE_BINARY_DIR}/doc)
+
+set(INCDIRS . include 3rd/include)
+set(LIBDIRS . lib 3rd/lib)
+include_directories(${INCDIRS} ${SRCDIR})
+link_directories(${LIBDIRS})
 # message("CMAKE_SOURCE_DIR:         ${CMAKE_SOURCE_DIR}")
 # message("CMAKE_CURRENT_SOURCE_DIR: ${CMAKE_CURRENT_SOURCE_DIR}")
 # message("PROJECT_SOURCE_DIR:       ${PROJECT_SOURCE_DIR}")
@@ -15,13 +64,6 @@ configure_file(config.h.in config.h)
 # message("CMAKE_INSTALL_INCLUDEDIR: ${CMAKE_INSTALL_INCLUDEDIR}")
 # message("CMAKE_INSTALL_LIBDIR:     ${CMAKE_INSTALL_LIBDIR}")
 # message("CMAKE_INSTALL_BINDIR:     ${CMAKE_INSTALL_BINDIR}")
-
-#######################################
-# C++ header-only libraries
-#######################################
-include_directories(
-    "./include"
-)
 
 #######################################
 # External dependencies settings
@@ -43,47 +85,48 @@ set(LIBEVENT_LIBRARIES /usr/local/lib/libevent.so)
 set(ROOT_DIR ${PROJECT_SOURCE_DIR}/src)
 file(GLOB MODULES RELATIVE ${ROOT_DIR} ${ROOT_DIR}/*)
 
-foreach(subdir ${MODULES})
-    if(IS_DIRECTORY ${PROJECT_SOURCE_DIR}/src/${subdir})
-        set(${subdir}_DIR ${PROJECT_SOURCE_DIR}/src/${subdir})
-        file(GLOB ${subdir}_SOURCES 
-            ${${subdir}_DIR}/*.c
-            ${${subdir}_DIR}/*.cc
-            ${${subdir}_DIR}/*.cpp
+foreach(module ${MODULES})
+    message(STATUS "Detecting ${module} module")
+    if(IS_DIRECTORY ${PROJECT_SOURCE_DIR}/src/${module})
+        set(${module}_DIR ${PROJECT_SOURCE_DIR}/src/${module})
+        file(GLOB ${module}_SOURCES 
+            ${${module}_DIR}/*.c
+            ${${module}_DIR}/*.cc
+            ${${module}_DIR}/*.cpp
         )
-        file(GLOB ${subdir}_HEADERS
-            ${${subdir}_DIR}/*.h
-            ${${subdir}_DIR}/*.hpp
+        file(GLOB ${module}_HEADERS
+            ${${module}_DIR}/*.h
+            ${${module}_DIR}/*.hpp
         )
         
-        if(EXISTS ${PROJECT_SOURCE_DIR}/src/${subdir}/main.c)
-            set(${subdir}_MAIN ${PROJECT_SOURCE_DIR}/src/${subdir}/main.c)
-            list(REMOVE_ITEM ${subdir}_SOURCES ${${subdir}_MAIN})
+        if(EXISTS ${PROJECT_SOURCE_DIR}/src/${module}/main.c)
+            set(${module}_MAIN ${PROJECT_SOURCE_DIR}/src/${module}/main.c)
+            list(REMOVE_ITEM ${module}_SOURCES ${${module}_MAIN})
         endif()
 
-        if(EXISTS ${PROJECT_SOURCE_DIR}/src/${subdir}/main.cpp)
-            set(${subdir}_MAIN ${PROJECT_SOURCE_DIR}/src/${subdir}/main.cpp)
-            list(REMOVE_ITEM ${subdir}_SOURCES ${${subdir}_MAIN})
+        if(EXISTS ${PROJECT_SOURCE_DIR}/src/${module}/main.cpp)
+            set(${module}_MAIN ${PROJECT_SOURCE_DIR}/src/${module}/main.cpp)
+            list(REMOVE_ITEM ${module}_SOURCES ${${module}_MAIN})
         endif()
 
-        if(EXISTS ${PROJECT_SOURCE_DIR}/src/${subdir}/main.cc)
-            set(${subdir}_MAIN ${PROJECT_SOURCE_DIR}/src/${subdir}/main.cc)
-            list(REMOVE_ITEM ${subdir}_SOURCES ${${subdir}_MAIN})
+        if(EXISTS ${PROJECT_SOURCE_DIR}/src/${module}/main.cc)
+            set(${module}_MAIN ${PROJECT_SOURCE_DIR}/src/${module}/main.cc)
+            list(REMOVE_ITEM ${module}_SOURCES ${${module}_MAIN})
         endif()
 
-        message("${subdir}_DIR: ${${subdir}_DIR}")
-        message("${subdir}_MAIN: ${${subdir}_MAIN}")
-        # message("${subdir}_SOURCES : ${${subdir}_SOURCES}")
-        # message("${subdir}_HEADERS : ${${subdir}_HEADERS}")
+        # message(STATUS "Setting ${module}_DIR: ${${module}_DIR}")
+        # message(STATUS "Setting ${module}_MAIN: ${${module}_MAIN}")
+        # message(STATUS "Setting ${module}_SOURCES : ${${module}_SOURCES}")
+        # message(STATUS "Setting ${module}_HEADERS : ${${module}_HEADERS}")
     else()
-        list(APPEND ROOT_SOURCES ${PROJECT_SOURCE_DIR}/src/${subdir})
+        list(APPEND ROOT_SOURCES ${PROJECT_SOURCE_DIR}/src/${module})
     endif()
 endforeach()
-message("ROOT_SOURCES: ${ROOT_SOURCES}")
 
 #######################################
 # cppdemo executable module settings
 #######################################
+set(CMAKE_EXE_LINKER_FLAGS "-static")
 set(APP_NAME "cppdemo")
 add_executable(${APP_NAME}
     ${${APP_NAME}_MAIN}
@@ -91,9 +134,13 @@ add_executable(${APP_NAME}
 )
 
 target_include_directories(${APP_NAME} PUBLIC
-    ${PROJECT_BINARY_DIR}
     ${${APP_NAME}_DIR}
 )
+
+if(BUILD_STATIC)
+    message(STATUS "build static")
+endif()
+
 
 #######################################
 # app executable module settings
@@ -106,7 +153,6 @@ add_executable(${APP_NAME}
 )
 
 target_include_directories(${APP_NAME} PUBLIC
-    ${PROJECT_BINARY_DIR}
     ${util_DIR}
 )
 

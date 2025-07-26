@@ -1,18 +1,8 @@
-deps/frr-frr-9.0.1
-deps/hiredis
-deps/redis-6.2.6
-deps/Tinyhttpd-master
-deps/twamp-protocol-master
-
-*.rdb
-*.zip
-
 # Compiled Object files
 *.o
 *.lo
 *.slo
 *.obj
-*.d
 
 # Precompiled Headers
 *.gch
@@ -45,11 +35,13 @@ deps/twamp-protocol-master
 .vs
 .vscode
 .DS_Store
-.svn
 
 tags
 cscope*
 .ycm*
+
+# generated
+examples/protorpc/generated
 
 # output
 *.pid
@@ -63,10 +55,9 @@ tmp
 dist
 test
 *_test
-
-# build
+build
 config.mk
-hconfig.h
+config.h
 html/uploads
 
 # msvc
@@ -79,6 +70,3 @@ Release
 CMakeFiles
 CMakeCache.txt
 cmake_install.cmake
-
-# python
-*.pyc

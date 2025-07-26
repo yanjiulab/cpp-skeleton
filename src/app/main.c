@@ -1,12 +1,12 @@
 
-#include "libvty.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include <event2/event.h>
 #include <liblog.h>
 #include <libposix.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "config.h"
-#include <event2/event.h>
+#include "libvty.h"
 
 static int on_timer(aeEventLoop* eventLoop, long long id, void* clientData) {
     printf("In the raw mode, two consecutive lines ended with \\n will cause \n");
@@ -16,13 +16,13 @@ static int on_timer(aeEventLoop* eventLoop, long long id, void* clientData) {
     printd("%lld - Hello Timer", id);
     printd("%lld - Hello Timer", id);
     logi("%lld - Hello Timer", id);
+
     logw("%lld - Hello Timer", id);
 
     return 1 * 1000;
 }
 
 static int cmd_do_hello(vty_t* vty, cmd_arglist_t* arglist) {
-
     if (arglist->count > 1) {
         return CMD_ERROR_TOO_MANY_ARGS;
     }
@@ -33,13 +33,13 @@ static int cmd_do_hello(vty_t* vty, cmd_arglist_t* arglist) {
 }
 
 int main(int argc, char** argv) {
-
-    printf("VERSION: %d.%d.%d\n", proj_VERSION_MAJOR, proj_VERSION_MINOR, proj_VERSION_PATCH);
+    printf("VERSION: %d.%d.%d\n", proj_VERSION_MAJOR, proj_VERSION_MINOR,
+           proj_VERSION_PATCH);
 
     event_base_new();
-        
+
     vty_register_command(cmd_do_hello, "hello", "<world>", "Hello world.");
-    
+
     if (argc == 2) {
         aeEventLoop* loop = aeCreateEventLoop(10);
         vty_tcp_client(loop, "127.0.0.1", 8888);
