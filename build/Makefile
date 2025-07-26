@@ -142,30 +142,6 @@ app/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/build
 .PHONY : app/fast
 
-src/app/foo.o: src/app/foo.c.o
-.PHONY : src/app/foo.o
-
-# target to build an object file
-src/app/foo.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/app/foo.c.o
-.PHONY : src/app/foo.c.o
-
-src/app/foo.i: src/app/foo.c.i
-.PHONY : src/app/foo.i
-
-# target to preprocess a source file
-src/app/foo.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/app/foo.c.i
-.PHONY : src/app/foo.c.i
-
-src/app/foo.s: src/app/foo.c.s
-.PHONY : src/app/foo.s
-
-# target to generate assembly for a file
-src/app/foo.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/app/foo.c.s
-.PHONY : src/app/foo.c.s
-
 src/app/main.o: src/app/main.c.o
 .PHONY : src/app/main.o
 
@@ -800,9 +776,6 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... app"
 	@echo "... cppdemo"
-	@echo "... src/app/foo.o"
-	@echo "... src/app/foo.i"
-	@echo "... src/app/foo.s"
 	@echo "... src/app/main.o"
 	@echo "... src/app/main.i"
 	@echo "... src/app/main.s"

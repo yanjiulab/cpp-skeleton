@@ -31,7 +31,7 @@
  */
 
 #include "libae.h"
-#include <libanet.h>
+#include "libanet.h"
 
 #include <stdio.h>
 #include <sys/time.h>
@@ -51,7 +51,7 @@
 #ifndef _POSIX_C_SOURCE
 #define _POSIX_C_SOURCE 199309L
 #endif
-
+#define CLOCK_MONOTONIC 1
 /* The function pointer for clock retrieval.  */
 monotime (*get_monotonic_us)(void) = NULL;
 

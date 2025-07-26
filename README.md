@@ -4,34 +4,44 @@
 
 ```bash
 .
-├── 3rd               # 第三方依赖库
-│   ├── include       # 头文件（每个库单独文件）
-│   │   ├── ...       # 依赖 A
-│   │   └── ...       # 依赖 B
-│   └── lib           # 库文件（一般不再细分目录）
-├── build             # 构建目录/分发目录
-├── CHANGELOG.md      # 变更说明文件/版本更新文档
-├── cmake             # cmake 工具
-│   └── toolchain     # 编译链工具
-├── CMakeLists.txt    # cmake 构建脚本（推荐使用 cmake 构建项目）
-├── config.h          # config.h.in 生成的项目配置头文件
-├── config.h.in       # 项目预定义宏
-├── doc               # 文档
-├── etc               # 配置文件
-├── include           # 本项目生成 lib 对外提供 API 头文件。若是纯 exe 项目，则为空。
-├── lib               # 本项目生成 lib 库文件。若是纯 exe 项目，则为空。
-├── Makefile          # make 构建脚本
-├── README.md         # 本项目说明文档
-├── scripts           # 脚本（部署、备份等）
-├── src               # 源代码目录
-│   ├── app           # app 可执行模块               
-│   ├── cppdemo       # cppdemo 可执行模块
-│   └── util          # 工具模块
-├── test              # 测试代码目录
-│   └── common
-├── tmp               # 临时文件/未归档文件
-└── tools
+├── 3rd                 # 第三方依赖库
+│   ├── include         # 头文件（每个库独立目录）
+│   │   ├── ...         # 依赖 A
+│   │   └── ...         # 依赖 B
+│   └── lib             # 库文件（一般不再细分目录）
+├── build               # 构建目录/分发目录
+├── cmake               # cmake 工具
+│   └── toolchain       # 编译链工具
+│       ├── aarch64-linux-gnu.cmake
+│       └── arm-linux-gnueabihf.cmake
+├── CMakeLists.txt      # cmake 构建脚本（推荐使用 cmake 构建项目）
+├── config.h            # config.h.in 生成的项目配置头文件
+├── config.h.in         # 项目配置头文件
+├── doc                 # 文档目录
+│   ├── CHANGELOG.md    # 版本变更文档
+│   └── USAGE.md        # 软件使用文档
+├── etc                 # 配置文件目录
+├── include             # 本项目生成 lib 对外提供 API 头文件。若是纯 exe 项目，则为空。
+├── lib                 # 本项目生成 lib 库文件。若是纯 exe 项目，则为空。
+├── Makefile            # make 构建脚本
+├── README.md           # 本项目说明文档
+├── scripts             # 脚本（部署、备份等）
+├── src                 # 源代码目录
+│   ├── app             # app 可执行模块               
+│   ├── cppdemo         # cppdemo 可执行模块
+│   └── util            # C 常用工具模块
+├── test                # 测试代码目录
+├── tmp                 # 临时文件/未归档文件
+└── tools               # 工具
 ```
+
+### 设计哲学
+
+使用该项目模板须遵循以下规则：
+
+- 禁止混合C/C++特性：该项目模板可以用于 C/C++ 开发，尽管 C++ 兼容 C，但不推荐混合使用 C/C++，使用 C++ 时应使用纯 C++ 特性，除非有必须使用的 C 库。
+- cmake 构建：项目使用 cmake 构建。
+- 必须提供文档：项目必须两个文档
 
 ### 依赖搜索
 
@@ -86,6 +96,8 @@ cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain/arm-linux-gnueabihf.cmake ..
 cmake --build .
 ```
 
+## 项目分发
+
 项目构建完成后，主要包括如下目录
 
 ```bash
@@ -99,55 +111,27 @@ build
 └── etc               # copy from ./etc, same as bin/etc
 ```
 
-## 项目分发
-
 项目分发即：将项目可执行文件或库部署到目标平台。库的分发比较简单，直接将生成的头文件和目标平台库文件复制到目标平台即可。
 
 可执行程序的分发包括：
+
+使用 `./scripts/release.sh` 将 build 内容打包为 `proj-v{X.Y.Z}.tar.gz` 包。
+
+若需分发到其他目标，则使用 `tar xfv proj-v0.1.0.tar.gz` 解压包即可。
+
+```bash
+$ tar xfv proj-v0.1.0.tar.gz
+proj/bin/
+proj/bin/...
+proj/doc/
+proj/doc/USAGE.md
+proj/doc/CHANGELOG.md
+proj/etc/
+proj/etc/config.json
+```
 
 ## 第三方库
 
 - nlohmann/json
 - spdlog
--
-
-## 整理一个常用的开发环境虚拟机，不带图形界面
-
-- C/C++/Python2/Python3/Go/Rust/
-  - 各种依赖包、隔离环境
-- 交叉编译
-- 要图形界面
-- ssh/ftp/ssl/quic
-- vim/with config
-- vscode remote
-- apt 列出来
-- frr
-- 各种软件源码
-- docker
-
-一个开发 docker
-
-## cmake
-
-file 命令
-install 命令
-如何生成 make install
-cmake --build . 和 make 有什么区别
-cmake --build . --target cppdemo
-option 的 help 怎么看
-怎么生成静态链接的可执行文件
-如何清空cmake缓存
-check_library_exists
-梳理用到的特性有无
-boost
-
-## deploy
-
-找到依赖项，然后复制到 build/lib 文件夹中。
-
-## cross
-
-```shell
-cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain/arm-linux-gnueabihf.cmake ..
-cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain/aarch64-linux-gnu.cmake ..
-```
+- libhv

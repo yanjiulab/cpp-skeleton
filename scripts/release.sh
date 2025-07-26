@@ -1,7 +1,8 @@
 #/bin/bash
 
 PROG=proj
-VER=`date +%Y%m%d-%H%M`
+VERSION=`grep -Po 'project\([^)]*VERSION\s+\K[\d.]+' CMakeLists.txt`
+TS=`date +%Y%m%d-%H%M`
 DIR="${1:-build}"
 
-tar acfvp $PROG-$VER.tar.gz  ${DIR}/bin ${DIR}/doc ${DIR}/etc
+tar acfvp $PROG-v$VERSION.tar.gz --transform "s/^/$PROG\//" -C ${DIR} --ignore-failed-read bin doc etc include lib

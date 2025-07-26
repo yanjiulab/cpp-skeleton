@@ -15,7 +15,7 @@
 
 #include "linenoise.h"
 
-#include <libvector.h>
+#include "libvector.h"
 #include <stdio.h>
 #include <stdint.h>
 
@@ -124,7 +124,7 @@ vty_t* vty_new(int type, const char* prompt, int ifd, int ofd, int flags);
 int vty_parse(vty_t* vty, char* inputbuff);
 int vty_out(vty_t* vty, const char* format, ...);
 
-#include <libae.h>
+#include "libae.h"
 vty_t* vty_term_server(aeEventLoop* loop);
 int vty_tcp_server(aeEventLoop* loop, const char* host, int port);
 int vty_tcp_client(aeEventLoop* loop, const char* host, int port);

@@ -6,9 +6,9 @@
 #include <sys/ioctl.h>
 #include <termios.h>
 
-#include <libanet.h>
-#include <liblog.h>
-#include <libstr.h>
+#include "libanet.h"
+#include "liblog.h"
+#include "libstr.h"
 
 vector_t vty_cmds = NULL;
 

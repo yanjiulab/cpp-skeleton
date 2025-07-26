@@ -10,7 +10,7 @@
 
 #define LIBMEM_VERSION "0.0.1"
 
-#include <libposix.h>
+#include "libposix.h"
 
 #ifdef __cplusplus
 extern "C" {

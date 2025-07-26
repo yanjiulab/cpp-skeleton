@@ -21,7 +21,13 @@ if(NOT CMAKE_CXX_STANDARD)
 endif(NOT CMAKE_CXX_STANDARD)
 
 # build dynamically linked executable file by default
-option(BUILD_STATIC "build staticly linked executable file" OFF)
+# option(BUILD_STATIC "build staticly linked executable file" OFF)
+option(BUILD_LIB "build library" OFF)
+option(BUILD_SHARED "build shared library" OFF)
+option(BUILD_STATIC "build static library" OFF)
+
+option(BUILD_EXAMPLES "build examples" OFF)
+option(BUILD_UNITTEST "build unittest" OFF)
 
 # include(CheckIncludeFile)
 # check_include_file("unistd.h" HAVE_UNISTD_H)
@@ -136,11 +142,8 @@ add_executable(${APP_NAME}
 target_include_directories(${APP_NAME} PUBLIC
     ${${APP_NAME}_DIR}
 )
-
-if(BUILD_STATIC)
-    message(STATUS "build static")
-endif()
-
+# target_include_directories(${APP_NAME} PRIVATE ${LIBEVENT_INCLUDE_DIRS})
+unset(CMAKE_EXE_LINKER_FLAGS)
 
 #######################################
 # app executable module settings
@@ -156,4 +159,51 @@ target_include_directories(${APP_NAME} PUBLIC
     ${util_DIR}
 )
 
+target_include_directories(${APP_NAME} PRIVATE ${LIBEVENT_INCLUDE_DIRS})
+target_link_libraries(${APP_NAME} PRIVATE ${LIBEVENT_LIBRARIES})
 
+#######################################
+# lib module settings
+#######################################
+if(BUILD_LIB)
+
+set(LIBYJC_NAME "yjc")
+set(LIBYJC_HEADERS config.h ${util_HEADERS})
+file(INSTALL ${LIBYJC_HEADERS} DESTINATION include/${LIBYJC_NAME})
+file(INSTALL ${LIBYJC_HEADERS} DESTINATION ${PROJECT_SOURCE_DIR}/include/${LIBYJC_NAME})
+
+if(BUILD_SHARED)
+    add_library(yjc SHARED ${util_SOURCES})
+    target_compile_definitions(yjc PRIVATE HV_DYNAMICLIB)
+    target_include_directories(yjc PRIVATE ${util_DIR}
+        INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include> $<INSTALL_INTERFACE:include>)
+    install(TARGETS yjc
+        EXPORT libyjcConfig
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib
+        RUNTIME DESTINATION bin)
+    add_custom_target(libyjc DEPENDS yjc)
+endif()
+
+if(BUILD_STATIC)
+    add_library(yjc_static STATIC ${util_SOURCES})
+    target_compile_definitions(yjc_static PUBLIC HV_STATICLIB)
+    target_include_directories(yjc_static PRIVATE ${util_DIR}
+        INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include> $<INSTALL_INTERFACE:include>)
+    install(TARGETS yjc_static
+        EXPORT libyjcConfig
+        ARCHIVE DESTINATION lib)
+    add_custom_target(libyjc_static DEPENDS yjc_static)
+endif()
+
+install(FILES ${util_HEADERS} DESTINATION include/yjc)
+install(EXPORT libyjcConfig DESTINATION lib/cmake/libyjc)
+
+endif()
+
+# if(BUILD_SHARED)
+#     set(YJC_LIBRARIES yjc CACHE INTERNAL "link yjc libraries")
+# else()
+#     # add_definitions(-DYJC_STATICLIB)
+#     set(YJC_LIBRARIES yjc_static ${LIBS} CACHE INTERNAL "link yjc libraries")
+# endif()

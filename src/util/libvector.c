@@ -4,7 +4,7 @@
  */
 
 #include "libvector.h"
-#include <libmem.h>
+#include "libmem.h"
 
 DEFINE_MTYPE_STATIC(LIB, VECTOR, "Vector");
 DEFINE_MTYPE_STATIC(LIB, VECTOR_INDEX, "Vector index");

@@ -4,7 +4,7 @@
 
 #define LIBANET_VERSION "0.0.1"
 
-#include <libposix.h>
+#include "libposix.h"
 
 #define ANET_OK      0
 #define ANET_ERR     -1

@@ -1,7 +1,7 @@
 
 #include <event2/event.h>
-#include <liblog.h>
-#include <libposix.h>
+#include "liblog.h"
+#include "libposix.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -33,6 +33,7 @@ static int cmd_do_hello(vty_t* vty, cmd_arglist_t* arglist) {
 }
 
 int main(int argc, char** argv) {
+    
     printf("VERSION: %d.%d.%d\n", proj_VERSION_MAJOR, proj_VERSION_MINOR,
            proj_VERSION_PATCH);
 

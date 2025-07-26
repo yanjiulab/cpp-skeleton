@@ -8,7 +8,7 @@
 #include <net/if.h>
 #include <assert.h>
 
-#include <libposix.h>
+#include "libposix.h"
 
 /*---------------------------------------------------------------------------
                             Ethernet
