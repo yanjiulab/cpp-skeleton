@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/liyj/projects/c-project-template
+CMAKE_SOURCE_DIR = /home/liyanjiu/projects/cpp-skeleton
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/liyj/projects/c-project-template/build
+CMAKE_BINARY_DIR = /home/liyanjiu/projects/cpp-skeleton/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liyj/projects/c-project-template/build/CMakeFiles /home/liyj/projects/c-project-template/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liyanjiu/projects/cpp-skeleton/build/CMakeFiles /home/liyanjiu/projects/cpp-skeleton/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liyj/projects/c-project-template/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liyanjiu/projects/cpp-skeleton/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -130,41 +130,30 @@ cppdemo/fast:
 .PHONY : cppdemo/fast
 
 #=============================================================================
-# Target rules for targets named app
+# Target rules for targets named started
 
 # Build rule for target.
-app: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 app
-.PHONY : app
+started: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 started
+.PHONY : started
 
 # fast build rule for target.
-app/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/build
-.PHONY : app/fast
+started/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/started.dir/build.make CMakeFiles/started.dir/build
+.PHONY : started/fast
 
-src/app/main.o: src/app/main.c.o
-.PHONY : src/app/main.o
+#=============================================================================
+# Target rules for targets named daemon
 
-# target to build an object file
-src/app/main.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/app/main.c.o
-.PHONY : src/app/main.c.o
+# Build rule for target.
+daemon: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 daemon
+.PHONY : daemon
 
-src/app/main.i: src/app/main.c.i
-.PHONY : src/app/main.i
-
-# target to preprocess a source file
-src/app/main.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/app/main.c.i
-.PHONY : src/app/main.c.i
-
-src/app/main.s: src/app/main.c.s
-.PHONY : src/app/main.s
-
-# target to generate assembly for a file
-src/app/main.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/app/main.c.s
-.PHONY : src/app/main.c.s
+# fast build rule for target.
+daemon/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/build
+.PHONY : daemon/fast
 
 src/cppdemo/json_demo.o: src/cppdemo/json_demo.cc.o
 .PHONY : src/cppdemo/json_demo.o
@@ -238,533 +227,53 @@ src/cppdemo/spdlog_demo.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/spdlog_demo.cc.s
 .PHONY : src/cppdemo/spdlog_demo.cc.s
 
-src/cppdemo/vector.o: src/cppdemo/vector.cc.o
-.PHONY : src/cppdemo/vector.o
+src/daemon/main.o: src/daemon/main.cpp.o
+.PHONY : src/daemon/main.o
 
 # target to build an object file
-src/cppdemo/vector.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/vector.cc.o
-.PHONY : src/cppdemo/vector.cc.o
+src/daemon/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/src/daemon/main.cpp.o
+.PHONY : src/daemon/main.cpp.o
 
-src/cppdemo/vector.i: src/cppdemo/vector.cc.i
-.PHONY : src/cppdemo/vector.i
+src/daemon/main.i: src/daemon/main.cpp.i
+.PHONY : src/daemon/main.i
 
 # target to preprocess a source file
-src/cppdemo/vector.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/vector.cc.i
-.PHONY : src/cppdemo/vector.cc.i
+src/daemon/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/src/daemon/main.cpp.i
+.PHONY : src/daemon/main.cpp.i
 
-src/cppdemo/vector.s: src/cppdemo/vector.cc.s
-.PHONY : src/cppdemo/vector.s
+src/daemon/main.s: src/daemon/main.cpp.s
+.PHONY : src/daemon/main.s
 
 # target to generate assembly for a file
-src/cppdemo/vector.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/vector.cc.s
-.PHONY : src/cppdemo/vector.cc.s
+src/daemon/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/src/daemon/main.cpp.s
+.PHONY : src/daemon/main.cpp.s
 
-src/util/apiserver.o: src/util/apiserver.c.o
-.PHONY : src/util/apiserver.o
+src/started/main.o: src/started/main.cpp.o
+.PHONY : src/started/main.o
 
 # target to build an object file
-src/util/apiserver.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/apiserver.c.o
-.PHONY : src/util/apiserver.c.o
+src/started/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/started.dir/build.make CMakeFiles/started.dir/src/started/main.cpp.o
+.PHONY : src/started/main.cpp.o
 
-src/util/apiserver.i: src/util/apiserver.c.i
-.PHONY : src/util/apiserver.i
-
-# target to preprocess a source file
-src/util/apiserver.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/apiserver.c.i
-.PHONY : src/util/apiserver.c.i
-
-src/util/apiserver.s: src/util/apiserver.c.s
-.PHONY : src/util/apiserver.s
-
-# target to generate assembly for a file
-src/util/apiserver.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/apiserver.c.s
-.PHONY : src/util/apiserver.c.s
-
-src/util/cJSON.o: src/util/cJSON.c.o
-.PHONY : src/util/cJSON.o
-
-# target to build an object file
-src/util/cJSON.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/cJSON.c.o
-.PHONY : src/util/cJSON.c.o
-
-src/util/cJSON.i: src/util/cJSON.c.i
-.PHONY : src/util/cJSON.i
+src/started/main.i: src/started/main.cpp.i
+.PHONY : src/started/main.i
 
 # target to preprocess a source file
-src/util/cJSON.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/cJSON.c.i
-.PHONY : src/util/cJSON.c.i
+src/started/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/started.dir/build.make CMakeFiles/started.dir/src/started/main.cpp.i
+.PHONY : src/started/main.cpp.i
 
-src/util/cJSON.s: src/util/cJSON.c.s
-.PHONY : src/util/cJSON.s
-
-# target to generate assembly for a file
-src/util/cJSON.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/cJSON.c.s
-.PHONY : src/util/cJSON.c.s
-
-src/util/ini_config.o: src/util/ini_config.c.o
-.PHONY : src/util/ini_config.o
-
-# target to build an object file
-src/util/ini_config.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/ini_config.c.o
-.PHONY : src/util/ini_config.c.o
-
-src/util/ini_config.i: src/util/ini_config.c.i
-.PHONY : src/util/ini_config.i
-
-# target to preprocess a source file
-src/util/ini_config.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/ini_config.c.i
-.PHONY : src/util/ini_config.c.i
-
-src/util/ini_config.s: src/util/ini_config.c.s
-.PHONY : src/util/ini_config.s
+src/started/main.s: src/started/main.cpp.s
+.PHONY : src/started/main.s
 
 # target to generate assembly for a file
-src/util/ini_config.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/ini_config.c.s
-.PHONY : src/util/ini_config.c.s
-
-src/util/iniparser.o: src/util/iniparser.c.o
-.PHONY : src/util/iniparser.o
-
-# target to build an object file
-src/util/iniparser.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/iniparser.c.o
-.PHONY : src/util/iniparser.c.o
-
-src/util/iniparser.i: src/util/iniparser.c.i
-.PHONY : src/util/iniparser.i
-
-# target to preprocess a source file
-src/util/iniparser.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/iniparser.c.i
-.PHONY : src/util/iniparser.c.i
-
-src/util/iniparser.s: src/util/iniparser.c.s
-.PHONY : src/util/iniparser.s
-
-# target to generate assembly for a file
-src/util/iniparser.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/iniparser.c.s
-.PHONY : src/util/iniparser.c.s
-
-src/util/json_config.o: src/util/json_config.c.o
-.PHONY : src/util/json_config.o
-
-# target to build an object file
-src/util/json_config.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/json_config.c.o
-.PHONY : src/util/json_config.c.o
-
-src/util/json_config.i: src/util/json_config.c.i
-.PHONY : src/util/json_config.i
-
-# target to preprocess a source file
-src/util/json_config.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/json_config.c.i
-.PHONY : src/util/json_config.c.i
-
-src/util/json_config.s: src/util/json_config.c.s
-.PHONY : src/util/json_config.s
-
-# target to generate assembly for a file
-src/util/json_config.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/json_config.c.s
-.PHONY : src/util/json_config.c.s
-
-src/util/libae.o: src/util/libae.c.o
-.PHONY : src/util/libae.o
-
-# target to build an object file
-src/util/libae.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libae.c.o
-.PHONY : src/util/libae.c.o
-
-src/util/libae.i: src/util/libae.c.i
-.PHONY : src/util/libae.i
-
-# target to preprocess a source file
-src/util/libae.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libae.c.i
-.PHONY : src/util/libae.c.i
-
-src/util/libae.s: src/util/libae.c.s
-.PHONY : src/util/libae.s
-
-# target to generate assembly for a file
-src/util/libae.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libae.c.s
-.PHONY : src/util/libae.c.s
-
-src/util/libanet.o: src/util/libanet.c.o
-.PHONY : src/util/libanet.o
-
-# target to build an object file
-src/util/libanet.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libanet.c.o
-.PHONY : src/util/libanet.c.o
-
-src/util/libanet.i: src/util/libanet.c.i
-.PHONY : src/util/libanet.i
-
-# target to preprocess a source file
-src/util/libanet.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libanet.c.i
-.PHONY : src/util/libanet.c.i
-
-src/util/libanet.s: src/util/libanet.c.s
-.PHONY : src/util/libanet.s
-
-# target to generate assembly for a file
-src/util/libanet.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libanet.c.s
-.PHONY : src/util/libanet.c.s
-
-src/util/libbt.o: src/util/libbt.c.o
-.PHONY : src/util/libbt.o
-
-# target to build an object file
-src/util/libbt.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libbt.c.o
-.PHONY : src/util/libbt.c.o
-
-src/util/libbt.i: src/util/libbt.c.i
-.PHONY : src/util/libbt.i
-
-# target to preprocess a source file
-src/util/libbt.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libbt.c.i
-.PHONY : src/util/libbt.c.i
-
-src/util/libbt.s: src/util/libbt.c.s
-.PHONY : src/util/libbt.s
-
-# target to generate assembly for a file
-src/util/libbt.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libbt.c.s
-.PHONY : src/util/libbt.c.s
-
-src/util/libconfig.o: src/util/libconfig.c.o
-.PHONY : src/util/libconfig.o
-
-# target to build an object file
-src/util/libconfig.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libconfig.c.o
-.PHONY : src/util/libconfig.c.o
-
-src/util/libconfig.i: src/util/libconfig.c.i
-.PHONY : src/util/libconfig.i
-
-# target to preprocess a source file
-src/util/libconfig.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libconfig.c.i
-.PHONY : src/util/libconfig.c.i
-
-src/util/libconfig.s: src/util/libconfig.c.s
-.PHONY : src/util/libconfig.s
-
-# target to generate assembly for a file
-src/util/libconfig.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libconfig.c.s
-.PHONY : src/util/libconfig.c.s
-
-src/util/libhashmap.o: src/util/libhashmap.c.o
-.PHONY : src/util/libhashmap.o
-
-# target to build an object file
-src/util/libhashmap.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libhashmap.c.o
-.PHONY : src/util/libhashmap.c.o
-
-src/util/libhashmap.i: src/util/libhashmap.c.i
-.PHONY : src/util/libhashmap.i
-
-# target to preprocess a source file
-src/util/libhashmap.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libhashmap.c.i
-.PHONY : src/util/libhashmap.c.i
-
-src/util/libhashmap.s: src/util/libhashmap.c.s
-.PHONY : src/util/libhashmap.s
-
-# target to generate assembly for a file
-src/util/libhashmap.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libhashmap.c.s
-.PHONY : src/util/libhashmap.c.s
-
-src/util/libinet.o: src/util/libinet.c.o
-.PHONY : src/util/libinet.o
-
-# target to build an object file
-src/util/libinet.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libinet.c.o
-.PHONY : src/util/libinet.c.o
-
-src/util/libinet.i: src/util/libinet.c.i
-.PHONY : src/util/libinet.i
-
-# target to preprocess a source file
-src/util/libinet.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libinet.c.i
-.PHONY : src/util/libinet.c.i
-
-src/util/libinet.s: src/util/libinet.c.s
-.PHONY : src/util/libinet.s
-
-# target to generate assembly for a file
-src/util/libinet.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libinet.c.s
-.PHONY : src/util/libinet.c.s
-
-src/util/liblinklist.o: src/util/liblinklist.c.o
-.PHONY : src/util/liblinklist.o
-
-# target to build an object file
-src/util/liblinklist.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/liblinklist.c.o
-.PHONY : src/util/liblinklist.c.o
-
-src/util/liblinklist.i: src/util/liblinklist.c.i
-.PHONY : src/util/liblinklist.i
-
-# target to preprocess a source file
-src/util/liblinklist.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/liblinklist.c.i
-.PHONY : src/util/liblinklist.c.i
-
-src/util/liblinklist.s: src/util/liblinklist.c.s
-.PHONY : src/util/liblinklist.s
-
-# target to generate assembly for a file
-src/util/liblinklist.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/liblinklist.c.s
-.PHONY : src/util/liblinklist.c.s
-
-src/util/liblog.o: src/util/liblog.c.o
-.PHONY : src/util/liblog.o
-
-# target to build an object file
-src/util/liblog.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/liblog.c.o
-.PHONY : src/util/liblog.c.o
-
-src/util/liblog.i: src/util/liblog.c.i
-.PHONY : src/util/liblog.i
-
-# target to preprocess a source file
-src/util/liblog.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/liblog.c.i
-.PHONY : src/util/liblog.c.i
-
-src/util/liblog.s: src/util/liblog.c.s
-.PHONY : src/util/liblog.s
-
-# target to generate assembly for a file
-src/util/liblog.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/liblog.c.s
-.PHONY : src/util/liblog.c.s
-
-src/util/libmem.o: src/util/libmem.c.o
-.PHONY : src/util/libmem.o
-
-# target to build an object file
-src/util/libmem.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libmem.c.o
-.PHONY : src/util/libmem.c.o
-
-src/util/libmem.i: src/util/libmem.c.i
-.PHONY : src/util/libmem.i
-
-# target to preprocess a source file
-src/util/libmem.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libmem.c.i
-.PHONY : src/util/libmem.c.i
-
-src/util/libmem.s: src/util/libmem.c.s
-.PHONY : src/util/libmem.s
-
-# target to generate assembly for a file
-src/util/libmem.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libmem.c.s
-.PHONY : src/util/libmem.c.s
-
-src/util/libopt.o: src/util/libopt.c.o
-.PHONY : src/util/libopt.o
-
-# target to build an object file
-src/util/libopt.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libopt.c.o
-.PHONY : src/util/libopt.c.o
-
-src/util/libopt.i: src/util/libopt.c.i
-.PHONY : src/util/libopt.i
-
-# target to preprocess a source file
-src/util/libopt.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libopt.c.i
-.PHONY : src/util/libopt.c.i
-
-src/util/libopt.s: src/util/libopt.c.s
-.PHONY : src/util/libopt.s
-
-# target to generate assembly for a file
-src/util/libopt.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libopt.c.s
-.PHONY : src/util/libopt.c.s
-
-src/util/libposix.o: src/util/libposix.c.o
-.PHONY : src/util/libposix.o
-
-# target to build an object file
-src/util/libposix.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libposix.c.o
-.PHONY : src/util/libposix.c.o
-
-src/util/libposix.i: src/util/libposix.c.i
-.PHONY : src/util/libposix.i
-
-# target to preprocess a source file
-src/util/libposix.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libposix.c.i
-.PHONY : src/util/libposix.c.i
-
-src/util/libposix.s: src/util/libposix.c.s
-.PHONY : src/util/libposix.s
-
-# target to generate assembly for a file
-src/util/libposix.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libposix.c.s
-.PHONY : src/util/libposix.c.s
-
-src/util/libsock.o: src/util/libsock.c.o
-.PHONY : src/util/libsock.o
-
-# target to build an object file
-src/util/libsock.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libsock.c.o
-.PHONY : src/util/libsock.c.o
-
-src/util/libsock.i: src/util/libsock.c.i
-.PHONY : src/util/libsock.i
-
-# target to preprocess a source file
-src/util/libsock.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libsock.c.i
-.PHONY : src/util/libsock.c.i
-
-src/util/libsock.s: src/util/libsock.c.s
-.PHONY : src/util/libsock.s
-
-# target to generate assembly for a file
-src/util/libsock.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libsock.c.s
-.PHONY : src/util/libsock.c.s
-
-src/util/libstr.o: src/util/libstr.c.o
-.PHONY : src/util/libstr.o
-
-# target to build an object file
-src/util/libstr.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libstr.c.o
-.PHONY : src/util/libstr.c.o
-
-src/util/libstr.i: src/util/libstr.c.i
-.PHONY : src/util/libstr.i
-
-# target to preprocess a source file
-src/util/libstr.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libstr.c.i
-.PHONY : src/util/libstr.c.i
-
-src/util/libstr.s: src/util/libstr.c.s
-.PHONY : src/util/libstr.s
-
-# target to generate assembly for a file
-src/util/libstr.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libstr.c.s
-.PHONY : src/util/libstr.c.s
-
-src/util/libvector.o: src/util/libvector.c.o
-.PHONY : src/util/libvector.o
-
-# target to build an object file
-src/util/libvector.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libvector.c.o
-.PHONY : src/util/libvector.c.o
-
-src/util/libvector.i: src/util/libvector.c.i
-.PHONY : src/util/libvector.i
-
-# target to preprocess a source file
-src/util/libvector.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libvector.c.i
-.PHONY : src/util/libvector.c.i
-
-src/util/libvector.s: src/util/libvector.c.s
-.PHONY : src/util/libvector.s
-
-# target to generate assembly for a file
-src/util/libvector.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libvector.c.s
-.PHONY : src/util/libvector.c.s
-
-src/util/libvty.o: src/util/libvty.c.o
-.PHONY : src/util/libvty.o
-
-# target to build an object file
-src/util/libvty.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libvty.c.o
-.PHONY : src/util/libvty.c.o
-
-src/util/libvty.i: src/util/libvty.c.i
-.PHONY : src/util/libvty.i
-
-# target to preprocess a source file
-src/util/libvty.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libvty.c.i
-.PHONY : src/util/libvty.c.i
-
-src/util/libvty.s: src/util/libvty.c.s
-.PHONY : src/util/libvty.s
-
-# target to generate assembly for a file
-src/util/libvty.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/libvty.c.s
-.PHONY : src/util/libvty.c.s
-
-src/util/linenoise.o: src/util/linenoise.c.o
-.PHONY : src/util/linenoise.o
-
-# target to build an object file
-src/util/linenoise.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/linenoise.c.o
-.PHONY : src/util/linenoise.c.o
-
-src/util/linenoise.i: src/util/linenoise.c.i
-.PHONY : src/util/linenoise.i
-
-# target to preprocess a source file
-src/util/linenoise.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/linenoise.c.i
-.PHONY : src/util/linenoise.c.i
-
-src/util/linenoise.s: src/util/linenoise.c.s
-.PHONY : src/util/linenoise.s
-
-# target to generate assembly for a file
-src/util/linenoise.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/util/linenoise.c.s
-.PHONY : src/util/linenoise.c.s
+src/started/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/started.dir/build.make CMakeFiles/started.dir/src/started/main.cpp.s
+.PHONY : src/started/main.cpp.s
 
 # Help Target
 help:
@@ -774,11 +283,9 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... app"
 	@echo "... cppdemo"
-	@echo "... src/app/main.o"
-	@echo "... src/app/main.i"
-	@echo "... src/app/main.s"
+	@echo "... daemon"
+	@echo "... started"
 	@echo "... src/cppdemo/json_demo.o"
 	@echo "... src/cppdemo/json_demo.i"
 	@echo "... src/cppdemo/json_demo.s"
@@ -788,72 +295,12 @@ help:
 	@echo "... src/cppdemo/spdlog_demo.o"
 	@echo "... src/cppdemo/spdlog_demo.i"
 	@echo "... src/cppdemo/spdlog_demo.s"
-	@echo "... src/cppdemo/vector.o"
-	@echo "... src/cppdemo/vector.i"
-	@echo "... src/cppdemo/vector.s"
-	@echo "... src/util/apiserver.o"
-	@echo "... src/util/apiserver.i"
-	@echo "... src/util/apiserver.s"
-	@echo "... src/util/cJSON.o"
-	@echo "... src/util/cJSON.i"
-	@echo "... src/util/cJSON.s"
-	@echo "... src/util/ini_config.o"
-	@echo "... src/util/ini_config.i"
-	@echo "... src/util/ini_config.s"
-	@echo "... src/util/iniparser.o"
-	@echo "... src/util/iniparser.i"
-	@echo "... src/util/iniparser.s"
-	@echo "... src/util/json_config.o"
-	@echo "... src/util/json_config.i"
-	@echo "... src/util/json_config.s"
-	@echo "... src/util/libae.o"
-	@echo "... src/util/libae.i"
-	@echo "... src/util/libae.s"
-	@echo "... src/util/libanet.o"
-	@echo "... src/util/libanet.i"
-	@echo "... src/util/libanet.s"
-	@echo "... src/util/libbt.o"
-	@echo "... src/util/libbt.i"
-	@echo "... src/util/libbt.s"
-	@echo "... src/util/libconfig.o"
-	@echo "... src/util/libconfig.i"
-	@echo "... src/util/libconfig.s"
-	@echo "... src/util/libhashmap.o"
-	@echo "... src/util/libhashmap.i"
-	@echo "... src/util/libhashmap.s"
-	@echo "... src/util/libinet.o"
-	@echo "... src/util/libinet.i"
-	@echo "... src/util/libinet.s"
-	@echo "... src/util/liblinklist.o"
-	@echo "... src/util/liblinklist.i"
-	@echo "... src/util/liblinklist.s"
-	@echo "... src/util/liblog.o"
-	@echo "... src/util/liblog.i"
-	@echo "... src/util/liblog.s"
-	@echo "... src/util/libmem.o"
-	@echo "... src/util/libmem.i"
-	@echo "... src/util/libmem.s"
-	@echo "... src/util/libopt.o"
-	@echo "... src/util/libopt.i"
-	@echo "... src/util/libopt.s"
-	@echo "... src/util/libposix.o"
-	@echo "... src/util/libposix.i"
-	@echo "... src/util/libposix.s"
-	@echo "... src/util/libsock.o"
-	@echo "... src/util/libsock.i"
-	@echo "... src/util/libsock.s"
-	@echo "... src/util/libstr.o"
-	@echo "... src/util/libstr.i"
-	@echo "... src/util/libstr.s"
-	@echo "... src/util/libvector.o"
-	@echo "... src/util/libvector.i"
-	@echo "... src/util/libvector.s"
-	@echo "... src/util/libvty.o"
-	@echo "... src/util/libvty.i"
-	@echo "... src/util/libvty.s"
-	@echo "... src/util/linenoise.o"
-	@echo "... src/util/linenoise.i"
-	@echo "... src/util/linenoise.s"
+	@echo "... src/daemon/main.o"
+	@echo "... src/daemon/main.i"
+	@echo "... src/daemon/main.s"
+	@echo "... src/started/main.o"
+	@echo "... src/started/main.i"
+	@echo "... src/started/main.s"
 .PHONY : help
 
 

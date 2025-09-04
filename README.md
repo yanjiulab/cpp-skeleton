@@ -1,4 +1,8 @@
-# C Project Template
+# Cpp Skeleton
+
+> Give you a starting point for your c++ project.
+
+cpp-skeleton is a project skeleton for general applications and libraries.
 
 ## 项目结构
 
@@ -27,7 +31,7 @@
 ├── README.md           # 本项目说明文档
 ├── scripts             # 脚本（部署、备份等）
 ├── src                 # 源代码目录
-│   ├── app             # app 可执行模块               
+│   ├── app             # app 可执行模块
 │   ├── cppdemo         # cppdemo 可执行模块
 │   └── util            # C 常用工具模块
 ├── test                # 测试代码目录
@@ -41,7 +45,8 @@
 
 - 禁止混合C/C++特性：该项目模板可以用于 C/C++ 开发，尽管 C++ 兼容 C，但不推荐混合使用 C/C++，使用 C++ 时应使用纯 C++ 特性，除非有必须使用的 C 库。
 - cmake 构建：项目使用 cmake 构建。
-- 必须提供文档：项目必须两个文档
+- 提供文档：项目必须提供版本变更文档 `doc/CHANGELOG.md` 和软件使用文档 `doc/USAGE.md`。
+-
 
 ### 依赖搜索
 
@@ -130,8 +135,64 @@ proj/etc/
 proj/etc/config.json
 ```
 
+TODO: installer.run
+
+打包安装脚本，然后自解压。
+
 ## 第三方库
 
-- nlohmann/json
-- spdlog
+### Header-only
+
+- [CLI11](https://github.com/CLIUtils/CLI11)
+- [json](https://github.com/nlohmann/json)
+- [toml11](https://github.com/ToruNiina/toml11)
+- [cli](https://github.com/daniele77/cli)
+- [asio (non-Boost)](https://think-async.com/Asio/asio-1.30.2/doc/)
+- [spdlog](https://github.com/gabime/spdlog)
+
+### Pre-compiled
+
+- boost
 - libhv
+- libevent
+- configuration
+- db
+  - redis-plus-plus
+  - sqlite
+- doxygen
+
+## 示例程序
+
+### started
+
+started 是一个常规的 cpp 入门程序，里面简明扼要的介绍了 cpp 的常规写法，以及 cpp 项目文件组织的一般原则。该程序仅使用 c++11 及以下标准的 cpp 标准库。
+
+- string
+- vector-deque-array
+- list-forward list
+- map-set-multimap-multiset
+- unordered_*
+- stack-queue-priority queue
+- iterator
+- algorithms
+-
+
+### app
+
+app 是一个常规的 app 服务
+
+### demo
+
+demo 是一个
+
+### cli
+
+dae 是一个守护进程
+
+## Tools
+
+- [cpplint](https://github.com/cpplint/cpplint): Cpplint is a command-line tool to check C/C++ files for style issues according to Google's C++ style guide.
+
+## References
+
+- [cppreference](https://en.cppreference.com/w/)

@@ -4,18 +4,10 @@
 cmake_minimum_required(VERSION 3.10)
 project(proj VERSION 0.1.0)
 
-# C standard can be overridden when this is used as a sub-project.
-if(NOT CMAKE_C_STANDARD)
-  # This project can use C11, but will gracefully decay down to C89.
-  set(CMAKE_C_STANDARD 11)
-  set(CMAKE_C_STANDARD_REQUIRED OFF)
-  set(CMAKE_C_EXTENSIONS OFF)
-endif(NOT CMAKE_C_STANDARD)
-
 # C++ standard can be overridden when this is used as a sub-project.
 if(NOT CMAKE_CXX_STANDARD)
-  # This project requires C++11.
-  set(CMAKE_CXX_STANDARD 11)
+  # This project requires C++14.
+  set(CMAKE_CXX_STANDARD 17)
   set(CMAKE_CXX_STANDARD_REQUIRED ON)
   set(CMAKE_CXX_EXTENSIONS OFF)
 endif(NOT CMAKE_CXX_STANDARD)
@@ -146,21 +138,39 @@ target_include_directories(${APP_NAME} PUBLIC
 unset(CMAKE_EXE_LINKER_FLAGS)
 
 #######################################
-# app executable module settings
+# started executable module settings
 #######################################
-set(APP_NAME "app")
-add_executable(${APP_NAME}
-    ${${APP_NAME}_MAIN}
-    ${${APP_NAME}_SOURCES}
+set(STARTED_NAME "started")
+add_executable(${STARTED_NAME}
+    ${${STARTED_NAME}_MAIN}
+    ${${STARTED_NAME}_SOURCES}
     ${util_SOURCES}
 )
 
-target_include_directories(${APP_NAME} PUBLIC
-    ${util_DIR}
-)
+#######################################
+# app executable module settings
+#######################################
+# set(APP_NAME "app")
+# add_executable(${APP_NAME}
+#     ${${APP_NAME}_MAIN}
+#     ${${APP_NAME}_SOURCES}
+#     ${util_SOURCES}
+# )
 
-target_include_directories(${APP_NAME} PRIVATE ${LIBEVENT_INCLUDE_DIRS})
-target_link_libraries(${APP_NAME} PRIVATE ${LIBEVENT_LIBRARIES})
+# target_include_directories(${APP_NAME} PUBLIC
+#     ${util_DIR}
+# )
+
+# target_include_directories(${APP_NAME} PRIVATE ${LIBEVENT_INCLUDE_DIRS})
+# target_link_libraries(${APP_NAME} PRIVATE ${LIBEVENT_LIBRARIES})
+
+#######################################
+# net daemon executable module settings
+#######################################
+set(DAE_NAME "daemon")
+add_executable(${DAE_NAME}
+    ${${DAE_NAME}_MAIN}
+)
 
 #######################################
 # lib module settings

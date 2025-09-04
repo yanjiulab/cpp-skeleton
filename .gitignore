@@ -48,8 +48,6 @@ examples/protorpc/generated
 *.log
 *.db
 
-include
-lib
 bin
 tmp
 dist
@@ -70,3 +68,4 @@ Release
 CMakeFiles
 CMakeCache.txt
 cmake_install.cmake
+build/*
