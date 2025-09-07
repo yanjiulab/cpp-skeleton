@@ -7,7 +7,8 @@ int main() {
 
   spdlog_demo();
   // vector_demo();
-  // json_demo();
+  json_demo();
+
 
   return 0;
 }

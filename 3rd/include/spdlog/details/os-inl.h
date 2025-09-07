@@ -483,12 +483,12 @@ SPDLOG_INLINE void utf8_to_wstrbuf(string_view_t str, wmemory_buf_t &target) {
 
     // find the size to allocate for the result buffer
     int result_size =
-        ::MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, str.data(), str_size, NULL, 0);
+        ::MultiByteToWideChar(CP_UTF8, 0, str.data(), str_size, NULL, 0);
 
     if (result_size > 0) {
         target.resize(result_size);
-        result_size = ::MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, str.data(), str_size,
-                                            target.data(), result_size);
+        result_size = ::MultiByteToWideChar(CP_UTF8, 0, str.data(), str_size, target.data(),
+                                            result_size);
         if (result_size > 0) {
             assert(result_size == target.size());
             return;
@@ -534,6 +534,15 @@ SPDLOG_INLINE bool create_dir(const filename_t &path) {
         }
 
         auto subdir = path.substr(0, token_pos);
+#ifdef _WIN32
+        // if subdir is just a drive letter, add a slash e.g. "c:"=>"c:\",
+        // otherwise path_exists(subdir) returns false (issue #3079)
+        const bool is_drive = subdir.length() == 2 && subdir[1] == ':';
+        if (is_drive) {
+            subdir += '\\';
+            token_pos++;
+        }
+#endif
 
         if (!subdir.empty() && !path_exists(subdir) && !mkdir_(subdir)) {
             return false;  // return error if failed creating dir
@@ -578,6 +587,18 @@ SPDLOG_INLINE bool fsync(FILE *fp) {
 #else
     return ::fsync(fileno(fp)) == 0;
 #endif
+}
+
+// Do non-locking fwrite if possible by the os or use the regular locking fwrite
+// Return true on success.
+SPDLOG_INLINE bool fwrite_bytes(const void *ptr, const size_t n_bytes, FILE *fp) {
+    #if defined(_WIN32) && defined(SPDLOG_FWRITE_UNLOCKED)
+    return _fwrite_nolock(ptr, 1, n_bytes, fp) == n_bytes;
+    #elif defined(SPDLOG_FWRITE_UNLOCKED)
+    return ::fwrite_unlocked(ptr, 1, n_bytes, fp) == n_bytes;
+    #else
+    return std::fwrite(ptr, 1, n_bytes, fp) == n_bytes;
+    #endif
 }
 
 }  // namespace os

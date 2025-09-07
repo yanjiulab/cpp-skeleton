@@ -20,10 +20,6 @@
 #include <memory>
 #include <string>
 
-#if __cplusplus >= 201703L  // C++17
-    #include <string_view>
-#endif
-
 namespace spdlog {
 
 using default_factory = synchronous_factory;
@@ -54,10 +50,6 @@ SPDLOG_API void initialize_logger(std::shared_ptr<logger> logger);
 // exist.
 // example: spdlog::get("my_logger")->info("hello {}", "world");
 SPDLOG_API std::shared_ptr<logger> get(const std::string &name);
-#if __cplusplus >= 201703L  // C++17
-SPDLOG_API std::shared_ptr<logger> get(std::string_view name);
-SPDLOG_API std::shared_ptr<logger> get(const char *name);
-#endif
 
 // Set global formatter. Each sink in each logger will get a clone of this object
 SPDLOG_API void set_formatter(std::unique_ptr<spdlog::formatter> formatter);
@@ -66,6 +58,14 @@ SPDLOG_API void set_formatter(std::unique_ptr<spdlog::formatter> formatter);
 // example: spdlog::set_pattern("%Y-%m-%d %H:%M:%S.%e %l : %v");
 SPDLOG_API void set_pattern(std::string pattern,
                             pattern_time_type time_type = pattern_time_type::local);
+
+#ifdef SPDLOG_JSON_LOGGER
+template<class... Args>
+SPDLOG_API void set_populators(Args &&... args)
+{
+    set_formatter(details::make_unique<json_formatter>(populators::make_populator_set(std::forward<Args>(args)...)));
+}
+#endif
 
 // enable global backtrace support
 SPDLOG_API void enable_backtrace(size_t n_messages);
@@ -149,131 +149,131 @@ SPDLOG_API void set_default_logger(std::shared_ptr<spdlog::logger> default_logge
 SPDLOG_API void apply_logger_env_levels(std::shared_ptr<logger> logger);
 
 template <typename... Args>
-inline void log(source_loc source,
+inline SPDLOG_EXECUTOR_T log(source_loc source,
                 level::level_enum lvl,
                 format_string_t<Args...> fmt,
                 Args &&...args) {
-    default_logger_raw()->log(source, lvl, fmt, std::forward<Args>(args)...);
+                    return default_logger_raw()->log(source, lvl, fmt, std::forward<Args>(args)...);
 }
 
 template <typename... Args>
-inline void log(level::level_enum lvl, format_string_t<Args...> fmt, Args &&...args) {
-    default_logger_raw()->log(source_loc{}, lvl, fmt, std::forward<Args>(args)...);
+inline SPDLOG_EXECUTOR_T log(level::level_enum lvl, format_string_t<Args...> fmt, Args &&...args) {
+    return default_logger_raw()->log(source_loc{}, lvl, fmt, std::forward<Args>(args)...);
 }
 
 template <typename... Args>
-inline void trace(format_string_t<Args...> fmt, Args &&...args) {
-    default_logger_raw()->trace(fmt, std::forward<Args>(args)...);
+inline SPDLOG_EXECUTOR_T trace(format_string_t<Args...> fmt, Args &&...args) {
+    return default_logger_raw()->trace(fmt, std::forward<Args>(args)...);
 }
 
 template <typename... Args>
-inline void debug(format_string_t<Args...> fmt, Args &&...args) {
-    default_logger_raw()->debug(fmt, std::forward<Args>(args)...);
+inline SPDLOG_EXECUTOR_T debug(format_string_t<Args...> fmt, Args &&...args) {
+    return default_logger_raw()->debug(fmt, std::forward<Args>(args)...);
 }
 
 template <typename... Args>
-inline void info(format_string_t<Args...> fmt, Args &&...args) {
-    default_logger_raw()->info(fmt, std::forward<Args>(args)...);
+inline SPDLOG_EXECUTOR_T info(format_string_t<Args...> fmt, Args &&...args) {
+    return default_logger_raw()->info(fmt, std::forward<Args>(args)...);
 }
 
 template <typename... Args>
-inline void warn(format_string_t<Args...> fmt, Args &&...args) {
-    default_logger_raw()->warn(fmt, std::forward<Args>(args)...);
+inline SPDLOG_EXECUTOR_T warn(format_string_t<Args...> fmt, Args &&...args) {
+    return default_logger_raw()->warn(fmt, std::forward<Args>(args)...);
 }
 
 template <typename... Args>
-inline void error(format_string_t<Args...> fmt, Args &&...args) {
-    default_logger_raw()->error(fmt, std::forward<Args>(args)...);
+inline SPDLOG_EXECUTOR_T error(format_string_t<Args...> fmt, Args &&...args) {
+    return default_logger_raw()->error(fmt, std::forward<Args>(args)...);
 }
 
 template <typename... Args>
-inline void critical(format_string_t<Args...> fmt, Args &&...args) {
-    default_logger_raw()->critical(fmt, std::forward<Args>(args)...);
+inline SPDLOG_EXECUTOR_T critical(format_string_t<Args...> fmt, Args &&...args) {
+    return default_logger_raw()->critical(fmt, std::forward<Args>(args)...);
 }
 
 template <typename T>
-inline void log(source_loc source, level::level_enum lvl, const T &msg) {
-    default_logger_raw()->log(source, lvl, msg);
+inline SPDLOG_EXECUTOR_T log(source_loc source, level::level_enum lvl, const T &msg) {
+    return default_logger_raw()->log(source, lvl, msg);
 }
 
 template <typename T>
-inline void log(level::level_enum lvl, const T &msg) {
-    default_logger_raw()->log(lvl, msg);
+inline SPDLOG_EXECUTOR_T log(level::level_enum lvl, const T &msg) {
+    return default_logger_raw()->log(lvl, msg);
 }
 
 #ifdef SPDLOG_WCHAR_TO_UTF8_SUPPORT
 template <typename... Args>
-inline void log(source_loc source,
+inline SPDLOG_EXECUTOR_T log(source_loc source,
                 level::level_enum lvl,
                 wformat_string_t<Args...> fmt,
                 Args &&...args) {
-    default_logger_raw()->log(source, lvl, fmt, std::forward<Args>(args)...);
+                    return default_logger_raw()->log(source, lvl, fmt, std::forward<Args>(args)...);
 }
 
 template <typename... Args>
-inline void log(level::level_enum lvl, wformat_string_t<Args...> fmt, Args &&...args) {
-    default_logger_raw()->log(source_loc{}, lvl, fmt, std::forward<Args>(args)...);
+inline SPDLOG_EXECUTOR_T log(level::level_enum lvl, wformat_string_t<Args...> fmt, Args &&...args) {
+    return default_logger_raw()->log(source_loc{}, lvl, fmt, std::forward<Args>(args)...);
 }
 
 template <typename... Args>
-inline void trace(wformat_string_t<Args...> fmt, Args &&...args) {
-    default_logger_raw()->trace(fmt, std::forward<Args>(args)...);
+inline SPDLOG_EXECUTOR_T trace(wformat_string_t<Args...> fmt, Args &&...args) {
+    return default_logger_raw()->trace(fmt, std::forward<Args>(args)...);
 }
 
 template <typename... Args>
-inline void debug(wformat_string_t<Args...> fmt, Args &&...args) {
-    default_logger_raw()->debug(fmt, std::forward<Args>(args)...);
+inline SPDLOG_EXECUTOR_T debug(wformat_string_t<Args...> fmt, Args &&...args) {
+    return default_logger_raw()->debug(fmt, std::forward<Args>(args)...);
 }
 
 template <typename... Args>
-inline void info(wformat_string_t<Args...> fmt, Args &&...args) {
-    default_logger_raw()->info(fmt, std::forward<Args>(args)...);
+inline SPDLOG_EXECUTOR_T info(wformat_string_t<Args...> fmt, Args &&...args) {
+    return default_logger_raw()->info(fmt, std::forward<Args>(args)...);
 }
 
 template <typename... Args>
-inline void warn(wformat_string_t<Args...> fmt, Args &&...args) {
-    default_logger_raw()->warn(fmt, std::forward<Args>(args)...);
+inline SPDLOG_EXECUTOR_T warn(wformat_string_t<Args...> fmt, Args &&...args) {
+    return default_logger_raw()->warn(fmt, std::forward<Args>(args)...);
 }
 
 template <typename... Args>
-inline void error(wformat_string_t<Args...> fmt, Args &&...args) {
-    default_logger_raw()->error(fmt, std::forward<Args>(args)...);
+inline SPDLOG_EXECUTOR_T error(wformat_string_t<Args...> fmt, Args &&...args) {
+    return default_logger_raw()->error(fmt, std::forward<Args>(args)...);
 }
 
 template <typename... Args>
-inline void critical(wformat_string_t<Args...> fmt, Args &&...args) {
-    default_logger_raw()->critical(fmt, std::forward<Args>(args)...);
+inline SPDLOG_EXECUTOR_T critical(wformat_string_t<Args...> fmt, Args &&...args) {
+    return default_logger_raw()->critical(fmt, std::forward<Args>(args)...);
 }
 #endif
 
 template <typename T>
-inline void trace(const T &msg) {
-    default_logger_raw()->trace(msg);
+inline SPDLOG_EXECUTOR_T trace(const T &msg) {
+    return default_logger_raw()->trace(msg);
 }
 
 template <typename T>
-inline void debug(const T &msg) {
-    default_logger_raw()->debug(msg);
+inline SPDLOG_EXECUTOR_T debug(const T &msg) {
+    return default_logger_raw()->debug(msg);
 }
 
 template <typename T>
-inline void info(const T &msg) {
-    default_logger_raw()->info(msg);
+inline SPDLOG_EXECUTOR_T info(const T &msg) {
+    return default_logger_raw()->info(msg);
 }
 
 template <typename T>
-inline void warn(const T &msg) {
-    default_logger_raw()->warn(msg);
+inline SPDLOG_EXECUTOR_T warn(const T &msg) {
+    return default_logger_raw()->warn(msg);
 }
 
 template <typename T>
-inline void error(const T &msg) {
-    default_logger_raw()->error(msg);
+inline SPDLOG_EXECUTOR_T error(const T &msg) {
+    return default_logger_raw()->error(msg);
 }
 
 template <typename T>
-inline void critical(const T &msg) {
-    default_logger_raw()->critical(msg);
+inline SPDLOG_EXECUTOR_T critical(const T &msg) {
+    return default_logger_raw()->critical(msg);
 }
 
 }  // namespace spdlog
@@ -304,8 +304,8 @@ inline void critical(const T &msg) {
         SPDLOG_LOGGER_CALL(logger, spdlog::level::trace, __VA_ARGS__)
     #define SPDLOG_TRACE(...) SPDLOG_LOGGER_TRACE(spdlog::default_logger_raw(), __VA_ARGS__)
 #else
-    #define SPDLOG_LOGGER_TRACE(logger, ...) (void)0
-    #define SPDLOG_TRACE(...) (void)0
+    #define SPDLOG_LOGGER_TRACE(logger, ...) (void)SPDLOG_EXECUTOR_T{}
+    #define SPDLOG_TRACE(...) (void)SPDLOG_EXECUTOR_T{}
 #endif
 
 #if SPDLOG_ACTIVE_LEVEL <= SPDLOG_LEVEL_DEBUG
@@ -313,8 +313,8 @@ inline void critical(const T &msg) {
         SPDLOG_LOGGER_CALL(logger, spdlog::level::debug, __VA_ARGS__)
     #define SPDLOG_DEBUG(...) SPDLOG_LOGGER_DEBUG(spdlog::default_logger_raw(), __VA_ARGS__)
 #else
-    #define SPDLOG_LOGGER_DEBUG(logger, ...) (void)0
-    #define SPDLOG_DEBUG(...) (void)0
+    #define SPDLOG_LOGGER_DEBUG(logger, ...) (void)SPDLOG_EXECUTOR_T{}
+    #define SPDLOG_DEBUG(...) (void)SPDLOG_EXECUTOR_T{}
 #endif
 
 #if SPDLOG_ACTIVE_LEVEL <= SPDLOG_LEVEL_INFO
@@ -322,8 +322,8 @@ inline void critical(const T &msg) {
         SPDLOG_LOGGER_CALL(logger, spdlog::level::info, __VA_ARGS__)
     #define SPDLOG_INFO(...) SPDLOG_LOGGER_INFO(spdlog::default_logger_raw(), __VA_ARGS__)
 #else
-    #define SPDLOG_LOGGER_INFO(logger, ...) (void)0
-    #define SPDLOG_INFO(...) (void)0
+    #define SPDLOG_LOGGER_INFO(logger, ...) (void)SPDLOG_EXECUTOR_T{}
+    #define SPDLOG_INFO(...) (void)SPDLOG_EXECUTOR_T{}
 #endif
 
 #if SPDLOG_ACTIVE_LEVEL <= SPDLOG_LEVEL_WARN
@@ -331,8 +331,8 @@ inline void critical(const T &msg) {
         SPDLOG_LOGGER_CALL(logger, spdlog::level::warn, __VA_ARGS__)
     #define SPDLOG_WARN(...) SPDLOG_LOGGER_WARN(spdlog::default_logger_raw(), __VA_ARGS__)
 #else
-    #define SPDLOG_LOGGER_WARN(logger, ...) (void)0
-    #define SPDLOG_WARN(...) (void)0
+    #define SPDLOG_LOGGER_WARN(logger, ...) (void)SPDLOG_EXECUTOR_T{}
+    #define SPDLOG_WARN(...) (void)SPDLOG_EXECUTOR_T{}
 #endif
 
 #if SPDLOG_ACTIVE_LEVEL <= SPDLOG_LEVEL_ERROR
@@ -340,8 +340,8 @@ inline void critical(const T &msg) {
         SPDLOG_LOGGER_CALL(logger, spdlog::level::err, __VA_ARGS__)
     #define SPDLOG_ERROR(...) SPDLOG_LOGGER_ERROR(spdlog::default_logger_raw(), __VA_ARGS__)
 #else
-    #define SPDLOG_LOGGER_ERROR(logger, ...) (void)0
-    #define SPDLOG_ERROR(...) (void)0
+    #define SPDLOG_LOGGER_ERROR(logger, ...) (void)SPDLOG_EXECUTOR_T{}
+    #define SPDLOG_ERROR(...) (void)SPDLOG_EXECUTOR_T{}
 #endif
 
 #if SPDLOG_ACTIVE_LEVEL <= SPDLOG_LEVEL_CRITICAL
@@ -349,8 +349,8 @@ inline void critical(const T &msg) {
         SPDLOG_LOGGER_CALL(logger, spdlog::level::critical, __VA_ARGS__)
     #define SPDLOG_CRITICAL(...) SPDLOG_LOGGER_CRITICAL(spdlog::default_logger_raw(), __VA_ARGS__)
 #else
-    #define SPDLOG_LOGGER_CRITICAL(logger, ...) (void)0
-    #define SPDLOG_CRITICAL(...) (void)0
+    #define SPDLOG_LOGGER_CRITICAL(logger, ...) (void)SPDLOG_EXECUTOR_T{}
+    #define SPDLOG_CRITICAL(...) (void)SPDLOG_EXECUTOR_T{}
 #endif
 
 #ifdef SPDLOG_HEADER_ONLY

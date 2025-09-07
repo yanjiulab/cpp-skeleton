@@ -22,6 +22,10 @@ public:
     log_msg_buffer(log_msg_buffer &&other) SPDLOG_NOEXCEPT;
     log_msg_buffer &operator=(const log_msg_buffer &other);
     log_msg_buffer &operator=(log_msg_buffer &&other) SPDLOG_NOEXCEPT;
+
+#ifdef SPDLOG_JSON_LOGGER
+    nlohmann::json params_buffer;
+#endif   
 };
 
 }  // namespace details

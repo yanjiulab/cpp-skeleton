@@ -1,42 +1,38 @@
-#include <variant>
-#include <iomanip>
-#include "spdlog/spdlog.h"
-#include "spdlog/fmt/ostr.h"
-#include "spdlog/mdc.h"
-
-namespace {
-template <class... Ts>
-struct overloaded : Ts... {
-    using Ts::operator()...;
-};
-template <class... Ts>
-overloaded(Ts...) -> overloaded<Ts...>;
-}  // namespace
-
-struct SimpleJSON {
-    using json_val = std::variant<std::int64_t, int, double, std::string, bool>;
-    std::unordered_map<std::string, json_val> members;
-
-    SimpleJSON(std::initializer_list<std::pair<const std::string, json_val>> il) : members{il} {}
-
-    template <typename OStream>
-    friend OStream &operator<<(OStream &os, const SimpleJSON &j) {
-        for (const auto &kv : j.members) {
-            os << ", " << std::quoted(kv.first) << ":";
-            std::visit(overloaded{
-                           [&](std::int64_t arg) { os << arg; },
-                           [&](int arg) { os << arg; },
-                           [&](double arg) { os << arg; },
-                           [&](const std::string &arg) { os << std::quoted(arg); },
-                           [&](bool arg) { os << (arg ? "true" : "false"); }},
-                       kv.second);
-        }
-        return os;
-    }
-};
+#include <spdlog/sinks/stdout_color_sinks.h>
+#include <spdlog/spdlog.h>
+#include "spdlog/sinks/basic_file_sink.h"
 
 int spdlog_demo() {
-    spdlog::info("Welcome to spdlog!");
+    auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+    console_sink->set_level(spdlog::level::warn);
+    console_sink->set_pattern("[multi_sink_example] [%^%l%$] %v");
+    
+    auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/multisink.txt", true);
+    file_sink->set_level(spdlog::level::trace);
+
+    file_sink->set_formatter(spdlog::details::make_unique<spdlog::json_formatter>());
+    file_sink->set_populators(
+        spdlog::details::make_unique<spdlog::populators::date_time_populator>(),
+        spdlog::details::make_unique<spdlog::populators::level_populator>(),
+        spdlog::details::make_unique<spdlog::populators::thread_id_populator>(),
+        spdlog::details::make_unique<spdlog::populators::src_loc_populator>(),
+        spdlog::details::make_unique<spdlog::populators::pid_populator>(),
+        spdlog::details::make_unique<spdlog::populators::thread_id_populator>(),
+        spdlog::details::make_unique<spdlog::populators::timestamp_populator>(),
+        spdlog::details::make_unique<spdlog::populators::message_populator>());
+
+
+    auto logger = std::make_shared<spdlog::logger>("multi_sink", spdlog::sinks_init_list({console_sink, file_sink}));
+    spdlog::set_default_logger(std::move(logger));
+    // spdlog::logger logger("multi_sink", {console_sink, file_sink});
+    // logger.set_level(spdlog::level::debug);
+    // logger.warn("this should appear in both console and file");
+    // logger.info("this message should not appear in the console, only in the file");
+
+    spdlog::info("This is an info message with custom populators");
+
+    SPDLOG_INFO("my fuck");
+    spdlog::info("Welcome to spdlog {}!", SPDLOG_VERSION)({{"key1", 0}, {"kye", "11"}});
     spdlog::error("Some error message with arg: {}", 1);
 
     spdlog::warn("Easy padding in numbers like {:08d}", 12);
@@ -49,22 +45,15 @@ int spdlog_demo() {
     spdlog::debug("This message should be displayed..");
 
     // change log pattern
-    spdlog::set_pattern("[%H:%M:%S %z] [%n] [%^---%L---%$] [thread %t] %v");
+    // spdlog::set_pattern("[%H:%M:%S %z] [%n] [%^---%L---%$] [thread %t] %v");
     spdlog::debug("This message should be displayed..");
+    // spdlog::info("{}", SPDLOG_ACTIVE_LEVEL);
 
     // Compile time log levels
     // Note that this does not change the current log level, it will only
     // remove (depending on SPDLOG_ACTIVE_LEVEL) the call on the release code.
     SPDLOG_TRACE("Some trace message with param {}", 42);
     SPDLOG_DEBUG("Some debug message");
-
-    using J = SimpleJSON;
-    spdlog::set_pattern(
-        "{\"timestamp\":\"%Y-%m-%dT%H:%M:%S.%e%z\",\"logger\":\"%n\",\"log_"
-        "level\":\"%l\",\"process_id\":%P,\"thread_id\":%t %v}");
-    // spdlog::mdc::put("mother", "fuck");
-    
-    spdlog::info("{} {}", J({{"key1", "value1"}, {"key2", true}, {"key3", 99}, {"key4", 1.2}}));
 
     return 0;
 }

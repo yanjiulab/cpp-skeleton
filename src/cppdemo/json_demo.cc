@@ -17,5 +17,9 @@ int json_demo() {
 
     std::cout << jstr << std::endl;
     std::cout << j2 << std::endl;
+
+    json j3 = {"key", 1};
+    std::cout << j3 << std::endl;
+
     return 0;
 }

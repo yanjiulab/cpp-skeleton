@@ -4,7 +4,7 @@
 #pragma once
 
 #ifndef SPDLOG_HEADER_ONLY
-    #include <spdlog/logger.h>
+#include <spdlog/logger.h>
 #endif
 
 #include <spdlog/details/backtracer.h>
@@ -120,16 +120,25 @@ SPDLOG_INLINE std::shared_ptr<logger> logger::clone(std::string logger_name) {
     return cloned;
 }
 
-// protected methods
-SPDLOG_INLINE void logger::log_it_(const spdlog::details::log_msg &log_msg,
-                                   bool log_enabled,
-                                   bool traceback_enabled) {
+SPDLOG_INLINE void logger::executor_callback(const spdlog::details::log_msg &log_msg, bool log_enabled, bool traceback_enabled) {
     if (log_enabled) {
         sink_it_(log_msg);
     }
     if (traceback_enabled) {
         tracer_.push_back(log_msg);
     }
+}
+
+// protected methods
+SPDLOG_INLINE SPDLOG_EXECUTOR_T logger::log_it_(const spdlog::details::log_msg &log_msg,
+                                                bool log_enabled,
+                                                bool traceback_enabled) {
+#ifdef SPDLOG_JSON_LOGGER
+    return spdlog::details::executor(this, log_msg, log_enabled, traceback_enabled);
+#else
+    executor_callback(log_msg, log_enabled, traceback_enabled);
+    return SPDLOG_EXECUTOR_T{};
+#endif
 }
 
 SPDLOG_INLINE void logger::sink_it_(const details::log_msg &msg) {
