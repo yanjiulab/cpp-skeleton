@@ -155,6 +155,54 @@ daemon/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/build
 .PHONY : daemon/fast
 
+src/cppdemo/asio_demo1.o: src/cppdemo/asio_demo1.cc.o
+.PHONY : src/cppdemo/asio_demo1.o
+
+# target to build an object file
+src/cppdemo/asio_demo1.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/asio_demo1.cc.o
+.PHONY : src/cppdemo/asio_demo1.cc.o
+
+src/cppdemo/asio_demo1.i: src/cppdemo/asio_demo1.cc.i
+.PHONY : src/cppdemo/asio_demo1.i
+
+# target to preprocess a source file
+src/cppdemo/asio_demo1.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/asio_demo1.cc.i
+.PHONY : src/cppdemo/asio_demo1.cc.i
+
+src/cppdemo/asio_demo1.s: src/cppdemo/asio_demo1.cc.s
+.PHONY : src/cppdemo/asio_demo1.s
+
+# target to generate assembly for a file
+src/cppdemo/asio_demo1.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/asio_demo1.cc.s
+.PHONY : src/cppdemo/asio_demo1.cc.s
+
+src/cppdemo/asio_demo2.o: src/cppdemo/asio_demo2.cc.o
+.PHONY : src/cppdemo/asio_demo2.o
+
+# target to build an object file
+src/cppdemo/asio_demo2.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/asio_demo2.cc.o
+.PHONY : src/cppdemo/asio_demo2.cc.o
+
+src/cppdemo/asio_demo2.i: src/cppdemo/asio_demo2.cc.i
+.PHONY : src/cppdemo/asio_demo2.i
+
+# target to preprocess a source file
+src/cppdemo/asio_demo2.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/asio_demo2.cc.i
+.PHONY : src/cppdemo/asio_demo2.cc.i
+
+src/cppdemo/asio_demo2.s: src/cppdemo/asio_demo2.cc.s
+.PHONY : src/cppdemo/asio_demo2.s
+
+# target to generate assembly for a file
+src/cppdemo/asio_demo2.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/asio_demo2.cc.s
+.PHONY : src/cppdemo/asio_demo2.cc.s
+
 src/cppdemo/json_demo.o: src/cppdemo/json_demo.cc.o
 .PHONY : src/cppdemo/json_demo.o
 
@@ -286,6 +334,12 @@ help:
 	@echo "... cppdemo"
 	@echo "... daemon"
 	@echo "... started"
+	@echo "... src/cppdemo/asio_demo1.o"
+	@echo "... src/cppdemo/asio_demo1.i"
+	@echo "... src/cppdemo/asio_demo1.s"
+	@echo "... src/cppdemo/asio_demo2.o"
+	@echo "... src/cppdemo/asio_demo2.i"
+	@echo "... src/cppdemo/asio_demo2.s"
 	@echo "... src/cppdemo/json_demo.o"
 	@echo "... src/cppdemo/json_demo.i"
 	@echo "... src/cppdemo/json_demo.s"

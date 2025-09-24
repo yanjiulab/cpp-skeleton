@@ -2,13 +2,14 @@
 
 #include <iostream>
 
-int main() {
-  // printf("hello %s\n", std::string("world").c_str());
+int main(int argc, char* argv[]) {
+    // printf("hello %s\n", std::string("world").c_str());
 
-  spdlog_demo();
-  // vector_demo();
-  json_demo();
+    // spdlog_demo();
+    // vector_demo();
+    // json_demo();
+    // asio_20_echo_demo();
+    asio_20_chat_demo(argc, argv);
 
-
-  return 0;
+    return 0;
 }
