@@ -4,7 +4,7 @@
 
 cpp-skeleton is a project skeleton for general applications and libraries.
 
-## 项目结构
+## 项目结构 Structure
 
 ```bash
 .
@@ -16,8 +16,6 @@ cpp-skeleton is a project skeleton for general applications and libraries.
 ├── build               # 构建目录/分发目录
 ├── cmake               # cmake 工具
 │   └── toolchain       # 编译链工具
-│       ├── aarch64-linux-gnu.cmake
-│       └── arm-linux-gnueabihf.cmake
 ├── CMakeLists.txt      # cmake 构建脚本（推荐使用 cmake 构建项目）
 ├── config.h            # config.h.in 生成的项目配置头文件
 ├── config.h.in         # 项目配置头文件
@@ -27,7 +25,7 @@ cpp-skeleton is a project skeleton for general applications and libraries.
 ├── etc                 # 配置文件目录
 ├── include             # 本项目生成 lib 对外提供 API 头文件。若是纯 exe 项目，则为空。
 ├── lib                 # 本项目生成 lib 库文件。若是纯 exe 项目，则为空。
-├── Makefile            # make 构建脚本
+├── examples            # 一些独立的示例程序
 ├── README.md           # 本项目说明文档
 ├── scripts             # 脚本（部署、备份等）
 ├── src                 # 源代码目录
@@ -39,16 +37,15 @@ cpp-skeleton is a project skeleton for general applications and libraries.
 └── tools               # 工具
 ```
 
-### 设计哲学
+### 设计哲学 Design Paradims
 
 使用该项目模板须遵循以下规则：
 
 - 禁止混合C/C++特性：该项目模板可以用于 C/C++ 开发，尽管 C++ 兼容 C，但不推荐混合使用 C/C++，使用 C++ 时应使用纯 C++ 特性，除非有必须使用的 C 库。
 - cmake 构建：项目使用 cmake 构建。
 - 提供文档：项目必须提供版本变更文档 `doc/CHANGELOG.md` 和软件使用文档 `doc/USAGE.md`。
--
 
-### 依赖搜索
+### 依赖搜索 Dependency Research
 
 在 C/C++ 中，依赖搜索包括**头文件**和**库文件**。
 
@@ -72,19 +69,26 @@ cpp-skeleton is a project skeleton for general applications and libraries.
 - 通过**包管理器**或**源码编译安装**依赖：如未特殊指定安装目录，则一般安装到 `/usr/local` 或 `/usr` 目录下，一般情况下，上述两个目录都是系统默认的搜索目录。在某些系统中 `/usr/local` 并没有加入默认搜索路径，推荐设置加入。
 - 下载对应的头文件和库文件，将其放置于 `3rd` 目录下。
 
-### 版本管理
+### 版本控制 Version Control
 
 通过 `CMakeLists.txt` 中 `project(proj VERSION 0.1.0)` 定义与管理项目版本，最终生成 `config.h` 中版本宏，在代码中可直接使用。
 
 ```c
-printf("VERSION: %d.%d.%d\n", proj_VERSION_MAJOR, proj_VERSION_MINOR, proj_VERSION_PATCH);
+printf("VERSION: %d.%d.%d\n", MYPROJECT_VERSION_MAJOR, MYPROJECT_VERSION_MINOR, MYPROJECT_VERSION_PATCH);
 // output: 
 // VERSION: 0.1.0
 ```
 
-TODO：编译宏
+### C++ 标准 Cpp Standard
 
-## 项目构建
+standard|GCC|key feature
+:---:|:---:|:---:
+c++11|4.8|..
+c++14|4.9~5.0|泛型 lambda 表达式、普通函数返回类型推导
+c++17|7|string_view, option
+c++20|10|coroutine, module
+
+## 构建 Build
 
 ```shell
 mkdir build; cd build
@@ -92,16 +96,19 @@ cmake ..
 cmake --build . # make
 ```
 
+### 交叉编译 Cross Compilation
+
 交叉编译时，项目内置了 arm 和 aarch64 交叉编译工具链设置，如果采用其他的交叉编译链，修改 `TOOLCHAIN_PATH` 即可。
 
 ```shell
 mkdir build-arm; cd build-arm
 cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain/arm-linux-gnueabihf.cmake ..
 # cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain/aarch64-linux-gnu.cmake ..
+# ...
 cmake --build .
 ```
 
-## 项目分发
+## 项目发布 Release
 
 项目构建完成后，主要包括如下目录
 
@@ -135,33 +142,50 @@ proj/etc/
 proj/etc/config.json
 ```
 
-TODO: installer.run
+如果项目需要分发源码，使用 `./scripts/archive.sh` 将项目所有内容打包为 `proj-v{X.Y.Z}-t{%Y%m%d.%H%M}.zip` 包。
 
-打包安装脚本，然后自解压。
+## 三方库 Third-party Lib
 
-## 第三方库
+项目采用许多好用的第三方库，其中一些已经成为了事实上的标准，被大量程序所使用。
 
-### Header-only
+### 头文件库 Header-only
 
-- [CLI11](https://github.com/CLIUtils/CLI11)
-- [json](https://github.com/nlohmann/json)
-- [toml11](https://github.com/ToruNiina/toml11)
-- [cli](https://github.com/daniele77/cli)
-- [asio (non-Boost)](https://think-async.com/Asio/asio-1.30.2/doc/)
-- [spdlog](https://github.com/gabime/spdlog)
+为了考虑到跨平台编译的便捷性，项目优先采用头文件库。
 
-### Pre-compiled
+lib|standard|star
+:---:|:---:|:---:
+[CLI11](https://github.com/CLIUtils/CLI11)|11|3.8k
+[json](https://github.com/nlohmann/json)|11|47.1k
+[toml11](https://github.com/ToruNiina/toml11)|11/14/17/20|1.2k
+[cli](https://github.com/daniele77/cli)|14|1.3k
+[asio (non-Boost)](https://think-async.com/Asio/asio-1.30.2/doc/)|11/14/17/20|5.4k
+[spdlog](https://github.com/gabime/spdlog)|11|27.2k
+catch2|11|TODO
+[sqlite_orm](https://github.com/fnc12/sqlite_orm)|14/17/20|2.5k
+[cereal](https://github.com/USCiLab/cereal)|11|4.5k
+[cpptrace](https://github.com/USCiLab/cpptrace)|11|1.1k
+[backward-cpp](https://github.com/bombela/backward-cpp)|11|4.1k
 
-- boost
-- libhv
-- libevent
+序列化库，一般情况下还是通过结构体直接编码。
+
+### 预编译库 Pre-compiled
+
+- structlog (spdlog+json)
 - configuration
 - db
   - redis-plus-plus
   - sqlite
 - doxygen
 
-## 示例程序
+## 测试平台 Platform
+
+ARCH|OS
+:---:|:---:
+armv7l|Linux 4.19.90-rt35-JARI-WORKS
+aarch64|Linux 4.19.90-rt35-JARI-WORKS+
+x86_64|Linux 6.5.0-27-generic #28~22.04.1-Ubuntu
+
+## 示例 Samples
 
 ### started
 
@@ -177,6 +201,8 @@ started 是一个常规的 cpp 入门程序，里面简明扼要的介绍了 cpp
 - algorithms
 -
 
+### config
+
 ### app
 
 app 是一个常规的 app 服务
@@ -187,12 +213,12 @@ demo 是一个
 
 ### cli
 
-dae 是一个守护进程
+daemon 是一个守护进程
 
-## Tools
+## 工具 Tools
 
 - [cpplint](https://github.com/cpplint/cpplint): Cpplint is a command-line tool to check C/C++ files for style issues according to Google's C++ style guide.
 
-## References
+## 参考 References
 
 - [cppreference](https://en.cppreference.com/w/)

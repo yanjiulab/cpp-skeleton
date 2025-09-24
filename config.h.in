@@ -1,9 +1,10 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define proj_VERSION_MAJOR @proj_VERSION_MAJOR@
-#define proj_VERSION_MINOR @proj_VERSION_MINOR@
-#define proj_VERSION_PATCH @proj_VERSION_PATCH@
+#define MYPROJECT_VERSION_MAJOR @MYPROJECT_VERSION_MAJOR@
+#define MYPROJECT_VERSION_MINOR @MYPROJECT_VERSION_MINOR@
+#define MYPROJECT_VERSION_PATCH @MYPROJECT_VERSION_PATCH@
+
 
 // // Define to 1 if you have a definition for fdatasync() in <unistd.h>.
 // #if !defined(HAVE_FDATASYNC)

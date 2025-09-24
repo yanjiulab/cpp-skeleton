@@ -2,7 +2,7 @@
 # Project settings
 #######################################
 cmake_minimum_required(VERSION 3.10)
-project(proj VERSION 0.1.0)
+project(MYPROJECT VERSION 0.1.0)
 
 # C++ standard can be overridden when this is used as a sub-project.
 if(NOT CMAKE_CXX_STANDARD)
@@ -27,6 +27,9 @@ option(BUILD_UNITTEST "build unittest" OFF)
 # check_library_exists(snappy snappy_compress "" HAVE_SNAPPY)
 # check_library_exists(zstd zstd_compress "" HAVE_ZSTD)
 # check_library_exists(tcmalloc malloc "" HAVE_TCMALLOC)
+
+# set(CMAKE_EXE_LINKER_FLAGS "-static")
+# unset(CMAKE_EXE_LINKER_FLAGS)
 
 # Copy a file to another location and modify its contents.
 # Usually used to dynamically generate configuration files.
@@ -158,12 +161,12 @@ add_executable(${STARTED_NAME}
 #######################################
 # app executable module settings
 #######################################
-# set(APP_NAME "app")
-# add_executable(${APP_NAME}
-#     ${${APP_NAME}_MAIN}
-#     ${${APP_NAME}_SOURCES}
-#     ${util_SOURCES}
-# )
+set(APP_NAME "app")
+add_executable(${APP_NAME}
+    ${${APP_NAME}_MAIN}
+    # ${${APP_NAME}_SOURCES}
+    # ${util_SOURCES}
+)
 
 # target_include_directories(${APP_NAME} PUBLIC
 #     ${util_DIR}
@@ -175,9 +178,32 @@ add_executable(${STARTED_NAME}
 #######################################
 # net daemon executable module settings
 #######################################
+
 set(DAE_NAME "daemon")
 add_executable(${DAE_NAME}
     ${${DAE_NAME}_MAIN}
+    ${${DAE_NAME}_SOURCES}
+)
+# target_compile_options(${DAE_NAME} PRIVATE -g)
+# target_link_options(${DAE_NAME} PRIVATE -lbfd)
+# target_link_options(${DAE_NAME} PRIVATE -static-libstdc++)
+
+#######################################
+# monster executable module settings
+#######################################
+set(MONSTER_NAME "monster")
+add_executable(${MONSTER_NAME}
+    ${${MONSTER_NAME}_MAIN}
+)
+
+#######################################
+# t executable module settings
+#######################################
+set(T_NAME "t")
+add_executable(${T_NAME}
+    ${${T_NAME}_MAIN}
+    ${${T_NAME}_SOURCES}
+    ${config_SOURCES}
 )
 
 #######################################

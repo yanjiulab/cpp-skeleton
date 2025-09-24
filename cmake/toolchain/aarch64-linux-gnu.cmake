@@ -4,7 +4,8 @@ set(CMAKE_SYSTEM_NAME Linux)
 set(CMAKE_SYSTEM_PROCESSOR aarch64)
 
 # set(ENV{PATH} "/opt/Z7_cross_compiler/bin:$ENV{PATH}")
-set(TOOLCHAIN_PATH /opt/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu)
+# set(TOOLCHAIN_PATH /opt/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu)
+set(TOOLCHAIN_PATH /opt/cross/gcc-linaro-11.3.1-2022.06-x86_64_aarch64-linux-gnu)
 set(TOOLCHAIN_PREFIX aarch64-linux-gnu)
 
 set(CMAKE_C_COMPILER ${TOOLCHAIN_PATH}/bin/${TOOLCHAIN_PREFIX}-gcc)
@@ -27,3 +28,7 @@ set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY NEVER)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE NEVER) 
 # find package
 set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE NEVER)
+
+# setting options
+add_compile_options(-Wno-psabi)
+add_link_options(-pthread)

@@ -4,7 +4,7 @@ set(CMAKE_SYSTEM_NAME Linux)
 set(CMAKE_SYSTEM_PROCESSOR arm)
 
 # set(ENV{PATH} "/opt/Z7_cross_compiler/bin:$ENV{PATH}")
-set(TOOLCHAIN_PATH /opt/Z7_cross_compiler)
+set(TOOLCHAIN_PATH /opt/Z7_cross_compiler) 
 set(TOOLCHAIN_PREFIX arm-linux-gnueabihf)
 
 set(CMAKE_C_COMPILER ${TOOLCHAIN_PATH}/bin/${TOOLCHAIN_PREFIX}-gcc)
@@ -28,3 +28,7 @@ set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY NEVER)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE NEVER) 
 # find package
 set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE NEVER)
+
+# setting options
+add_compile_options(-Wno-psabi)
+add_link_options(-pthread)
