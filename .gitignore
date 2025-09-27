@@ -53,7 +53,7 @@ tmp
 dist
 test
 *_test
-build
+build*
 config.mk
 config.h
 html/uploads
@@ -68,7 +68,7 @@ Release
 CMakeFiles
 CMakeCache.txt
 cmake_install.cmake
-build/*
+build*/*
 
 # zip
 *tar*

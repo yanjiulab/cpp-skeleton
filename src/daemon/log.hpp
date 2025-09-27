@@ -7,7 +7,7 @@
 
 class UserLogger {
   public:
-    explicit UserLogger() {
+    explicit UserLogger(bool dae_mode = false) {
         auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
         console_sink->set_level(spdlog::level::debug);
         console_sink->set_pattern("[%D %H:%M:%S.%e] [%^%L%$] [%t] [%&] %@ %v");
@@ -26,7 +26,12 @@ class UserLogger {
             spdlog::details::make_unique<spdlog::populators::message_populator>());
         file_sink->set_level(spdlog::level::debug);
 
-        m_logger = std::make_shared<spdlog::logger>("multi_sink", spdlog::sinks_init_list({console_sink, file_sink}));
+        if (dae_mode) {
+            m_logger = std::make_shared<spdlog::logger>("file_sink", file_sink);
+        } else {
+            m_logger = std::make_shared<spdlog::logger>("multi_sink", spdlog::sinks_init_list({console_sink, file_sink}));
+        }
+
         m_logger->set_level(spdlog::level::debug);
         m_logger->flush_on(spdlog::level::info);
         spdlog::set_default_logger(m_logger);

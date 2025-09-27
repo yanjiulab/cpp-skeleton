@@ -11,7 +11,6 @@ cd ..
 zip -r $FILE $DIR --exclude \
     "$DIR/.vscode" "$DIR/.vscode/*" \
     "$DIR/.git" "$DIR/.git/*" \
-    "$DIR/.git" "$DIR/.git/*" \
     "$DIR/build*/" "$DIR/build*/*" \
     "$DIR/archive" "$DIR/archive/*"
 

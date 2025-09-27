@@ -7,7 +7,7 @@
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
-
+// g++ daemon.cpp -I ../../../3rd/include/
 #include <syslog.h>
 #include <unistd.h>
 
@@ -17,6 +17,7 @@
 #include <asio/signal_set.hpp>
 #include <ctime>
 #include <iostream>
+#include <spdlog/spdlog.h>
 
 using asio::ip::udp;
 
@@ -58,7 +59,7 @@ int main() {
         // Initialise the server before becoming a daemon. If the process is
         // started from a shell, this means any errors will be reported back to the
         // user.
-        udp_daytime_server server(io_context);
+        // udp_daytime_server server(io_context);
 
         // Register signal handlers so that the daemon may be shut down. You may
         // also want to register for other signals, such as SIGHUP to trigger a
@@ -162,6 +163,7 @@ int main() {
         syslog(LOG_INFO | LOG_USER, "Daemon started");
         io_context.run();
         syslog(LOG_INFO | LOG_USER, "Daemon stopped");
+
     } catch (std::exception& e) {
         syslog(LOG_ERR | LOG_USER, "Exception: %s", e.what());
         std::cerr << "Exception: " << e.what() << std::endl;

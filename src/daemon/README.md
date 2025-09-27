@@ -2,6 +2,4 @@
 
 - log
 - config
-- terminal
-- job
-
+- repl

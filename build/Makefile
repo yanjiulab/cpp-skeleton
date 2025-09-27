@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/liyj/projects/cpp-skeleton
+CMAKE_SOURCE_DIR = /home/liyanjiu/projects/cpp-skeleton
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/liyj/projects/cpp-skeleton/build
+CMAKE_BINARY_DIR = /home/liyanjiu/projects/cpp-skeleton/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liyj/projects/cpp-skeleton/build/CMakeFiles /home/liyj/projects/cpp-skeleton/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liyanjiu/projects/cpp-skeleton/build/CMakeFiles /home/liyanjiu/projects/cpp-skeleton/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/liyj/projects/cpp-skeleton/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/liyanjiu/projects/cpp-skeleton/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -578,6 +578,30 @@ src/daemon/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/src/daemon/main.cpp.s
 .PHONY : src/daemon/main.cpp.s
 
+src/daemon/repl.o: src/daemon/repl.cpp.o
+.PHONY : src/daemon/repl.o
+
+# target to build an object file
+src/daemon/repl.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/src/daemon/repl.cpp.o
+.PHONY : src/daemon/repl.cpp.o
+
+src/daemon/repl.i: src/daemon/repl.cpp.i
+.PHONY : src/daemon/repl.i
+
+# target to preprocess a source file
+src/daemon/repl.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/src/daemon/repl.cpp.i
+.PHONY : src/daemon/repl.cpp.i
+
+src/daemon/repl.s: src/daemon/repl.cpp.s
+.PHONY : src/daemon/repl.s
+
+# target to generate assembly for a file
+src/daemon/repl.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/src/daemon/repl.cpp.s
+.PHONY : src/daemon/repl.cpp.s
+
 src/monster/main.o: src/monster/main.cpp.o
 .PHONY : src/monster/main.o
 
@@ -736,6 +760,9 @@ help:
 	@echo "... src/daemon/main.o"
 	@echo "... src/daemon/main.i"
 	@echo "... src/daemon/main.s"
+	@echo "... src/daemon/repl.o"
+	@echo "... src/daemon/repl.i"
+	@echo "... src/daemon/repl.s"
 	@echo "... src/monster/main.o"
 	@echo "... src/monster/main.i"
 	@echo "... src/monster/main.s"

@@ -19,6 +19,7 @@ option(BUILD_STATIC "build static library" OFF)
 option(BUILD_EXAMPLES "build examples" OFF)
 option(BUILD_UNITTEST "build unittest" OFF)
 
+
 # include(CheckIncludeFile)
 # check_include_file("unistd.h" HAVE_UNISTD_H)
 
@@ -30,6 +31,7 @@ option(BUILD_UNITTEST "build unittest" OFF)
 
 # set(CMAKE_EXE_LINKER_FLAGS "-static")
 # unset(CMAKE_EXE_LINKER_FLAGS)
+set(CMAKE_BUILD_TYPE Debug)
 
 # Copy a file to another location and modify its contents.
 # Usually used to dynamically generate configuration files.
@@ -184,6 +186,9 @@ add_executable(${DAE_NAME}
     ${${DAE_NAME}_MAIN}
     ${${DAE_NAME}_SOURCES}
 )
+
+target_link_libraries(${DAE_NAME} dw)
+# target_link_options(${DAE_NAME} PRIVATE -ldw)
 # target_compile_options(${DAE_NAME} PRIVATE -g)
 # target_link_options(${DAE_NAME} PRIVATE -lbfd)
 # target_link_options(${DAE_NAME} PRIVATE -static-libstdc++)
