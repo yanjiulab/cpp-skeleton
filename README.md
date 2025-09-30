@@ -4,6 +4,44 @@
 
 cpp-skeleton is a project skeleton for general applications and libraries.
 
+本项目尽量不造轮子，而是选择符合作者口味的开源库进行组合成一个框架，在开发项目时可以快速完成搭建。以下是本项目的特点：
+
+- 禁止混合C/C++特性：该项目模板可以用于 C/C++ 开发，尽管 C++ 兼容 C，但不推荐混合使用 C/C++，使用 C++ 时应使用纯 C++ 特性，除非有必须使用的 C 库。
+- 采用 `cmake` 构建：跨平台和流行度都较好。
+- 使用 `header-only` 依赖库：将其全部放置于 `3rd` 目录中，这样做的好处是无需配置链接、依赖等库环境，尤其是代码需要经常移动、运行环境无法联网/没有权限安装库、或需要交叉编译部署在不同平台上时，比较方便。
+- 采用大规模使用的库：有些库已经成为事实上的“标准库”了，学习这些库的使用具有较好的普适性。
+- 使用 c++ 20：主要是使用 `coroutine` 模型进行开发。
+
+## 三方库 Third-party Lib
+
+项目采用许多好用的第三方库，其中一些已经成为了事实上的标准，被大量程序所使用。选取的过程也是不断寻找、对比、学习、思考、积累的过程。选取标准：
+
+- 具有较好的流行度。
+- 没有依赖的 `header-only` 库，或者依赖库也是 `header-only` 的。
+- 简洁设计、API 清晰易用，生态活跃。
+
+lib|standard|star|desc
+:---:|:---:|:---:|---
+[asio (non-Boost)](https://think-async.com/Asio/asio-1.30.2/doc/)|11/14/17/20|5.4k|网络编程库，从 Boost 中独立。
+[CLI11](https://github.com/CLIUtils/CLI11)|11|3.8k|命令行参数解析
+[json](https://github.com/nlohmann/json)|11|47.1k|JSON 编解码
+[toml11](https://github.com/ToruNiina/toml11)|11/14/17/20|1.2k|TOML编解码
+[cli](https://github.com/daniele77/cli)|14|1.3k|REPL 库，依赖 asio。
+[spdlog](https://github.com/gabime/spdlog)|11|27.2k|日志库，其实使用的是一个变种版本[structlog](https://github.com/IvanKuzavkov/structlog)，支持 JSON 结构化日志。如果你不需要这个特性，使用原版也可以。
+[cinatra](https://github.com/qicosmos/cinatra)|20|2.1k|高性能、易用 HTTP 库，依赖了另一个 `header-only` 的 `async_simple` 库，不再赘述。
+[backward-cpp](https://github.com/bombela/backward-cpp)|11|4.1k|调用栈追踪，库本身 header-only，但依赖底层的库，可以接受。
+[tabulate](https://github.com/p-ranav/tabulate)|11|2.1k|Table maker 库
+[sigslot](https://github.com/palacaze/sigslot)|14|840|精简发布订阅库，源于 UI 编程中的 signal/slot 机制。
+[sqlite_orm](https://github.com/fnc12/sqlite_orm)|14/17/20|2.5k|TODO
+[cereal](https://github.com/USCiLab/cereal)|11|4.5k|TODO
+catch2|11|TODO|TODO
+redis|TODO|TODO|TODO
+flatbuffers|TODO|TODO|TODO
+
+> star 数量截止 2025 年 9 月左右。
+
+如果有好用的库推荐，欢迎 issue！
+
 ## 项目结构 Structure
 
 ```bash
@@ -36,14 +74,6 @@ cpp-skeleton is a project skeleton for general applications and libraries.
 ├── tmp                 # 临时文件/未归档文件
 └── tools               # 工具
 ```
-
-### 设计哲学 Design Paradims
-
-使用该项目模板须遵循以下规则：
-
-- 禁止混合C/C++特性：该项目模板可以用于 C/C++ 开发，尽管 C++ 兼容 C，但不推荐混合使用 C/C++，使用 C++ 时应使用纯 C++ 特性，除非有必须使用的 C 库。
-- cmake 构建：项目使用 cmake 构建。
-- 提供文档：项目必须提供版本变更文档 `doc/CHANGELOG.md` 和软件使用文档 `doc/USAGE.md`。
 
 ### 依赖搜索 Dependency Research
 
@@ -90,6 +120,8 @@ c++20|10|coroutine, module
 
 ## 构建 Build
 
+标准的 `cmake` 三板斧构建方式：
+
 ```shell
 mkdir build; cd build
 cmake ..
@@ -125,9 +157,7 @@ build
 
 项目分发即：将项目可执行文件或库部署到目标平台。库的分发比较简单，直接将生成的头文件和目标平台库文件复制到目标平台即可。
 
-可执行程序的分发包括：
-
-使用 `./scripts/release.sh` 将 build 内容打包为 `proj-v{X.Y.Z}.tar.gz` 包。
+可执行程序的分发提供 `./scripts/release.sh` 将 build 内容打包为 `proj-v{X.Y.Z}.tar.gz` 包。
 
 若需分发到其他目标，则使用 `tar xfv proj-v0.1.0.tar.gz` 解压包即可。
 
@@ -143,39 +173,6 @@ proj/etc/config.json
 ```
 
 如果项目需要分发源码，使用 `./scripts/archive.sh` 将项目所有内容打包为 `proj-v{X.Y.Z}-t{%Y%m%d.%H%M}.zip` 包。
-
-## 三方库 Third-party Lib
-
-项目采用许多好用的第三方库，其中一些已经成为了事实上的标准，被大量程序所使用。
-
-### 头文件库 Header-only
-
-为了考虑到跨平台编译的便捷性，项目优先采用头文件库。
-
-lib|standard|star
-:---:|:---:|:---:
-[CLI11](https://github.com/CLIUtils/CLI11)|11|3.8k
-[json](https://github.com/nlohmann/json)|11|47.1k
-[toml11](https://github.com/ToruNiina/toml11)|11/14/17/20|1.2k
-[cli](https://github.com/daniele77/cli)|14|1.3k
-[asio (non-Boost)](https://think-async.com/Asio/asio-1.30.2/doc/)|11/14/17/20|5.4k
-[spdlog](https://github.com/gabime/spdlog)|11|27.2k
-catch2|11|TODO
-[sqlite_orm](https://github.com/fnc12/sqlite_orm)|14/17/20|2.5k
-[cereal](https://github.com/USCiLab/cereal)|11|4.5k
-[cpptrace](https://github.com/USCiLab/cpptrace)|11|1.1k
-[backward-cpp](https://github.com/bombela/backward-cpp)|11|4.1k
-
-序列化库，一般情况下还是通过结构体直接编码。
-
-### 预编译库 Pre-compiled
-
-- structlog (spdlog+json)
-- configuration
-- db
-  - redis-plus-plus
-  - sqlite
-- doxygen
 
 ## 测试平台 Platform
 
@@ -199,9 +196,6 @@ started 是一个常规的 cpp 入门程序，里面简明扼要的介绍了 cpp
 - stack-queue-priority queue
 - iterator
 - algorithms
--
-
-### config
 
 ### app
 

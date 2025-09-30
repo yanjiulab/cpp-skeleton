@@ -1,5 +1,8 @@
 #include "repl.hpp"
 
+#include <spdlog/sinks/ostream_sink.h>
+#include <spdlog/spdlog.h>
+
 #include <algorithm>
 #include <iostream>
 #include <iterator>
@@ -23,6 +26,22 @@ UserREPL::UserREPL(IoContext& iocontext) : scheduler(iocontext) {
         "hello",
         [](std::ostream& out) { out << "Hello, world\n"; },
         "Print hello world");
+    rootMenu->Insert(
+        "monitor",
+        [](std::ostream& out) {
+            auto os = std::make_shared<spdlog::sinks::ostream_sink_mt>(Cli::cout());
+            os->set_pattern("[%D %H:%M:%S.%e] [%^%L%$] [%t] %@ %v");
+            spdlog::default_logger()->sinks().push_back(os);
+        },
+        "enter monitor mode");
+    rootMenu->Insert(
+        "nomonitor",
+        [](std::ostream& out) {
+            // auto os = std::make_shared<spdlog::sinks::ostream_sink_mt>(Cli::cout());
+            // os->set_pattern("[%D %H:%M:%S.%e] [%^%L%$] [%t] %@ %v");
+            spdlog::default_logger()->sinks().pop_back();
+        },
+        "enter monitor mode");
     rootMenu->Insert(
         "hello_everysession",
         [](std::ostream&) { Cli::cout() << "Hello, everybody" << std::endl; },
@@ -185,8 +204,8 @@ UserREPL::UserREPL(IoContext& iocontext) : scheduler(iocontext) {
 }
 
 void UserREPL::StartLocalSession() {
-    localSession = make_unique<CliLocalTerminalSession>(*cli, scheduler, std::cout, 200);
-    localSession->ExitAction(
+    local_session = make_unique<CliLocalTerminalSession>(*cli, scheduler, std::cout, 200);
+    local_session->ExitAction(
         [this](auto& out)  // session exit action
         {
             out << "Closing App...\n";
@@ -195,12 +214,12 @@ void UserREPL::StartLocalSession() {
 }
 
 void UserREPL::StartTelnetSession(int port) {
-    telnetSession = make_unique<CliTelnetServer>(*cli, scheduler, port);
+    telnet_session = make_unique<CliTelnetServer>(*cli, scheduler, port);
     // exit action for all the connections
-    telnetSession->ExitAction([](auto& out) { out << "Terminating this session...\n"; });
+    telnet_session->ExitAction([](auto& out) { out << "Terminating this session...\n"; });
 }
 
 void UserREPL::StartFileSession(std::istream& in, std::ostream& out) {
-    fileSession = make_unique<CliFileSession>(*cli, in, out);
-    fileSession->Start();
+    file_session = make_unique<CliFileSession>(*cli, in, out);
+    file_session->Start();
 }

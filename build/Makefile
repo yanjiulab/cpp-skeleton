@@ -181,19 +181,6 @@ monster/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/monster.dir/build.make CMakeFiles/monster.dir/build
 .PHONY : monster/fast
 
-#=============================================================================
-# Target rules for targets named t
-
-# Build rule for target.
-t : cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 t
-.PHONY : t
-
-# fast build rule for target.
-t/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/build
-.PHONY : t/fast
-
 src/app/main.o: src/app/main.cpp.o
 .PHONY : src/app/main.o
 
@@ -217,222 +204,6 @@ src/app/main.s: src/app/main.cpp.s
 src/app/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/app/main.cpp.s
 .PHONY : src/app/main.cpp.s
-
-src/config/config-cpp.o: src/config/config-cpp.cpp.o
-.PHONY : src/config/config-cpp.o
-
-# target to build an object file
-src/config/config-cpp.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/config-cpp.cpp.o
-.PHONY : src/config/config-cpp.cpp.o
-
-src/config/config-cpp.i: src/config/config-cpp.cpp.i
-.PHONY : src/config/config-cpp.i
-
-# target to preprocess a source file
-src/config/config-cpp.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/config-cpp.cpp.i
-.PHONY : src/config/config-cpp.cpp.i
-
-src/config/config-cpp.s: src/config/config-cpp.cpp.s
-.PHONY : src/config/config-cpp.s
-
-# target to generate assembly for a file
-src/config/config-cpp.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/config-cpp.cpp.s
-.PHONY : src/config/config-cpp.cpp.s
-
-src/config/event.o: src/config/event.cpp.o
-.PHONY : src/config/event.o
-
-# target to build an object file
-src/config/event.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/event.cpp.o
-.PHONY : src/config/event.cpp.o
-
-src/config/event.i: src/config/event.cpp.i
-.PHONY : src/config/event.i
-
-# target to preprocess a source file
-src/config/event.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/event.cpp.i
-.PHONY : src/config/event.cpp.i
-
-src/config/event.s: src/config/event.cpp.s
-.PHONY : src/config/event.s
-
-# target to generate assembly for a file
-src/config/event.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/event.cpp.s
-.PHONY : src/config/event.cpp.s
-
-src/config/filesystemEvent.o: src/config/filesystemEvent.cpp.o
-.PHONY : src/config/filesystemEvent.o
-
-# target to build an object file
-src/config/filesystemEvent.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/filesystemEvent.cpp.o
-.PHONY : src/config/filesystemEvent.cpp.o
-
-src/config/filesystemEvent.i: src/config/filesystemEvent.cpp.i
-.PHONY : src/config/filesystemEvent.i
-
-# target to preprocess a source file
-src/config/filesystemEvent.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/filesystemEvent.cpp.i
-.PHONY : src/config/filesystemEvent.cpp.i
-
-src/config/filesystemEvent.s: src/config/filesystemEvent.cpp.s
-.PHONY : src/config/filesystemEvent.s
-
-# target to generate assembly for a file
-src/config/filesystemEvent.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/filesystemEvent.cpp.s
-.PHONY : src/config/filesystemEvent.cpp.s
-
-src/config/inotify.o: src/config/inotify.cpp.o
-.PHONY : src/config/inotify.o
-
-# target to build an object file
-src/config/inotify.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/inotify.cpp.o
-.PHONY : src/config/inotify.cpp.o
-
-src/config/inotify.i: src/config/inotify.cpp.i
-.PHONY : src/config/inotify.i
-
-# target to preprocess a source file
-src/config/inotify.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/inotify.cpp.i
-.PHONY : src/config/inotify.cpp.i
-
-src/config/inotify.s: src/config/inotify.cpp.s
-.PHONY : src/config/inotify.s
-
-# target to generate assembly for a file
-src/config/inotify.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/inotify.cpp.s
-.PHONY : src/config/inotify.cpp.s
-
-src/config/jsonHandler.o: src/config/jsonHandler.cpp.o
-.PHONY : src/config/jsonHandler.o
-
-# target to build an object file
-src/config/jsonHandler.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/jsonHandler.cpp.o
-.PHONY : src/config/jsonHandler.cpp.o
-
-src/config/jsonHandler.i: src/config/jsonHandler.cpp.i
-.PHONY : src/config/jsonHandler.i
-
-# target to preprocess a source file
-src/config/jsonHandler.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/jsonHandler.cpp.i
-.PHONY : src/config/jsonHandler.cpp.i
-
-src/config/jsonHandler.s: src/config/jsonHandler.cpp.s
-.PHONY : src/config/jsonHandler.s
-
-# target to generate assembly for a file
-src/config/jsonHandler.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/jsonHandler.cpp.s
-.PHONY : src/config/jsonHandler.cpp.s
-
-src/config/notification.o: src/config/notification.cpp.o
-.PHONY : src/config/notification.o
-
-# target to build an object file
-src/config/notification.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/notification.cpp.o
-.PHONY : src/config/notification.cpp.o
-
-src/config/notification.i: src/config/notification.cpp.i
-.PHONY : src/config/notification.i
-
-# target to preprocess a source file
-src/config/notification.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/notification.cpp.i
-.PHONY : src/config/notification.cpp.i
-
-src/config/notification.s: src/config/notification.cpp.s
-.PHONY : src/config/notification.s
-
-# target to generate assembly for a file
-src/config/notification.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/notification.cpp.s
-.PHONY : src/config/notification.cpp.s
-
-src/config/tomlHandler.o: src/config/tomlHandler.cpp.o
-.PHONY : src/config/tomlHandler.o
-
-# target to build an object file
-src/config/tomlHandler.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/tomlHandler.cpp.o
-.PHONY : src/config/tomlHandler.cpp.o
-
-src/config/tomlHandler.i: src/config/tomlHandler.cpp.i
-.PHONY : src/config/tomlHandler.i
-
-# target to preprocess a source file
-src/config/tomlHandler.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/tomlHandler.cpp.i
-.PHONY : src/config/tomlHandler.cpp.i
-
-src/config/tomlHandler.s: src/config/tomlHandler.cpp.s
-.PHONY : src/config/tomlHandler.s
-
-# target to generate assembly for a file
-src/config/tomlHandler.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/tomlHandler.cpp.s
-.PHONY : src/config/tomlHandler.cpp.s
-
-src/config/util.o: src/config/util.cpp.o
-.PHONY : src/config/util.o
-
-# target to build an object file
-src/config/util.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/util.cpp.o
-.PHONY : src/config/util.cpp.o
-
-src/config/util.i: src/config/util.cpp.i
-.PHONY : src/config/util.i
-
-# target to preprocess a source file
-src/config/util.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/util.cpp.i
-.PHONY : src/config/util.cpp.i
-
-src/config/util.s: src/config/util.cpp.s
-.PHONY : src/config/util.s
-
-# target to generate assembly for a file
-src/config/util.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/util.cpp.s
-.PHONY : src/config/util.cpp.s
-
-src/config/value.o: src/config/value.cpp.o
-.PHONY : src/config/value.o
-
-# target to build an object file
-src/config/value.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/value.cpp.o
-.PHONY : src/config/value.cpp.o
-
-src/config/value.i: src/config/value.cpp.i
-.PHONY : src/config/value.i
-
-# target to preprocess a source file
-src/config/value.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/value.cpp.i
-.PHONY : src/config/value.cpp.i
-
-src/config/value.s: src/config/value.cpp.s
-.PHONY : src/config/value.s
-
-# target to generate assembly for a file
-src/config/value.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/config/value.cpp.s
-.PHONY : src/config/value.cpp.s
 
 src/cppdemo/asio_demo1.o: src/cppdemo/asio_demo1.cc.o
 .PHONY : src/cppdemo/asio_demo1.o
@@ -602,6 +373,30 @@ src/daemon/repl.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/src/daemon/repl.cpp.s
 .PHONY : src/daemon/repl.cpp.s
 
+src/daemon/rest_server.o: src/daemon/rest_server.cpp.o
+.PHONY : src/daemon/rest_server.o
+
+# target to build an object file
+src/daemon/rest_server.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/src/daemon/rest_server.cpp.o
+.PHONY : src/daemon/rest_server.cpp.o
+
+src/daemon/rest_server.i: src/daemon/rest_server.cpp.i
+.PHONY : src/daemon/rest_server.i
+
+# target to preprocess a source file
+src/daemon/rest_server.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/src/daemon/rest_server.cpp.i
+.PHONY : src/daemon/rest_server.cpp.i
+
+src/daemon/rest_server.s: src/daemon/rest_server.cpp.s
+.PHONY : src/daemon/rest_server.s
+
+# target to generate assembly for a file
+src/daemon/rest_server.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/src/daemon/rest_server.cpp.s
+.PHONY : src/daemon/rest_server.cpp.s
+
 src/monster/main.o: src/monster/main.cpp.o
 .PHONY : src/monster/main.o
 
@@ -650,54 +445,6 @@ src/started/main.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/started.dir/build.make CMakeFiles/started.dir/src/started/main.cc.s
 .PHONY : src/started/main.cc.s
 
-src/t/json-config.o: src/t/json-config.cpp.o
-.PHONY : src/t/json-config.o
-
-# target to build an object file
-src/t/json-config.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/t/json-config.cpp.o
-.PHONY : src/t/json-config.cpp.o
-
-src/t/json-config.i: src/t/json-config.cpp.i
-.PHONY : src/t/json-config.i
-
-# target to preprocess a source file
-src/t/json-config.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/t/json-config.cpp.i
-.PHONY : src/t/json-config.cpp.i
-
-src/t/json-config.s: src/t/json-config.cpp.s
-.PHONY : src/t/json-config.s
-
-# target to generate assembly for a file
-src/t/json-config.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/t/json-config.cpp.s
-.PHONY : src/t/json-config.cpp.s
-
-src/t/main.o: src/t/main.cpp.o
-.PHONY : src/t/main.o
-
-# target to build an object file
-src/t/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/t/main.cpp.o
-.PHONY : src/t/main.cpp.o
-
-src/t/main.i: src/t/main.cpp.i
-.PHONY : src/t/main.i
-
-# target to preprocess a source file
-src/t/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/t/main.cpp.i
-.PHONY : src/t/main.cpp.i
-
-src/t/main.s: src/t/main.cpp.s
-.PHONY : src/t/main.s
-
-# target to generate assembly for a file
-src/t/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/t.dir/build.make CMakeFiles/t.dir/src/t/main.cpp.s
-.PHONY : src/t/main.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -711,37 +458,9 @@ help:
 	@echo "... daemon"
 	@echo "... monster"
 	@echo "... started"
-	@echo "... t"
 	@echo "... src/app/main.o"
 	@echo "... src/app/main.i"
 	@echo "... src/app/main.s"
-	@echo "... src/config/config-cpp.o"
-	@echo "... src/config/config-cpp.i"
-	@echo "... src/config/config-cpp.s"
-	@echo "... src/config/event.o"
-	@echo "... src/config/event.i"
-	@echo "... src/config/event.s"
-	@echo "... src/config/filesystemEvent.o"
-	@echo "... src/config/filesystemEvent.i"
-	@echo "... src/config/filesystemEvent.s"
-	@echo "... src/config/inotify.o"
-	@echo "... src/config/inotify.i"
-	@echo "... src/config/inotify.s"
-	@echo "... src/config/jsonHandler.o"
-	@echo "... src/config/jsonHandler.i"
-	@echo "... src/config/jsonHandler.s"
-	@echo "... src/config/notification.o"
-	@echo "... src/config/notification.i"
-	@echo "... src/config/notification.s"
-	@echo "... src/config/tomlHandler.o"
-	@echo "... src/config/tomlHandler.i"
-	@echo "... src/config/tomlHandler.s"
-	@echo "... src/config/util.o"
-	@echo "... src/config/util.i"
-	@echo "... src/config/util.s"
-	@echo "... src/config/value.o"
-	@echo "... src/config/value.i"
-	@echo "... src/config/value.s"
 	@echo "... src/cppdemo/asio_demo1.o"
 	@echo "... src/cppdemo/asio_demo1.i"
 	@echo "... src/cppdemo/asio_demo1.s"
@@ -763,18 +482,15 @@ help:
 	@echo "... src/daemon/repl.o"
 	@echo "... src/daemon/repl.i"
 	@echo "... src/daemon/repl.s"
+	@echo "... src/daemon/rest_server.o"
+	@echo "... src/daemon/rest_server.i"
+	@echo "... src/daemon/rest_server.s"
 	@echo "... src/monster/main.o"
 	@echo "... src/monster/main.i"
 	@echo "... src/monster/main.s"
 	@echo "... src/started/main.o"
 	@echo "... src/started/main.i"
 	@echo "... src/started/main.s"
-	@echo "... src/t/json-config.o"
-	@echo "... src/t/json-config.i"
-	@echo "... src/t/json-config.s"
-	@echo "... src/t/main.o"
-	@echo "... src/t/main.i"
-	@echo "... src/t/main.s"
 .PHONY : help
 
 

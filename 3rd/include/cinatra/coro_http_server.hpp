@@ -741,6 +741,7 @@ class coro_http_server {
       asio::error_code ec;
       acceptor_.cancel(ec);
       acceptor_.close(ec);
+      acceptor_close_waiter_.set_value();
     });
     acceptor_close_waiter_.get_future().wait();
   }

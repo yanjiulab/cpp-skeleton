@@ -1,5 +1,0 @@
-# Daemon
-
-- log
-- config
-- repl

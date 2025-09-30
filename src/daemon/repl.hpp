@@ -48,14 +48,16 @@ class UserREPL {
     void StartLocalSession();
     void StartTelnetSession(int port = 5000);
     void StartFileSession(std::istream& in = std::cin, std::ostream& out = std::cout);
+    void Stop() { scheduler.Stop(); }
 
   private:
     StandaloneAsioScheduler scheduler;
     unique_ptr<Cli> cli;
-    unique_ptr<CliLocalTerminalSession> localSession;
-    unique_ptr<CliTelnetServer> telnetSession;
-    unique_ptr<CliFileSession> fileSession;
-    // std::ifstream
     CmdHandler colorCmd;
     CmdHandler nocolorCmd;
+
+  public:
+    unique_ptr<CliLocalTerminalSession> local_session;
+    unique_ptr<CliTelnetServer> telnet_session;
+    unique_ptr<CliFileSession> file_session;
 };

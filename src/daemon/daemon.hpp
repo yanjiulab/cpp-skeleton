@@ -1,19 +1,26 @@
 #pragma once
 
+#include <errno.h>
+#include <fcntl.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <syslog.h>
 #include <unistd.h>
 
-#include <cstdio>
+#include <stdexcept>
 #include <string>
+#include <system_error>
 
-#include "asio.hpp"
+#include "asio/io_context.hpp"
+#include "asio/signal_set.hpp"
 
 struct dconfig {
     std::string daemon_name = "user-daemon";
-    std::string working_dir = "/";                             // 工作目录
-    std::string output_file = "/tmp/asio.daemon.log";          // 标准输出日志路径
-    mode_t file_mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;  // 日志文件权限
-    int file_flags = O_WRONLY | O_CREAT | O_APPEND;            // 日志文件打开模式
+    std::string working_dir = "/";
+    std::string output_file = "/tmp/asio.daemon.log";
+    mode_t file_mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+    int file_flags = O_WRONLY | O_CREAT | O_APPEND;
 };
 
 class dlog {
@@ -23,7 +30,7 @@ class dlog {
      * @param daemon_name
      */
     static void init(const std::string& daemon_name) {
-        openlog(daemon_name.c_str(), LOG_PID, LOG_DAEMON);
+        openlog(daemon_name.c_str(), LOG_PID | LOG_NDELAY, LOG_DAEMON);
     }
 
     /**
@@ -133,98 +140,76 @@ class dlog {
 
 class UserDaemon {
   public:
-    UserDaemon(std::shared_ptr<asio::io_context> io_ctx, const struct dconfig& cfg)
-        : m_io_context(std::move(io_ctx)) {
-        // Inform the io_context that we are about to become a daemon. The
-        // io_context cleans up any internal resources, such as threads, that may
-        // interfere with forking.
-        m_io_context->notify_fork(asio::io_context::fork_prepare);
+    UserDaemon(asio::io_context& io_context, const dconfig& cfg)
+        : io_context_(io_context), cfg_(cfg) {}
 
-        // Fork the process and have the parent exit. If the process was started
-        // from a shell, this returns control to the user. Forking a new process is
-        // also a prerequisite for the subsequent call to setsid().
-        if (m_pid = fork()) {
-            if (m_pid > 0) {
+    UserDaemon(asio::io_context& io_ctx)
+        : io_context_(io_ctx), cfg_(get_default_config()) {}
+
+    // 执行守护进程化
+    void Daemonize() {
+        try {
+            io_context_.notify_fork(asio::io_context::fork_prepare);
+
+            pid_t pid = fork();
+            if (pid < 0) {
+                throw std::system_error(errno, std::system_category(), "First fork failed");
+            } else if (pid > 0) {
                 std::exit(EXIT_SUCCESS);
-            } else {
-                dlog::error("First fork failed: %m");
-                std::exit(EXIT_FAILURE);
             }
-        }
 
-        // Make the process a new session leader. This detaches it from the
-        // terminal.
-        setsid();
+            if (setsid() < 0) {
+                throw std::system_error(errno, std::system_category(), "setsid failed");
+            }
 
-        // A process inherits its working directory from its parent. This could be
-        // on a mounted filesystem, which means that the running daemon would
-        // prevent this filesystem from being unmounted. Changing to the root
-        // directory avoids this problem.
-        chdir(cfg.working_dir.c_str());
+            if (chdir(cfg_.working_dir.c_str()) < 0) {
+                throw std::system_error(errno, std::system_category(), "chdir failed");
+            }
 
-        // The file mode creation mask is also inherited from the parent process.
-        // We don't want to restrict the permissions on files created by the
-        // daemon, so the mask is cleared.
-        umask(0);
+            umask(0);
 
-        dlog::init(cfg.daemon_name);
-
-        // A second fork ensures the process cannot acquire a controlling terminal.
-        if (m_pid = fork()) {
-            if (m_pid > 0) {
+            pid = fork();
+            if (pid < 0) {
+                throw std::system_error(errno, std::system_category(), "Second fork failed");
+            } else if (pid > 0) {
                 std::exit(EXIT_SUCCESS);
-            } else {
-                dlog::error("Second fork failed: %m");
-                std::exit(EXIT_FAILURE);
             }
-        }
 
-        // Close the standard streams. This decouples the daemon from the terminal
-        // that started it.
-        close(0);
-        close(1);
-        close(2);
+            close(STDIN_FILENO);
+            close(STDOUT_FILENO);
+            close(STDERR_FILENO);
 
-        // We don't want the daemon to have any standard input.
-        if (open("/dev/null", O_RDONLY) < 0) {
-            dlog::error("Unable to open /dev/null: %m");
+            if (open("/dev/null", O_RDONLY) < 0) {
+                throw std::system_error(errno, std::system_category(), "Unable to open /dev/null");
+            }
+
+            if (open(cfg_.output_file.c_str(), cfg_.file_flags, cfg_.file_mode) < 0) {
+                throw std::system_error(errno, std::system_category(), "Unable to open output file");
+            }
+
+            // Also send standard error to the same log file.
+            if (dup(1) < 0) {
+                throw std::system_error(errno, std::system_category(), "Unable to dup stderr");
+            }
+
+            io_context_.notify_fork(asio::io_context::fork_child);
+
+            dlog::init(cfg_.daemon_name);
+            syslog(LOG_INFO, "%s started", cfg_.daemon_name.c_str());
+        } catch (const std::exception& e) {
+            syslog(LOG_ERR, "Failed to daemonize: %s", e.what());
+            std::cerr << "Failed to daemonize: " << e.what() << std::endl;
             std::exit(EXIT_FAILURE);
         }
-
-        // Send standard output to a log file.
-        const char* output = cfg.output_file.c_str();
-        if (open(output, cfg.file_flags, cfg.file_mode) < 0) {
-            dlog::error("Unable to open output file: " + cfg.output_file + "%m");
-            std::exit(EXIT_FAILURE);
-        }
-
-        // Also send standard error to the same log file.
-        if (dup(1) < 0) {
-            dlog::error("Unable to dup output descriptor: %m");
-            std::exit(EXIT_FAILURE);
-        }
-
-        // Inform the io_context that we have finished becoming a daemon. The
-        // io_context uses this opportunity to create any internal file descriptors
-        // that need to be private to the new process.
-        m_io_context->notify_fork(asio::io_context::fork_child);
-
-        // The io_context can now be used normally.
-        // context.run();
-        dlog::info("Daemon started");
     }
-
-    ~UserDaemon() {
-        dlog::shutdown();
-        // Terminate the child process when the daemon completes (loop stopped)
-        // note that calling std::exit() inside the run function will not call dtor.
-        std::exit(EXIT_SUCCESS);
-    }
-
-    pid_t get_pid() const noexcept { return m_pid; }
 
   private:
-    std::shared_ptr<asio::io_context> m_io_context;
-    // struct dconfig& m_cfg;
-    pid_t m_pid;
+    static dconfig get_default_config() {
+        dconfig default_cfg;
+        // default_cfg.lock_file = "/var/run/" + default_cfg.daemon_name + ".pid";
+        return default_cfg;
+    }
+
+    asio::io_context& io_context_;
+    const dconfig cfg_;
 };

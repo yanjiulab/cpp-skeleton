@@ -202,16 +202,6 @@ add_executable(${MONSTER_NAME}
 )
 
 #######################################
-# t executable module settings
-#######################################
-set(T_NAME "t")
-add_executable(${T_NAME}
-    ${${T_NAME}_MAIN}
-    ${${T_NAME}_SOURCES}
-    ${config_SOURCES}
-)
-
-#######################################
 # lib module settings
 #######################################
 if(BUILD_LIB)
