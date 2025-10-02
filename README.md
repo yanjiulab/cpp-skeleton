@@ -20,20 +20,21 @@ cpp-skeleton is a project skeleton for general applications and libraries.
 - 没有依赖的 `header-only` 库，或者依赖库也是 `header-only` 的。
 - 简洁设计、API 清晰易用，生态活跃。
 
-lib|standard|star|desc
-:---:|:---:|:---:|---
+lib|standard|desc
+:---:|:---:|---
 [asio (non-Boost)](https://think-async.com/Asio/asio-1.30.2/doc/)|11/14/17/20|5.4k|网络编程库，从 Boost 中独立。
-[CLI11](https://github.com/CLIUtils/CLI11)|11|3.8k|命令行参数解析
-[json](https://github.com/nlohmann/json)|11|47.1k|JSON 编解码
-[toml11](https://github.com/ToruNiina/toml11)|11/14/17/20|1.2k|TOML编解码
-[cli](https://github.com/daniele77/cli)|14|1.3k|REPL 库，依赖 asio。
-[spdlog](https://github.com/gabime/spdlog)|11|27.2k|日志库，其实使用的是一个变种版本[structlog](https://github.com/IvanKuzavkov/structlog)，支持 JSON 结构化日志。如果你不需要这个特性，使用原版也可以。
-[cinatra](https://github.com/qicosmos/cinatra)|20|2.1k|高性能、易用 HTTP 库，依赖了另一个 `header-only` 的 `async_simple` 库，不再赘述。
-[backward-cpp](https://github.com/bombela/backward-cpp)|11|4.1k|调用栈追踪，库本身 header-only，但依赖底层的库，可以接受。
-[tabulate](https://github.com/p-ranav/tabulate)|11|2.1k|Table maker 库
-[sigslot](https://github.com/palacaze/sigslot)|14|840|精简发布订阅库，源于 UI 编程中的 signal/slot 机制。
-[sqlite_orm](https://github.com/fnc12/sqlite_orm)|14/17/20|2.5k|TODO
-[cereal](https://github.com/USCiLab/cereal)|11|4.5k|TODO
+[CLI11](https://github.com/CLIUtils/CLI11)|11|命令行参数解析
+[json](https://github.com/nlohmann/json)|11|JSON 编解码
+[toml11](https://github.com/ToruNiina/toml11)|11/14/17/20|TOML编解码
+[cli](https://github.com/daniele77/cli)|14|REPL 库，依赖 asio。
+[spdlog](https://github.com/gabime/spdlog)|11|日志库，其实使用的是一个变种版本[structlog](https://github.com/IvanKuzavkov/structlog)，支持 JSON 结构化日志。如果你不需要这个特性，使用原版也可以。
+[cinatra](https://github.com/qicosmos/cinatra)|20|高性能、易用 HTTP 库，依赖了另一个 `header-only` 的 `async_simple` 库，不再赘述。
+[backward-cpp](https://github.com/bombela/backward-cpp)|11|调用栈追踪，库本身 header-only，但依赖底层的库，可以接受。
+[tabulate](https://github.com/p-ranav/tabulate)|11|Table maker 库
+[sigslot](https://github.com/palacaze/sigslot)|14|精简发布订阅库，源于 UI 编程中的 signal/slot 机制。
+[sqlite_orm](https://github.com/fnc12/sqlite_orm)|14/17/20|TODO
+[cereal](https://github.com/USCiLab/cereal)|11|TODO
+[frozen](https://github.com/serge-sans-paille/frozen)|14|提供编译期冻结的容器，适用于快速启动或只读数据高速查找。
 catch2|11|TODO|TODO
 redis|TODO|TODO|TODO
 flatbuffers|TODO|TODO|TODO

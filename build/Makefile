@@ -445,29 +445,29 @@ src/monster/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/monster.dir/build.make CMakeFiles/monster.dir/src/monster/main.cpp.s
 .PHONY : src/monster/main.cpp.s
 
-src/started/main.o: src/started/main.cc.o
+src/started/main.o: src/started/main.cpp.o
 .PHONY : src/started/main.o
 
 # target to build an object file
-src/started/main.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/started.dir/build.make CMakeFiles/started.dir/src/started/main.cc.o
-.PHONY : src/started/main.cc.o
+src/started/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/started.dir/build.make CMakeFiles/started.dir/src/started/main.cpp.o
+.PHONY : src/started/main.cpp.o
 
-src/started/main.i: src/started/main.cc.i
+src/started/main.i: src/started/main.cpp.i
 .PHONY : src/started/main.i
 
 # target to preprocess a source file
-src/started/main.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/started.dir/build.make CMakeFiles/started.dir/src/started/main.cc.i
-.PHONY : src/started/main.cc.i
+src/started/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/started.dir/build.make CMakeFiles/started.dir/src/started/main.cpp.i
+.PHONY : src/started/main.cpp.i
 
-src/started/main.s: src/started/main.cc.s
+src/started/main.s: src/started/main.cpp.s
 .PHONY : src/started/main.s
 
 # target to generate assembly for a file
-src/started/main.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/started.dir/build.make CMakeFiles/started.dir/src/started/main.cc.s
-.PHONY : src/started/main.cc.s
+src/started/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/started.dir/build.make CMakeFiles/started.dir/src/started/main.cpp.s
+.PHONY : src/started/main.cpp.s
 
 # Help Target
 help:
