@@ -22,15 +22,15 @@ cpp-skeleton is a project skeleton for general applications and libraries.
 
 lib|standard|desc
 :---:|:---:|---
-[asio (non-Boost)](https://think-async.com/Asio/asio-1.30.2/doc/)|11/14/17/20|5.4k|网络编程库，从 Boost 中独立。
-[CLI11](https://github.com/CLIUtils/CLI11)|11|命令行参数解析
-[json](https://github.com/nlohmann/json)|11|JSON 编解码
-[toml11](https://github.com/ToruNiina/toml11)|11/14/17/20|TOML编解码
-[cli](https://github.com/daniele77/cli)|14|REPL 库，依赖 asio。
-[spdlog](https://github.com/gabime/spdlog)|11|日志库，其实使用的是一个变种版本[structlog](https://github.com/IvanKuzavkov/structlog)，支持 JSON 结构化日志。如果你不需要这个特性，使用原版也可以。
+[asio (non-Boost)](https://think-async.com/Asio/asio-1.30.2/doc/)|11/14/17/20|Boost 网络编程库独立版本
+[CLI11](https://github.com/CLIUtils/CLI11)|11|命令行参数解析，支持子命令，支持联动配置文件和环境变量。
+[json](https://github.com/nlohmann/json)|11|JSON 编解码库
+[toml11](https://github.com/ToruNiina/toml11)|11/14/17/20|TOML 编解码
+[cli](https://github.com/daniele77/cli)|14|REPL 库，支持标准输入、文件以及 Telnet 协议（依赖 asio）。
+[spdlog](https://github.com/gabime/spdlog)|11|日志库，其实使用的是一个变种版本[structlog](https://github.com/IvanKuzavkov/structlog)，支持 JSON 结构化日志。如果你不需要这个特性，使用原版即可。
 [cinatra](https://github.com/qicosmos/cinatra)|20|高性能、易用 HTTP 库，依赖了另一个 `header-only` 的 `async_simple` 库，不再赘述。
-[backward-cpp](https://github.com/bombela/backward-cpp)|11|调用栈追踪，库本身 header-only，但依赖底层的库，可以接受。
-[tabulate](https://github.com/p-ranav/tabulate)|11|Table maker 库
+[backward-cpp](https://github.com/bombela/backward-cpp)|11|调用栈追踪，库本身 `header-only`，但依赖底层的库，可以接受。
+[tabulate](https://github.com/p-ranav/tabulate)|11|Table maker 库，用于控制台美化输出表格。
 [sigslot](https://github.com/palacaze/sigslot)|14|精简发布订阅库，源于 UI 编程中的 signal/slot 机制。
 [sqlite_orm](https://github.com/fnc12/sqlite_orm)|14/17/20|TODO
 [cereal](https://github.com/USCiLab/cereal)|11|TODO

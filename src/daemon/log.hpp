@@ -4,6 +4,7 @@
 #include <memory>
 #include <mutex>
 
+namespace lynx {
 class LoggerConfig {
   public:
     static void Initialize();
@@ -25,3 +26,4 @@ class LoggerConfig {
 
     static std::mutex sink_mutex_;
 };
+}  // namespace lynx

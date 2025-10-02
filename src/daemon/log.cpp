@@ -8,6 +8,7 @@
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include "spdlog/spdlog.h"
 
+namespace lynx {
 std::mutex LoggerConfig::sink_mutex_;
 
 void LoggerConfig::Initialize() {
@@ -89,3 +90,4 @@ void LoggerConfig::RemoveAllStreamSink() {
 //         spdlog::error("Failed to add file sink {}: {}", filename, ex.what());
 //     }
 // }
+}  // namespace lynx

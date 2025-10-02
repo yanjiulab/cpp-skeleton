@@ -25,6 +25,7 @@ namespace cli {
 using CliTelnetServer = StandaloneAsioCliTelnetServer;
 }  // namespace cli
 
+namespace lynx {
 // a custom struct to be used as a user-defined parameter type
 struct Bar {
     string to_string() const { return std::to_string(value); }
@@ -32,18 +33,18 @@ struct Bar {
     int value;
 };
 
-class UserREPL {
+class Repl {
   public:
-    explicit UserREPL(IoContext& iocontext);
-    ~UserREPL() = default;
+    explicit Repl(IoContext& iocontext);
+    ~Repl() = default;
 
     // 禁止拷贝构造和赋值操作
-    UserREPL(const UserREPL&) = delete;
-    UserREPL& operator=(const UserREPL&) = delete;
+    Repl(const Repl&) = delete;
+    Repl& operator=(const Repl&) = delete;
 
     // 允许移动构造和赋值操作
-    UserREPL(UserREPL&&) = default;
-    UserREPL& operator=(UserREPL&&) = default;
+    Repl(Repl&&) = default;
+    Repl& operator=(Repl&&) = default;
 
     void StartLocalSession();
     void StartTelnetSession(int port = 5000);
@@ -61,3 +62,4 @@ class UserREPL {
     unique_ptr<CliTelnetServer> telnet_session;
     unique_ptr<CliFileSession> file_session;
 };
+}  // namespace lynx

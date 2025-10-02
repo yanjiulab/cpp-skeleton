@@ -13,12 +13,14 @@ using Row_t = Table::Row_t;
 using namespace cli;
 using namespace std;
 
+namespace lynx {
+
 istream& operator>>(istream& in, Bar& p) {
     in >> p.value;
     return in;
 }
 
-UserREPL::UserREPL(IoContext& iocontext) : scheduler(iocontext) {
+Repl::Repl(IoContext& iocontext) : scheduler(iocontext) {
     auto rootMenu = make_unique<Menu>("cli");
 
     rootMenu->Insert(
@@ -198,7 +200,7 @@ UserREPL::UserREPL(IoContext& iocontext) : scheduler(iocontext) {
         });
 }
 
-void UserREPL::StartLocalSession() {
+void Repl::StartLocalSession() {
     local_session = make_unique<CliLocalTerminalSession>(*cli, scheduler, std::cout, 200);
     local_session->ExitAction(
         [this](auto& out)  // session exit action
@@ -208,13 +210,14 @@ void UserREPL::StartLocalSession() {
         });
 }
 
-void UserREPL::StartTelnetSession(int port) {
+void Repl::StartTelnetSession(int port) {
     telnet_session = make_unique<CliTelnetServer>(*cli, scheduler, port);
     // exit action for all the connections
     telnet_session->ExitAction([](auto& out) { out << "Terminating this session...\n"; });
 }
 
-void UserREPL::StartFileSession(std::istream& in, std::ostream& out) {
+void Repl::StartFileSession(std::istream& in, std::ostream& out) {
     file_session = make_unique<CliFileSession>(*cli, in, out);
     file_session->Start();
 }
+}  // namespace lynx

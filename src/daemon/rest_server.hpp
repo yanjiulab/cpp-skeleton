@@ -6,6 +6,7 @@
 
 #include "cinatra.hpp"
 
+namespace lynx {
 class RestServer {
   public:
     RestServer(asio::io_context& io_ctx, unsigned short port, std::string address)
@@ -18,3 +19,4 @@ class RestServer {
   private:
     cinatra::coro_http_server server_;
 };
+}  // namespace lynx

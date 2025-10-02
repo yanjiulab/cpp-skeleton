@@ -15,6 +15,7 @@
 #include "asio/io_context.hpp"
 #include "asio/signal_set.hpp"
 
+namespace lynx {
 struct dconfig {
     std::string daemon_name = "user-daemon";
     std::string working_dir = "/";
@@ -138,12 +139,12 @@ class dlog {
     }
 };
 
-class UserDaemon {
+class Daemon {
   public:
-    UserDaemon(asio::io_context& io_context, const dconfig& cfg)
+    Daemon(asio::io_context& io_context, const dconfig& cfg)
         : io_context_(io_context), cfg_(cfg) {}
 
-    UserDaemon(asio::io_context& io_ctx)
+    Daemon(asio::io_context& io_ctx)
         : io_context_(io_ctx), cfg_(get_default_config()) {}
 
     // 执行守护进程化
@@ -213,3 +214,4 @@ class UserDaemon {
     asio::io_context& io_context_;
     const dconfig cfg_;
 };
+}  // namespace lynx

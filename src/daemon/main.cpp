@@ -5,6 +5,7 @@
 #include "log.hpp"
 #include "repl.hpp"
 #include "rest_server.hpp"
+#include "spdlog/spdlog.h"
 #include "toml.hpp"
 
 // sudo apt-get install libdw-dev
@@ -57,18 +58,44 @@ void print(const std::error_code& ec, asio::steady_timer* t, int* count) {
 
 int main(int argc, char** argv) {
     try {
-        // 初始化命令行参数
-        UserConfig cfg(argc, argv);
+        /* parse command line args */
+        auto& cfg = lynx::Config::Instance();
+        cfg.cli().add_flag_function(
+            "-v,--version", [](int count) {
+        if (count >= 1) {
+            printf("version: %d.%d.%d\n", MYPROJECT_VERSION_MAJOR,
+                                        MYPROJECT_VERSION_MINOR,
+                                        MYPROJECT_VERSION_PATCH);
+        }
+        if (count >= 2) {
+            const std::string v2 = fmt::format("{} {}", __DATE__, __TIME__);
+            std::cout << "Compile time: " << v2 << std::endl;
+        }
+        
+        if (count >= 3) {
+            const std::string v3;
+            std::cout << "Program MD5: " << v3 << std::endl;
+            printf("asio version: %d.%d.%d\n", ASIO_VERSION / 100000, ASIO_VERSION / 100 % 1000, 
+            ASIO_VERSION % 100);
+            printf("spdlog version: %d.%d.%d\n", SPDLOG_VER_MAJOR, SPDLOG_VER_MINOR, SPDLOG_VER_PATCH);
+            printf("CLI11 version: %s\n", CLI11_VERSION);
+            printf("json version: %d.%d.%d\n", NLOHMANN_JSON_VERSION_MAJOR, NLOHMANN_JSON_VERSION_MINOR, NLOHMANN_JSON_VERSION_PATCH);              
+        }
+        std::exit(0); }, "Display program version information and exit");
+        cfg.parse(argc, argv);
         // usage example
-        std::cout << "cli: " << cfg.cli["--pi"]->as<double>() << std::endl;
-        std::cout << "variable: " << cfg.data.pi << std::endl;
-        std::cout << "toml: " << toml::find<double>(cfg.root, "pi") << std::endl;
-        cfg.WriteConfig(false);
+        std::cout << "cli: " << cfg.cli()["--pi"]->as<double>() << std::endl;
+        std::cout << "variable: " << cfg.data().pi << std::endl;
+        std::cout << "toml: " << toml::find<double>(cfg.toml_root(), "pi") << std::endl;
+        std::cout << "toml: " << toml::find<bool>(cfg.toml_root(), "sub", "sub") << std::endl;
+        std::cout << "cli: " << cfg.data().sub.sub << std::endl;
 
-        // 初始化日志
-        LoggerConfig::Initialize();
-        if (!cfg.data.dae) {
-            LoggerConfig::AddConsoleSink();
+        cfg.SaveToFile(false);
+
+        // init log
+        lynx::LoggerConfig::Initialize();
+        if (!cfg.data().dae) {
+            lynx::LoggerConfig::AddConsoleSink();
         }
         spdlog::info("Welcome to spdlog!")({{"key1", 10}, {"k2", "val2"}});
         spdlog::error("Some error message with arg: {}", 1);
@@ -100,13 +127,13 @@ int main(int argc, char** argv) {
         });
 
         // Http REST API 服务器
-        RestServer rest(io_ctx, 8080, "0.0.0.0");
+        lynx::RestServer rest(io_ctx, 8080, "0.0.0.0");
         rest.SetupRoutes();
         rest.server().async_start();
 
         // REPL setup
-        UserREPL repl(io_ctx);
-        if (!cfg.data.dae) {
+        lynx::Repl repl(io_ctx);
+        if (!cfg.data().dae) {
             repl.StartLocalSession();
             repl.local_session->ExitAction(
                 [&](auto& out) {
@@ -140,8 +167,8 @@ int main(int argc, char** argv) {
         });
 
         // Prepare daemon
-        UserDaemon dae(io_ctx);
-        if (cfg.data.dae) {
+        lynx::Daemon dae(io_ctx);
+        if (cfg.data().dae) {
             dae.Daemonize();
             std::cout << "daemon start: " << getpid() << std::endl;
         }
