@@ -66,7 +66,10 @@ int main(int argc, char** argv) {
         cfg.WriteConfig(false);
 
         // 初始化日志
-        UserLogger log(cfg.data.dae);
+        LoggerConfig::Initialize();
+        if (!cfg.data.dae) {
+            LoggerConfig::AddConsoleSink();
+        }
         spdlog::info("Welcome to spdlog!")({{"key1", 10}, {"k2", "val2"}});
         spdlog::error("Some error message with arg: {}", 1);
         spdlog::warn("Easy padding in numbers like {:08d}", 12);

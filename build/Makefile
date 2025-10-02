@@ -325,6 +325,30 @@ src/cppdemo/spdlog_demo.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/spdlog_demo.cc.s
 .PHONY : src/cppdemo/spdlog_demo.cc.s
 
+src/daemon/log.o: src/daemon/log.cpp.o
+.PHONY : src/daemon/log.o
+
+# target to build an object file
+src/daemon/log.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/src/daemon/log.cpp.o
+.PHONY : src/daemon/log.cpp.o
+
+src/daemon/log.i: src/daemon/log.cpp.i
+.PHONY : src/daemon/log.i
+
+# target to preprocess a source file
+src/daemon/log.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/src/daemon/log.cpp.i
+.PHONY : src/daemon/log.cpp.i
+
+src/daemon/log.s: src/daemon/log.cpp.s
+.PHONY : src/daemon/log.s
+
+# target to generate assembly for a file
+src/daemon/log.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/src/daemon/log.cpp.s
+.PHONY : src/daemon/log.cpp.s
+
 src/daemon/main.o: src/daemon/main.cpp.o
 .PHONY : src/daemon/main.o
 
@@ -476,6 +500,9 @@ help:
 	@echo "... src/cppdemo/spdlog_demo.o"
 	@echo "... src/cppdemo/spdlog_demo.i"
 	@echo "... src/cppdemo/spdlog_demo.s"
+	@echo "... src/daemon/log.o"
+	@echo "... src/daemon/log.i"
+	@echo "... src/daemon/log.s"
 	@echo "... src/daemon/main.o"
 	@echo "... src/daemon/main.i"
 	@echo "... src/daemon/main.s"

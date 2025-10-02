@@ -1,13 +1,12 @@
 #include "repl.hpp"
 
-#include <spdlog/sinks/ostream_sink.h>
-#include <spdlog/spdlog.h>
-
 #include <algorithm>
 #include <iostream>
 #include <iterator>
 #include <stdexcept>
 #include <string>
+
+#include "log.hpp"
 
 using namespace tabulate;
 using Row_t = Table::Row_t;
@@ -29,19 +28,15 @@ UserREPL::UserREPL(IoContext& iocontext) : scheduler(iocontext) {
     rootMenu->Insert(
         "monitor",
         [](std::ostream& out) {
-            auto os = std::make_shared<spdlog::sinks::ostream_sink_mt>(Cli::cout());
-            os->set_pattern("[%D %H:%M:%S.%e] [%^%L%$] [%t] %@ %v");
-            spdlog::default_logger()->sinks().push_back(os);
+            LoggerConfig::AddStreamSink(out);
         },
         "enter monitor mode");
     rootMenu->Insert(
         "nomonitor",
         [](std::ostream& out) {
-            // auto os = std::make_shared<spdlog::sinks::ostream_sink_mt>(Cli::cout());
-            // os->set_pattern("[%D %H:%M:%S.%e] [%^%L%$] [%t] %@ %v");
-            spdlog::default_logger()->sinks().pop_back();
+            LoggerConfig::RemoveAllStreamSink();
         },
-        "enter monitor mode");
+        "exit monitor mode");
     rootMenu->Insert(
         "hello_everysession",
         [](std::ostream&) { Cli::cout() << "Hello, everybody" << std::endl; },
