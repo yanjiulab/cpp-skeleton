@@ -129,7 +129,7 @@ class Config {
             ->check(CLI::Range(1024, 65535));
 
         // config file
-        cli_.set_config("--config", "config.toml", "Read an toml file", false)
+        cli_.set_config("--config", "lynx.toml", "Read an toml file", false)
             ->transform(CLI::FileOnDefaultPath("./etc"))
             ->transform(CLI::FileOnDefaultPath("./", false));  // first match
         config_file_ = cli_.get_config_ptr()->as<std::string>();

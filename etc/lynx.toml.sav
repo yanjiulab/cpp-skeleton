@@ -1,0 +1,45 @@
+env = ""
+points = [
+    {z = 3, y = 2, x = 1},
+    {z = 9, y = 8, x = 7},
+    {z = 8, y = 4, x = 2},
+]
+dae = false
+nested_arrays_of_ints = [[1, 2], [3, 4, 5]]
+pi = 3.14
+colors = ["red", "yellow", "green"]
+port = 0
+integers = [1, 2, 3]
+
+[sub]
+sub = false
+
+[servers]
+[servers.beta]
+role = "backend"
+ip = "10.0.0.2"
+
+[servers.alpha]
+role = "frontend"
+ip = "10.0.0.1"
+
+[owner]
+dob = 1979-05-27T07:32:00-08:00
+name = "Tom Preston-Werner"
+
+[[products]]
+sku = 738594937
+name = "Hammer"
+
+# empty table within the array
+[[products]]
+[[products]]
+sku = 284758393
+name = "Nail"
+
+[database]
+temp_targets = {case = 72.0, cpu = 79.5}
+data = [["delta", "phi"], [3.14]]
+ports = [8000, 8001, 8002]
+enabled = true
+

@@ -28,6 +28,14 @@ Repl::Repl(IoContext& iocontext) : scheduler(iocontext) {
         [](std::ostream& out) { out << "Hello, world\n"; },
         "Print hello world");
     rootMenu->Insert(
+        "timeout",
+        [](std::ostream& out, int sec) { out << "Set timeout to: " << sec << std::endl; },
+        "Set timeout");
+    rootMenu->Insert(
+        "timeout",
+        [](std::ostream& out) { out << "timeout: " << 3 << std::endl; },
+        "Get timeout");
+    rootMenu->Insert(
         "monitor",
         [](std::ostream& out) {
             LoggerConfig::AddStreamSink(out);

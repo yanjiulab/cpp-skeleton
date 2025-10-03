@@ -1,0 +1,16 @@
+# Properties docs: https://www.freedesktop.org/software/systemd/man/systemd.service.html
+[Unit]
+Description=@PROJECT_DESCRIPTION@
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/@LYNX_NAME@ --config /etc/@LYNX_NAME@.toml
+ExecReload=/bin/kill -s SIGHUP $MAINPID
+ExecStop=/bin/kill -s SIGTERM $MAINPID
+User=root
+StandardError=syslog
+SyslogIdentifier=@LYNX_NAME@
+
+[Install]
+WantedBy=multi-user.target

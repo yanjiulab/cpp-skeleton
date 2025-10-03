@@ -85,6 +85,51 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 .PHONY : rebuild_cache/fast
 
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+.PHONY : list_install_components/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
+
 # The main all target
 all: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/liyanjiu/projects/cpp-skeleton/build/CMakeFiles /home/liyanjiu/projects/cpp-skeleton/build//CMakeFiles/progress.marks
@@ -156,17 +201,17 @@ app/fast:
 .PHONY : app/fast
 
 #=============================================================================
-# Target rules for targets named daemon
+# Target rules for targets named lynx
 
 # Build rule for target.
-daemon: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 daemon
-.PHONY : daemon
+lynx: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lynx
+.PHONY : lynx
 
 # fast build rule for target.
-daemon/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/build
-.PHONY : daemon/fast
+lynx/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lynx.dir/build.make CMakeFiles/lynx.dir/build
+.PHONY : lynx/fast
 
 #=============================================================================
 # Target rules for targets named monster
@@ -325,101 +370,101 @@ src/cppdemo/spdlog_demo.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/spdlog_demo.cc.s
 .PHONY : src/cppdemo/spdlog_demo.cc.s
 
-src/daemon/log.o: src/daemon/log.cpp.o
-.PHONY : src/daemon/log.o
+src/lynx/log.o: src/lynx/log.cpp.o
+.PHONY : src/lynx/log.o
 
 # target to build an object file
-src/daemon/log.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/src/daemon/log.cpp.o
-.PHONY : src/daemon/log.cpp.o
+src/lynx/log.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lynx.dir/build.make CMakeFiles/lynx.dir/src/lynx/log.cpp.o
+.PHONY : src/lynx/log.cpp.o
 
-src/daemon/log.i: src/daemon/log.cpp.i
-.PHONY : src/daemon/log.i
+src/lynx/log.i: src/lynx/log.cpp.i
+.PHONY : src/lynx/log.i
 
 # target to preprocess a source file
-src/daemon/log.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/src/daemon/log.cpp.i
-.PHONY : src/daemon/log.cpp.i
+src/lynx/log.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lynx.dir/build.make CMakeFiles/lynx.dir/src/lynx/log.cpp.i
+.PHONY : src/lynx/log.cpp.i
 
-src/daemon/log.s: src/daemon/log.cpp.s
-.PHONY : src/daemon/log.s
+src/lynx/log.s: src/lynx/log.cpp.s
+.PHONY : src/lynx/log.s
 
 # target to generate assembly for a file
-src/daemon/log.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/src/daemon/log.cpp.s
-.PHONY : src/daemon/log.cpp.s
+src/lynx/log.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lynx.dir/build.make CMakeFiles/lynx.dir/src/lynx/log.cpp.s
+.PHONY : src/lynx/log.cpp.s
 
-src/daemon/main.o: src/daemon/main.cpp.o
-.PHONY : src/daemon/main.o
+src/lynx/main.o: src/lynx/main.cpp.o
+.PHONY : src/lynx/main.o
 
 # target to build an object file
-src/daemon/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/src/daemon/main.cpp.o
-.PHONY : src/daemon/main.cpp.o
+src/lynx/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lynx.dir/build.make CMakeFiles/lynx.dir/src/lynx/main.cpp.o
+.PHONY : src/lynx/main.cpp.o
 
-src/daemon/main.i: src/daemon/main.cpp.i
-.PHONY : src/daemon/main.i
+src/lynx/main.i: src/lynx/main.cpp.i
+.PHONY : src/lynx/main.i
 
 # target to preprocess a source file
-src/daemon/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/src/daemon/main.cpp.i
-.PHONY : src/daemon/main.cpp.i
+src/lynx/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lynx.dir/build.make CMakeFiles/lynx.dir/src/lynx/main.cpp.i
+.PHONY : src/lynx/main.cpp.i
 
-src/daemon/main.s: src/daemon/main.cpp.s
-.PHONY : src/daemon/main.s
+src/lynx/main.s: src/lynx/main.cpp.s
+.PHONY : src/lynx/main.s
 
 # target to generate assembly for a file
-src/daemon/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/src/daemon/main.cpp.s
-.PHONY : src/daemon/main.cpp.s
+src/lynx/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lynx.dir/build.make CMakeFiles/lynx.dir/src/lynx/main.cpp.s
+.PHONY : src/lynx/main.cpp.s
 
-src/daemon/repl.o: src/daemon/repl.cpp.o
-.PHONY : src/daemon/repl.o
+src/lynx/repl.o: src/lynx/repl.cpp.o
+.PHONY : src/lynx/repl.o
 
 # target to build an object file
-src/daemon/repl.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/src/daemon/repl.cpp.o
-.PHONY : src/daemon/repl.cpp.o
+src/lynx/repl.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lynx.dir/build.make CMakeFiles/lynx.dir/src/lynx/repl.cpp.o
+.PHONY : src/lynx/repl.cpp.o
 
-src/daemon/repl.i: src/daemon/repl.cpp.i
-.PHONY : src/daemon/repl.i
+src/lynx/repl.i: src/lynx/repl.cpp.i
+.PHONY : src/lynx/repl.i
 
 # target to preprocess a source file
-src/daemon/repl.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/src/daemon/repl.cpp.i
-.PHONY : src/daemon/repl.cpp.i
+src/lynx/repl.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lynx.dir/build.make CMakeFiles/lynx.dir/src/lynx/repl.cpp.i
+.PHONY : src/lynx/repl.cpp.i
 
-src/daemon/repl.s: src/daemon/repl.cpp.s
-.PHONY : src/daemon/repl.s
+src/lynx/repl.s: src/lynx/repl.cpp.s
+.PHONY : src/lynx/repl.s
 
 # target to generate assembly for a file
-src/daemon/repl.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/src/daemon/repl.cpp.s
-.PHONY : src/daemon/repl.cpp.s
+src/lynx/repl.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lynx.dir/build.make CMakeFiles/lynx.dir/src/lynx/repl.cpp.s
+.PHONY : src/lynx/repl.cpp.s
 
-src/daemon/rest_server.o: src/daemon/rest_server.cpp.o
-.PHONY : src/daemon/rest_server.o
+src/lynx/rest_server.o: src/lynx/rest_server.cpp.o
+.PHONY : src/lynx/rest_server.o
 
 # target to build an object file
-src/daemon/rest_server.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/src/daemon/rest_server.cpp.o
-.PHONY : src/daemon/rest_server.cpp.o
+src/lynx/rest_server.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lynx.dir/build.make CMakeFiles/lynx.dir/src/lynx/rest_server.cpp.o
+.PHONY : src/lynx/rest_server.cpp.o
 
-src/daemon/rest_server.i: src/daemon/rest_server.cpp.i
-.PHONY : src/daemon/rest_server.i
+src/lynx/rest_server.i: src/lynx/rest_server.cpp.i
+.PHONY : src/lynx/rest_server.i
 
 # target to preprocess a source file
-src/daemon/rest_server.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/src/daemon/rest_server.cpp.i
-.PHONY : src/daemon/rest_server.cpp.i
+src/lynx/rest_server.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lynx.dir/build.make CMakeFiles/lynx.dir/src/lynx/rest_server.cpp.i
+.PHONY : src/lynx/rest_server.cpp.i
 
-src/daemon/rest_server.s: src/daemon/rest_server.cpp.s
-.PHONY : src/daemon/rest_server.s
+src/lynx/rest_server.s: src/lynx/rest_server.cpp.s
+.PHONY : src/lynx/rest_server.s
 
 # target to generate assembly for a file
-src/daemon/rest_server.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/daemon.dir/build.make CMakeFiles/daemon.dir/src/daemon/rest_server.cpp.s
-.PHONY : src/daemon/rest_server.cpp.s
+src/lynx/rest_server.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lynx.dir/build.make CMakeFiles/lynx.dir/src/lynx/rest_server.cpp.s
+.PHONY : src/lynx/rest_server.cpp.s
 
 src/monster/main.o: src/monster/main.cpp.o
 .PHONY : src/monster/main.o
@@ -476,10 +521,14 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
+	@echo "... install"
+	@echo "... install/local"
+	@echo "... install/strip"
+	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... app"
 	@echo "... cppdemo"
-	@echo "... daemon"
+	@echo "... lynx"
 	@echo "... monster"
 	@echo "... started"
 	@echo "... src/app/main.o"
@@ -500,18 +549,18 @@ help:
 	@echo "... src/cppdemo/spdlog_demo.o"
 	@echo "... src/cppdemo/spdlog_demo.i"
 	@echo "... src/cppdemo/spdlog_demo.s"
-	@echo "... src/daemon/log.o"
-	@echo "... src/daemon/log.i"
-	@echo "... src/daemon/log.s"
-	@echo "... src/daemon/main.o"
-	@echo "... src/daemon/main.i"
-	@echo "... src/daemon/main.s"
-	@echo "... src/daemon/repl.o"
-	@echo "... src/daemon/repl.i"
-	@echo "... src/daemon/repl.s"
-	@echo "... src/daemon/rest_server.o"
-	@echo "... src/daemon/rest_server.i"
-	@echo "... src/daemon/rest_server.s"
+	@echo "... src/lynx/log.o"
+	@echo "... src/lynx/log.i"
+	@echo "... src/lynx/log.s"
+	@echo "... src/lynx/main.o"
+	@echo "... src/lynx/main.i"
+	@echo "... src/lynx/main.s"
+	@echo "... src/lynx/repl.o"
+	@echo "... src/lynx/repl.i"
+	@echo "... src/lynx/repl.s"
+	@echo "... src/lynx/rest_server.o"
+	@echo "... src/lynx/rest_server.i"
+	@echo "... src/lynx/rest_server.s"
 	@echo "... src/monster/main.o"
 	@echo "... src/monster/main.i"
 	@echo "... src/monster/main.s"

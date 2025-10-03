@@ -17,7 +17,7 @@ cpp-skeleton is a project skeleton for general applications and libraries.
 项目采用许多好用的第三方库，其中一些已经成为了事实上的标准，被大量程序所使用。选取的过程也是不断寻找、对比、学习、思考、积累的过程。选取标准：
 
 - 具有较好的流行度。
-- 没有依赖的 `header-only` 库，或者依赖库也是 `header-only` 的。
+- `header-only` 库，没有依赖或依赖库也是 `header-only` 的。
 - 简洁设计、API 清晰易用，生态活跃。
 
 lib|standard|desc
@@ -27,7 +27,7 @@ lib|standard|desc
 [json](https://github.com/nlohmann/json)|11|JSON 编解码库
 [toml11](https://github.com/ToruNiina/toml11)|11/14/17/20|TOML 编解码
 [cli](https://github.com/daniele77/cli)|14|REPL 库，支持标准输入、文件以及 Telnet 协议（依赖 asio）。
-[spdlog](https://github.com/gabime/spdlog)|11|日志库，其实使用的是一个变种版本[structlog](https://github.com/IvanKuzavkov/structlog)，支持 JSON 结构化日志。如果你不需要这个特性，使用原版即可。
+[spdlog](https://github.com/gabime/spdlog)|11|日志库，其实使用的是一个 fork 版本[structlog](https://github.com/IvanKuzavkov/structlog)，支持 JSON 结构化日志。如果你不需要这个特性，使用原版即可。
 [cinatra](https://github.com/qicosmos/cinatra)|20|高性能、易用 HTTP 库，依赖了另一个 `header-only` 的 `async_simple` 库，不再赘述。
 [backward-cpp](https://github.com/bombela/backward-cpp)|11|调用栈追踪，库本身 `header-only`，但依赖底层的库，可以接受。
 [tabulate](https://github.com/p-ranav/tabulate)|11|Table maker 库，用于控制台美化输出表格。
@@ -184,6 +184,10 @@ aarch64|Linux 4.19.90-rt35-JARI-WORKS+
 x86_64|Linux 6.5.0-27-generic #28~22.04.1-Ubuntu
 
 ## 示例 Samples
+
+### lynx
+
+[lynx](doc/lynx.md) 是一个服务器守护进程。
 
 ### started
 
