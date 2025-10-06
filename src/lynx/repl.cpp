@@ -38,13 +38,13 @@ Repl::Repl(IoContext& iocontext) : scheduler(iocontext) {
     rootMenu->Insert(
         "monitor",
         [](std::ostream& out) {
-            LoggerConfig::AddStreamSink(out);
+            LoggerConfig::add_stream_sink(out);
         },
         "enter monitor mode");
     rootMenu->Insert(
         "nomonitor",
         [](std::ostream& out) {
-            LoggerConfig::RemoveAllStreamSink();
+            LoggerConfig::remove_all_stream_sink();
         },
         "exit monitor mode");
     rootMenu->Insert(
@@ -208,7 +208,7 @@ Repl::Repl(IoContext& iocontext) : scheduler(iocontext) {
         });
 }
 
-void Repl::StartLocalSession() {
+void Repl::start_local_terminal_session() {
     local_session = make_unique<CliLocalTerminalSession>(*cli, scheduler, std::cout, 200);
     local_session->ExitAction(
         [this](auto& out)  // session exit action
@@ -218,13 +218,13 @@ void Repl::StartLocalSession() {
         });
 }
 
-void Repl::StartTelnetSession(int port) {
+void Repl::start_telnet_session(int port) {
     telnet_session = make_unique<CliTelnetServer>(*cli, scheduler, port);
     // exit action for all the connections
     telnet_session->ExitAction([](auto& out) { out << "Terminating this session...\n"; });
 }
 
-void Repl::StartFileSession(std::istream& in, std::ostream& out) {
+void Repl::start_file_session(std::istream& in, std::ostream& out) {
     file_session = make_unique<CliFileSession>(*cli, in, out);
     file_session->Start();
 }

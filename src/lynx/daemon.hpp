@@ -3,6 +3,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <string.h>
+#include <sys/file.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <syslog.h>
@@ -17,9 +18,10 @@
 
 namespace lynx {
 struct dconfig {
-    std::string daemon_name = "user-daemon";
     std::string working_dir = "/";
-    std::string output_file = "/tmp/asio.daemon.log";
+    std::string daemon_name = "lynx";
+    std::string output_file = "/tmp/" + daemon_name + ".log";
+    // std::string pid_flie = "/tmp/" + daemon_name + ".pid";
     mode_t file_mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
     int file_flags = O_WRONLY | O_CREAT | O_APPEND;
 };
@@ -148,7 +150,7 @@ class Daemon {
         : io_context_(io_ctx), cfg_(get_default_config()) {}
 
     // 执行守护进程化
-    void Daemonize() {
+    void daemonize() {
         try {
             io_context_.notify_fork(asio::io_context::fork_prepare);
 
@@ -197,6 +199,7 @@ class Daemon {
 
             dlog::init(cfg_.daemon_name);
             syslog(LOG_INFO, "%s started", cfg_.daemon_name.c_str());
+
         } catch (const std::exception& e) {
             syslog(LOG_ERR, "Failed to daemonize: %s", e.what());
             std::cerr << "Failed to daemonize: " << e.what() << std::endl;
@@ -207,7 +210,6 @@ class Daemon {
   private:
     static dconfig get_default_config() {
         dconfig default_cfg;
-        // default_cfg.lock_file = "/var/run/" + default_cfg.daemon_name + ".pid";
         return default_cfg;
     }
 

@@ -9,14 +9,13 @@
 #include "config.h"
 #include "toml.hpp"
 
-
 namespace lynx {
 struct ConfigData {
     // cli data
     bool dae{false};
     int port{0};
     std::string env;
-    double pi{3.14};
+    double pi{3.1415};
     struct Sub {
         bool sub{false};
     } sub;
@@ -45,47 +44,59 @@ class Config {
     Config(const Config&) = delete;
     Config& operator=(const Config&) = delete;
 
-    static Config& Instance() {
+    static Config& instance() {
         static Config instance;
         return instance;
     }
 
     const ConfigData& data() const { return data_; }
     ConfigData& data() { return data_; }
+    CLI::App& cli() { return cli_; }
+    toml::value& toml_root() { return toml_root_; }
+    const std::string& config_file() const { return config_file_; }
 
-    std::string config_file() const { return config_file_; }
-
-    int SaveToFile(bool overrided = false) const {
-        std::string file_name = overrided ? config_file_ : config_file_ + ".sav";
-
-        std::ofstream out_file(file_name);
-        if (!out_file.is_open()) {
+    bool write_config() const {
+        if (!file_exists(config_file_)) {
             std::cerr << "Failed to open file: " << config_file_ << std::endl;
-            return -1;
+            return false;
         }
 
-        out_file << toml::format(toml_root_);
-        out_file.close();
-        std::cout << "Successfully saved config to: " << file_name << std::endl;
-        return 0;
+        return write_to_file(config_file_);
+    }
+
+    bool safe_write_config() const {
+        if (file_exists(config_file_)) {
+            std::cerr << "File exists: " << config_file_ << std::endl;
+            return false;
+        }
+        return write_to_file(config_file_);
+    }
+
+    bool write_config_as(const std::string& filename) const {
+        return write_to_file(filename);
+    }
+
+    bool safe_write_config_as(const std::string& filename) const {
+        if (file_exists(filename)) {
+            std::cerr << "File exists: " << filename << std::endl;
+            return false;
+        }
+        return write_to_file(filename);
     }
 
     void parse(int argc, char** argv) {
         try {
             // parse command line and config file related to cli
             cli_.parse(argc, argv);
-            std::cout << "Loaded configuration from: " << config_file_ << std::endl;
-
+            config_file_ = cli_.get_config_ptr()->as<std::string>();
+            std::cout << "Loaded configuration from: " << cli_.get_config_ptr()->as<std::string>() << std::endl;
             toml_root_ = toml::parse(config_file_);
 
-            OverrideToml();
-
-            PrintConfigSummary();
+            override_toml();
         } catch (const CLI::ParseError& e) {
-            std::cerr << "CLI parse error: " << e.what() << std::endl;
             std::exit(cli_.exit(e));
         } catch (const toml::exception& e) {
-            std::cerr << "Toml parse error: " << e.what() << std::endl;
+            std::cerr << e.what() << std::endl;
             std::exit(1);
         } catch (const std::exception& e) {
             std::cerr << "Parse error: " << e.what() << std::endl;
@@ -93,29 +104,19 @@ class Config {
         }
     }
 
-    void PrintConfigSummary() const {
-        std::cout << "======================================" << std::endl;
-        std::cout << "Configuration Summary" << std::endl;
-        std::cout << "--------------------------------------" << std::endl;
-        // std::cout << cli.config_to_str(true, true) << std::endl;
-        std::cout << cli_.config_to_str(true, false) << std::endl;
-        std::cout << "--------------------------------------" << std::endl;
-        std::cout << toml::format(toml_root_) << std::endl;
-        std::cout << "--------------------------------------" << std::endl;
-        PrintData();
-        std::cout << "======================================" << std::endl;
-    }
+    std::string cli_to_string(bool default_also = false, bool write_description = false) { return cli_.config_to_str(default_also, write_description); }
 
-    void PrintData() const {
-        std::cout << "data_.dae    : " << data_.dae << std::endl;
-        std::cout << "data_.port   : " << data_.port << std::endl;
-        std::cout << "data_.env    : " << data_.env << std::endl;
-        std::cout << "data_.pi     : " << data_.pi << std::endl;
-        std::cout << "data_.sub.sub: " << data_.sub.sub << std::endl;
-    }
+    std::string toml_to_string() { return toml::format(toml_root_); }
 
-    CLI::App& cli() { return cli_; }
-    toml::value& toml_root() { return toml_root_; }
+    std::string data_to_string() {
+        std::stringstream ss;
+        ss << "data_.dae    : " << data_.dae << std::endl;
+        ss << "data_.port   : " << data_.port << std::endl;
+        ss << "data_.env    : " << data_.env << std::endl;
+        ss << "data_.pi     : " << data_.pi << std::endl;
+        ss << "data_.sub.sub: " << data_.sub.sub << std::endl;
+        return ss.str();
+    }
 
   private:
     explicit Config() : cli_("Lynx Network Daemon") {
@@ -129,10 +130,10 @@ class Config {
             ->check(CLI::Range(1024, 65535));
 
         // config file
-        cli_.set_config("--config", "lynx.toml", "Read an toml file", false)
-            ->transform(CLI::FileOnDefaultPath("./etc"))
+        cli_.set_config("--config", "lynx.toml", "Read an toml file", true)
+            ->transform(CLI::FileOnDefaultPath("/etc"))
+            ->transform(CLI::FileOnDefaultPath("./etc", false))
             ->transform(CLI::FileOnDefaultPath("./", false));  // first match
-        config_file_ = cli_.get_config_ptr()->as<std::string>();
 
         // environment
         cli_.add_option("--env", data_.env)->envname("MY_ENV");
@@ -143,7 +144,8 @@ class Config {
         sub->add_flag("-s,--sub", data_.sub.sub, "dae in sub");
     }
 
-    void OverrideToml() {
+    void override_toml() {
+        // toml_root_["pi"].as_floating_fmt().prec = 16;
         toml_root_["pi"] = data_.pi;
         toml_root_["port"] = data_.port;
         toml_root_["env"] = data_.env;
@@ -151,7 +153,23 @@ class Config {
         toml_root_["sub"]["sub"] = data_.sub.sub;
     }
 
-    // 打印配置摘要
+    bool file_exists(const std::string& filename) const {
+        std::ifstream file(filename);
+        return file.good();
+    }
+
+    bool write_to_file(const std::string& filename) const {
+        std::ofstream out_file(filename);
+        if (!out_file.is_open()) {
+            std::cerr << "Failed to open file: " << filename << std::endl;
+            return false;
+        }
+
+        out_file << toml::format(toml_root_);
+        out_file.close();
+        std::cout << "Successfully saved config to: " << filename << std::endl;
+        return true;
+    }
 
     // 配置数据存储
     ConfigData data_;

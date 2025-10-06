@@ -10,11 +10,11 @@
 
 // sudo apt-get install libdw-dev
 // target_link_libraries(your_target dw)
-// #define BACKWARD_HAS_DW 1
-// #include "backward.hpp"
-// namespace backward {
-// backward::SignalHandling sh;
-// }
+#define BACKWARD_HAS_DW 1
+#include "backward.hpp"
+namespace backward {
+backward::SignalHandling sh;
+}
 
 void handle_signal(const std::error_code& ec, int signal_number,
                    asio::signal_set& signals) {
@@ -58,8 +58,8 @@ void print(const std::error_code& ec, asio::steady_timer* t, int* count) {
 
 int main(int argc, char** argv) {
     try {
-        /* parse command line args */
-        auto& cfg = lynx::Config::Instance();
+        // parse command line args
+        auto& cfg = lynx::Config::instance();
         cfg.cli().add_flag_function(
             "-v,--version", [](int count) {
         if (count >= 1) {
@@ -71,7 +71,6 @@ int main(int argc, char** argv) {
             const std::string v2 = fmt::format("{} {}", __DATE__, __TIME__);
             std::cout << "Compile time: " << v2 << std::endl;
         }
-        
         if (count >= 3) {
             const std::string v3;
             std::cout << "Program MD5: " << v3 << std::endl;
@@ -83,19 +82,27 @@ int main(int argc, char** argv) {
         }
         std::exit(0); }, "Display program version information and exit");
         cfg.parse(argc, argv);
-        // usage example
-        std::cout << "cli: " << cfg.cli()["--pi"]->as<double>() << std::endl;
-        std::cout << "variable: " << cfg.data().pi << std::endl;
-        std::cout << "toml: " << toml::find<double>(cfg.toml_root(), "pi") << std::endl;
-        std::cout << "toml: " << toml::find<bool>(cfg.toml_root(), "sub", "sub") << std::endl;
-        std::cout << "cli: " << cfg.data().sub.sub << std::endl;
 
-        cfg.SaveToFile(false);
+        std::cout << "======================================" << std::endl;
+        std::cout << "Configuration Summary" << std::endl;
+        std::cout << "--------------------------------------" << std::endl;
+        std::cout << cfg.cli_to_string() << std::endl;
+        std::cout << "--------------------------------------" << std::endl;
+        std::cout << cfg.toml_to_string() << std::endl;
+        std::cout << "--------------------------------------" << std::endl;
+        std::cout << cfg.data_to_string() << std::endl;
+        std::cout << "======================================" << std::endl;
+
+        std::cout << "Get config via cli: " << cfg.cli()["--pi"]->as<double>() << std::endl;
+        std::cout << "Get config via data: " << cfg.data().pi << std::endl;
+        std::cout << "Get config via toml_root: " << toml::find<double>(cfg.toml_root(), "pi") << std::endl;
+        cfg.write_config_as(cfg.config_file() + ".sav");
+        std::cout << "save : " << cfg.config_file() + ".sav" << std::endl;
 
         // init log
-        lynx::LoggerConfig::Initialize();
+        lynx::LoggerConfig::init();
         if (!cfg.data().dae) {
-            lynx::LoggerConfig::AddConsoleSink();
+            lynx::LoggerConfig::add_console_sink();
         }
         spdlog::info("Welcome to spdlog!")({{"key1", 10}, {"k2", "val2"}});
         spdlog::error("Some error message with arg: {}", 1);
@@ -128,26 +135,26 @@ int main(int argc, char** argv) {
 
         // Http REST API 服务器
         lynx::RestServer rest(io_ctx, 8080, "0.0.0.0");
-        rest.SetupRoutes();
+        rest.setup_routes();
         rest.server().async_start();
 
         // REPL setup
         lynx::Repl repl(io_ctx);
         if (!cfg.data().dae) {
-            repl.StartLocalSession();
+            repl.start_local_terminal_session();
             repl.local_session->ExitAction(
                 [&](auto& out) {
                     out << "Closing App by Cli...\n";
                     rest.server().stop();
-                    repl.Stop();
+                    repl.stop();
                 });
         }
-        repl.StartTelnetSession(8888);
+        repl.start_telnet_session(8888);
         std::ifstream infile("etc/repl.in");
         if (infile.is_open()) {
             std::ofstream outfile("etc/repl.out");
             if (outfile.is_open()) {
-                repl.StartFileSession(infile, outfile);
+                repl.start_file_session(infile, outfile);
             }
         }
 
@@ -155,9 +162,9 @@ int main(int argc, char** argv) {
         asio::signal_set exit_signals(io_ctx, SIGINT, SIGTERM);
         exit_signals.async_wait([&](std::error_code ec, int signo) {
             // std::thread([&] { rest.server().stop(); }).detach();
-            std::cout << "Closing App by signal...\n";
+            std::cout << "Closing App due to signal" << signo << "...\n";
             rest.server().stop();
-            repl.Stop();
+            repl.stop();
         });
 
         // Register other signal handler.
@@ -169,7 +176,7 @@ int main(int argc, char** argv) {
         // Prepare daemon
         lynx::Daemon dae(io_ctx);
         if (cfg.data().dae) {
-            dae.Daemonize();
+            dae.daemonize();
             std::cout << "daemon start: " << getpid() << std::endl;
         }
 

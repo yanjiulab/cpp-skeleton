@@ -5,7 +5,6 @@
 #include "cli/clilocalsession.h"
 #include "cli/standaloneasioremotecli.h"
 #include "cli/standaloneasioscheduler.h"
-
 #include "tabulate/table.hpp"
 
 using namespace tabulate;
@@ -46,10 +45,10 @@ class Repl {
     Repl(Repl&&) = default;
     Repl& operator=(Repl&&) = default;
 
-    void StartLocalSession();
-    void StartTelnetSession(int port = 5000);
-    void StartFileSession(std::istream& in = std::cin, std::ostream& out = std::cout);
-    void Stop() { scheduler.Stop(); }
+    void start_local_terminal_session();
+    void start_telnet_session(int port = 5000);
+    void start_file_session(std::istream& in = std::cin, std::ostream& out = std::cout);
+    void stop() { scheduler.Stop(); }
 
   private:
     StandaloneAsioScheduler scheduler;

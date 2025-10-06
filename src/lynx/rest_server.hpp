@@ -12,7 +12,7 @@ class RestServer {
     RestServer(asio::io_context& io_ctx, unsigned short port, std::string address)
         : server_(io_ctx, port, address) {}
 
-    void SetupRoutes();
+    void setup_routes();
 
     cinatra::coro_http_server& server() { return server_; }
 

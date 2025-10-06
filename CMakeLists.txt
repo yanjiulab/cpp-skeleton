@@ -192,14 +192,14 @@ target_link_libraries(${LYNX_NAME} dw)
 # target_compile_options(${LYNX_NAME} PRIVATE -g)
 # target_link_options(${LYNX_NAME} PRIVATE -lbfd)
 # target_link_options(${LYNX_NAME} PRIVATE -static-libstdc++)
-install(TARGETS ${LYNX_NAME} DESTINATION /usr/bin/)
-# Configure .service file
-configure_file(${CMAKE_SOURCE_DIR}/tools/systemd/lynx.service.in ${CMAKE_SOURCE_DIR}/${LYNX_NAME}.service)
 
-# Install the config file .conf
-install(FILES ${CMAKE_SOURCE_DIR}/etc/${LYNX_NAME}.toml DESTINATION /etc/)
-# Install the systemd file .service
-install(FILES ${CMAKE_SOURCE_DIR}/${LYNX_NAME}.service DESTINATION /etc/systemd/system/)
+# install(TARGETS ${LYNX_NAME} DESTINATION /usr/bin/)
+# # Configure .service file
+# configure_file(${CMAKE_SOURCE_DIR}/tools/systemd/lynx.service.in ${CMAKE_SOURCE_DIR}/${LYNX_NAME}.service)
+# # Install the config file .conf
+# install(FILES ${CMAKE_SOURCE_DIR}/etc/${LYNX_NAME}.toml DESTINATION /etc/)
+# # Install the systemd file .service
+# install(FILES ${CMAKE_SOURCE_DIR}/${LYNX_NAME}.service DESTINATION /etc/systemd/system/)
 
 
 #######################################

@@ -1,7 +1,7 @@
 #include "rest_server.hpp"
 
 namespace lynx {
-void RestServer::SetupRoutes() {
+void RestServer::setup_routes() {
     // REST API 示例1：数字参数
     server_.set_http_handler<cinatra::GET, cinatra::POST>(
         R"(/numbers/(\d+)/test/(\d+))",

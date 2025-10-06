@@ -11,7 +11,7 @@
 namespace lynx {
 std::mutex LoggerConfig::sink_mutex_;
 
-void LoggerConfig::Initialize() {
+void LoggerConfig::init() {
     std::lock_guard<std::mutex> lock(sink_mutex_);
 
     try {
@@ -42,7 +42,7 @@ void LoggerConfig::Initialize() {
     }
 }
 
-void LoggerConfig::AddConsoleSink() {
+void LoggerConfig::add_console_sink() {
     std::lock_guard<std::mutex> lock(sink_mutex_);
     try {
         auto console_sink_ = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
@@ -54,7 +54,7 @@ void LoggerConfig::AddConsoleSink() {
     }
 }
 
-void LoggerConfig::AddStreamSink(std::ostream& os) {
+void LoggerConfig::add_stream_sink(std::ostream& os) {
     std::lock_guard<std::mutex> lock(sink_mutex_);
     try {
         auto os_sink_ = std::make_shared<spdlog::sinks::ostream_sink_mt>(os);
@@ -65,7 +65,7 @@ void LoggerConfig::AddStreamSink(std::ostream& os) {
     }
 }
 
-void LoggerConfig::RemoveAllStreamSink() {
+void LoggerConfig::remove_all_stream_sink() {
     // spdlog::default_logger()->sinks().pop_back();
     auto sinks = spdlog::default_logger()->sinks();
     sinks.erase(

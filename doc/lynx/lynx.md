@@ -97,7 +97,7 @@ asio::io_context io_ctx;
 lynx::Repl repl(io_ctx);
 // 3. 开启需要的 repl 会话
 // 开启终端会话
-repl.StartLocalSession();
+repl.start_local_terminal_session();
 repl.local_session->ExitAction(
     [&](auto& out) {
         out << "Closing App by Cli...\n";
@@ -105,11 +105,11 @@ repl.local_session->ExitAction(
         repl.Stop();
     });
 // 开启 telnet 会话
-repl.StartTelnetSession(8888);
+repl.start_telnet_session(8888);
 // 开启文件会话
 std::ifstream infile("etc/repl.in");
 std::ofstream outfile("etc/repl.out");
-repl.StartFileSession(infile, outfile);
+repl.start_file_session(infile, outfile);
 ```
 
 三种不同的会话方式用途不同：
