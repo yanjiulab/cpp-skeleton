@@ -40,9 +40,12 @@ lib|standard|desc
 [sqlite_orm](https://github.com/fnc12/sqlite_orm)|14/17/20|【TODO】SQLite ORM light header only library for modern C++
 [cereal](https://github.com/USCiLab/cereal)|11|【TODO】
 [frozen](https://github.com/serge-sans-paille/frozen)|14|【TODO】a header-only, constexpr alternative to gperf for C++14 users
+config-cpp| 14| C++ configuration management library inspired by the Viper package for golang.
 catch2|【TODO】|【TODO】
 redis|【TODO】|【TODO】
 flatbuffers|【TODO】|【TODO】
+threadpool| TOBECHOSEN | 
+concurrentqueue | TODO
 
 **If you have recommendations for useful libraries, feel free to open an issue!**
 

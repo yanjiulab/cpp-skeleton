@@ -1,0 +1,39 @@
+
+
+[base]
+mc_mode          = "dm"
+phy_mode         = "kuan"
+dl_type          = "dpdk"
+os_arch          = "linux"
+wan_name         = "ens34"
+lan_name         = "ens36"
+log              = "app.log"
+loglevel         = 2
+dft_mc_speed     = 0x41
+sat_id           = 0x01
+sat_port         = 0x03
+dl_addr          = 0x1389
+speed            = 2
+beam             = 2
+
+
+[sm]
+rptype           = 0
+srp              = "97.5.3.1"
+cbsr             = "ens36"
+crp              = "ens36"
+rpg              = "225.0.0.1/32"
+
+
+[device]
+dev_mode         = 1
+dev_id           = 1
+dev_channel      = 1
+
+
+[timer]
+ulr              = 3
+mlm_update       = 5
+mlm_timeout      = 210
+
+

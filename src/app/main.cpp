@@ -13,10 +13,13 @@
 // }
 #include <iostream>
 #include "spdlog/spdlog.h"
+#include "config.h"
 
 int main() {
+    spdlog::info("{}", app_VERSION_FULLSTR);
     // 1. 直接使用默认logger记录日志，这将使用默认的sink（控制台彩色输出）
     spdlog::info("这是一条通过默认logger输出的信息");
+
 
     // 2. 获取默认logger并查看其sinks
     auto default_logger = spdlog::default_logger();

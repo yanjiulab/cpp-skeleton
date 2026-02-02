@@ -1,0 +1,40 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#define sgmrp_VERSION_MAJOR @sgmrp_VERSION_MAJOR@
+#define sgmrp_VERSION_MINOR @sgmrp_VERSION_MINOR@
+#define sgmrp_VERSION_PATCH @sgmrp_VERSION_PATCH@
+#define sgmrp_VERSION_FULLSTR "@sgmrp_VERSION_PATCH@.@sgmrp_VERSION_MINOR@.@sgmrp_VERSION_PATCH@"
+
+
+// // Define to 1 if you have a definition for fdatasync() in <unistd.h>.
+// #if !defined(HAVE_FDATASYNC)
+// #cmakedefine01 HAVE_FDATASYNC
+// #endif  // !defined(HAVE_FDATASYNC)
+
+// // Define to 1 if you have a definition for F_FULLFSYNC in <fcntl.h>.
+// #if !defined(HAVE_FULLFSYNC)
+// #cmakedefine01 HAVE_FULLFSYNC
+// #endif  // !defined(HAVE_FULLFSYNC)
+
+// // Define to 1 if you have a definition for O_CLOEXEC in <fcntl.h>.
+// #if !defined(HAVE_O_CLOEXEC)
+// #cmakedefine01 HAVE_O_CLOEXEC
+// #endif  // !defined(HAVE_O_CLOEXEC)
+
+// // Define to 1 if you have Google CRC32C.
+// #if !defined(HAVE_LIBEVENT)
+// #cmakedefine01 HAVE_LIBEVENT
+// #endif  // !defined(HAVE_LIBEVENT)
+
+// // Define to 1 if you have Google Snsgmrpy.
+// #if !defined(HAVE_SNsgmrpY)
+// #cmakedefine01 HAVE_SNsgmrpY
+// #endif  // !defined(HAVE_SNsgmrpY)
+
+// // Define to 1 if you have Zstd.
+// #if !defined(HAVE_Zstd)
+// #cmakedefine01 HAVE_ZSTD
+// #endif  // !defined(HAVE_ZSTD)
+
+#endif

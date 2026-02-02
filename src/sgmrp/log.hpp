@@ -4,7 +4,7 @@
 #include <memory>
 #include <mutex>
 
-namespace lynx {
+namespace sgmrp {
 class LoggerConfig {
   public:
     static void init();
@@ -25,4 +25,4 @@ class LoggerConfig {
 
     static std::mutex sink_mutex_;
 };
-}  // namespace lynx
+}  // namespace sgmrp

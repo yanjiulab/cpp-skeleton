@@ -30,5 +30,5 @@ set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE NEVER)
 set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE NEVER)
 
 # setting options
-add_compile_options(-Wno-psabi)
-add_link_options(-pthread)
+# add_compile_options(-Wno-psabi)
+# add_link_options(-pthread)

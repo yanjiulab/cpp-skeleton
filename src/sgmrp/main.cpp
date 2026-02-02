@@ -2,12 +2,12 @@
 #include "asio.hpp"
 #include "config.hpp"
 #include "daemon.hpp"
-#include "echo_server.hpp"
 #include "log.hpp"
 #include "repl.hpp"
-#include "rest_server.hpp"
+// #include "rest_server.hpp"
 #include "spdlog/spdlog.h"
 #include "toml.hpp"
+// #include "echo_server.hpp"
 
 // sudo apt-get install libdw-dev
 // target_link_libraries(your_target dw)
@@ -60,13 +60,13 @@ void print(const std::error_code& ec, asio::steady_timer* t, int* count) {
 int main(int argc, char** argv) {
     try {
         // parse command line args
-        auto& cfg = lynx::Config::instance();
+        auto& cfg = sgmrp::Config::instance();
         cfg.cli().add_flag_function(
             "-v,--version", [](int count) {
         if (count >= 1) {
-            printf("version: %d.%d.%d\n", lynx_VERSION_MAJOR,
-                                        lynx_VERSION_MINOR,
-                                        lynx_VERSION_PATCH);
+            printf("version: %d.%d.%d\n", sgmrp_VERSION_MAJOR,
+                                        sgmrp_VERSION_MINOR,
+                                        sgmrp_VERSION_PATCH);
         }
         if (count >= 2) {
             const std::string v2 = fmt::format("{} {}", __DATE__, __TIME__);
@@ -101,9 +101,9 @@ int main(int argc, char** argv) {
         std::cout << "save : " << cfg.config_file() + ".sav" << std::endl;
 
         // init log
-        lynx::LoggerConfig::init();
+        sgmrp::LoggerConfig::init();
         if (!cfg.data().dae) {
-            lynx::LoggerConfig::add_console_sink();
+            sgmrp::LoggerConfig::add_console_sink();
         }
         spdlog::info("Welcome to spdlog!")({{"key1", 10}, {"k2", "val2"}});
         spdlog::error("Some error message with arg: {}", 1);
@@ -134,19 +134,13 @@ int main(int argc, char** argv) {
             t.async_wait(std::bind(print, asio::placeholders::error, &t, &count));
         });
 
-        // HTTP REST API 服务器
-        lynx::RestServer rest(io_ctx, 8080, "0.0.0.0");
-        rest.setup_routes();
-        rest.server().async_start();
-
         // REPL setup
-        lynx::Repl repl(io_ctx);
+        sgmrp::Repl repl(io_ctx);
         if (!cfg.data().dae) {
             repl.start_local_terminal_session();
             repl.local_session->ExitAction(
                 [&](auto& out) {
                     out << "Closing App by Cli...\n";
-                    rest.server().stop();
                     repl.stop();
                 });
         }
@@ -159,15 +153,11 @@ int main(int argc, char** argv) {
             }
         }
 
-        // COROutine echo server setup
-        lynx::EchoServer echo(io_ctx, 55555, "0.0.0.0");
-
         // Register signal handler so that the daemon may be shut down.
         asio::signal_set exit_signals(io_ctx, SIGINT, SIGTERM);
         exit_signals.async_wait([&](std::error_code ec, int signo) {
             // std::thread([&] { rest.server().stop(); }).detach();
             std::cout << "Closing App due to signal" << signo << "...\n";
-            rest.server().stop();
             repl.stop();
         });
 
@@ -178,7 +168,7 @@ int main(int argc, char** argv) {
         });
 
         // Prepare daemon
-        lynx::Daemon dae(io_ctx);
+        sgmrp::Daemon dae(io_ctx);
         if (cfg.data().dae) {
             dae.daemonize();
             std::cout << "daemon start: " << getpid() << std::endl;
