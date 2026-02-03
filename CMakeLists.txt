@@ -28,10 +28,8 @@ link_directories(${LIBDIRS})
 # message("CMAKE_INSTALL_LIBDIR:     ${CMAKE_INSTALL_LIBDIR}")
 # message("CMAKE_INSTALL_BINDIR:     ${CMAKE_INSTALL_BINDIR}")
 
-# add_subdirectory(${CMAKE_SOURCE_DIR}/src/app)
-# add_subdirectory(${CMAKE_SOURCE_DIR}/src/lynx)
-# add_subdirectory(${CMAKE_SOURCE_DIR}/src/sgmrp)
-add_subdirectory(${CMAKE_SOURCE_DIR}/src/t)
+# Add the src tree which organizes modules by C++ standard groups
+add_subdirectory(${CMAKE_SOURCE_DIR}/src)
 
 # set options
 # option(BUILD_LIB "build library" OFF)

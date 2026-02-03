@@ -151,3 +151,53 @@ TODO
 - rpc server/client
 
 TODO
+
+## Project Summary
+
+- **Purpose:** A lightweight, header-only friendly C++ project skeleton for building networked services and libraries using modern C++ (C++20 coroutines where applicable).
+- **Key strengths:** header-only 3rd-party libraries bundled in `3rd/`, CMake-based builds, cross-compilation toolchains, and example server `lynx` demonstrating common server features.
+
+## Architecture Overview
+
+- **Modular src layout:** `src/` is organized by modules (app, daemon, lynx, etc.) where each module can build into an executable or a library.
+- **Header-only dependencies:** `3rd/include/` collects portable, header-only libraries to simplify builds and cross-compilation.
+- **Build system:** CMake configs with toolchain files in `cmake/toolchain/` provide native and cross-compile targets.
+- **Runtime components (example - `lynx`):** configuration (CLI/TOML/env), asio-based async I/O, HTTP (cinatra), REPL (cli), logging (spdlog fork), serialization (json/flatbuffers), persistence (sqlite ORM placeholder).
+
+## Optimization Opportunities
+
+- **Dependency management:** Consider extracting frequently-updated 3rd-party headers into a submodule or package manager wrapper (Conan/vcpkg) to simplify updates and reduce repo size.
+- **CMake modernization:** Adopt target-based properties (`target_include_directories`, `target_compile_features`) and interface libraries for clearer dependency graphs and minimal rebuilds.
+- **Build caching & CI:** Enable ccache and add CI pipelines (GitHub Actions/GitLab CI) to run cross-platform builds, unit tests, and static analysis on push/PR.
+- **Modularization & ABI stability:** Use a clearer public API in `include/` and maintain semantic versioning to allow binary-compatible library releases.
+- **Asynchronous primitives:** Centralize asio coroutine integration utilities (wrappers/adapters) to avoid duplicated glue code and ease migration to executors or newer async models.
+- **Observability:** Add structured logging (JSON), metrics (Prometheus exposition), and health checks to improve production monitoring and debugging.
+
+## Areas for Improvement
+
+- **Testing coverage:** Add unit and integration tests (Catch2 is present in `3rd`), include tests for network components, and add regression tests for cross-compiled targets.
+- **Documentation:** Expand `doc/` with architecture diagrams, contribution guide, API docs (Doxygen or MkDocs), and examples for common deployment scenarios.
+- **Security hardening:** Add secure defaults (TLS for HTTP/RPC), input validation, and static analysis/security scans (cppcheck, clang-tidy, AddressSanitizer/UBSan in CI).
+- **Packaging & releases:** Provide release artifacts (tarballs/deb/rpm) and a reproducible release process; consider container images for easier deployment.
+- **Configuration system:** Consolidate configuration handling (CLI/TOML/env) into a single, well-documented config API to avoid divergence between modules.
+
+## Future Development Roadmap
+
+- Short term (0-3 months):
+  - Add CI with build matrix and static analysis.
+  - Integrate unit testing and measure coverage.
+  - Modernize CMake targets and enable ccache.
+- Medium term (3-9 months):
+  - Modularize `lynx` into reusable libraries (network, http, config, repl).
+  - Add observability (metrics, structured logs) and secure defaults (TLS examples).
+  - Publish example release artifacts and container images.
+- Long term (9+ months):
+  - Provide a package manager integration (Conan/vcpkg) or submodule strategy for `3rd` libs.
+  - Add plugin/extension system to load handlers without recompiling the core.
+  - Explore Windows CI and cross-platform developer experience improvements.
+
+## How to Contribute / Next Steps
+
+- Open issues for library updates or new 3rd-party suggestions.
+- Add small focused PRs: tests, CI, CMake modernizations, and docs.
+- If you want, follow the roadmap items in issues and tag them with `good-first-issue` or `help-wanted`.

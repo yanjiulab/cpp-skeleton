@@ -85,6 +85,51 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 .PHONY : rebuild_cache/fast
 
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+.PHONY : list_install_components/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
+
 # The main all target
 all: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/liyanjiu/projects/cpp-skeleton/build/CMakeFiles /home/liyanjiu/projects/cpp-skeleton/build//CMakeFiles/progress.marks
@@ -113,34 +158,22 @@ preinstall/fast:
 
 # clear depends
 depend:
+	$(CMAKE_COMMAND) -P /home/liyanjiu/projects/cpp-skeleton/build/CMakeFiles/VerifyGlobs.cmake
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named cppdemo
+# Target rules for targets named cpp11_demo
 
 # Build rule for target.
-cppdemo: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cppdemo
-.PHONY : cppdemo
+cpp11_demo: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cpp11_demo
+.PHONY : cpp11_demo
 
 # fast build rule for target.
-cppdemo/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/build
-.PHONY : cppdemo/fast
-
-#=============================================================================
-# Target rules for targets named started
-
-# Build rule for target.
-started: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 started
-.PHONY : started
-
-# fast build rule for target.
-started/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/started.dir/build.make CMakeFiles/started.dir/build
-.PHONY : started/fast
+cpp11_demo/fast:
+	$(MAKE) $(MAKESILENT) -f src/cpp11/demo/CMakeFiles/cpp11_demo.dir/build.make src/cpp11/demo/CMakeFiles/cpp11_demo.dir/build
+.PHONY : cpp11_demo/fast
 
 #=============================================================================
 # Target rules for targets named app
@@ -152,21 +185,21 @@ app: cmake_check_build_system
 
 # fast build rule for target.
 app/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/build
+	$(MAKE) $(MAKESILENT) -f src/cpp11/app/CMakeFiles/app.dir/build.make src/cpp11/app/CMakeFiles/app.dir/build
 .PHONY : app/fast
 
 #=============================================================================
-# Target rules for targets named lynx
+# Target rules for targets named daemon
 
 # Build rule for target.
-lynx: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lynx
-.PHONY : lynx
+daemon: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 daemon
+.PHONY : daemon
 
 # fast build rule for target.
-lynx/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lynx.dir/build.make CMakeFiles/lynx.dir/build
-.PHONY : lynx/fast
+daemon/fast:
+	$(MAKE) $(MAKESILENT) -f src/cpp11/daemon/CMakeFiles/daemon.dir/build.make src/cpp11/daemon/CMakeFiles/daemon.dir/build
+.PHONY : daemon/fast
 
 #=============================================================================
 # Target rules for targets named monster
@@ -178,296 +211,86 @@ monster: cmake_check_build_system
 
 # fast build rule for target.
 monster/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/monster.dir/build.make CMakeFiles/monster.dir/build
+	$(MAKE) $(MAKESILENT) -f src/cpp11/monster/CMakeFiles/monster.dir/build.make src/cpp11/monster/CMakeFiles/monster.dir/build
 .PHONY : monster/fast
 
-src/app/main.o: src/app/main.cpp.o
-.PHONY : src/app/main.o
-
-# target to build an object file
-src/app/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/app/main.cpp.o
-.PHONY : src/app/main.cpp.o
-
-src/app/main.i: src/app/main.cpp.i
-.PHONY : src/app/main.i
-
-# target to preprocess a source file
-src/app/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/app/main.cpp.i
-.PHONY : src/app/main.cpp.i
-
-src/app/main.s: src/app/main.cpp.s
-.PHONY : src/app/main.s
-
-# target to generate assembly for a file
-src/app/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/app/main.cpp.s
-.PHONY : src/app/main.cpp.s
-
-src/cppdemo/asio_demo1.o: src/cppdemo/asio_demo1.cc.o
-.PHONY : src/cppdemo/asio_demo1.o
-
-# target to build an object file
-src/cppdemo/asio_demo1.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/asio_demo1.cc.o
-.PHONY : src/cppdemo/asio_demo1.cc.o
-
-src/cppdemo/asio_demo1.i: src/cppdemo/asio_demo1.cc.i
-.PHONY : src/cppdemo/asio_demo1.i
-
-# target to preprocess a source file
-src/cppdemo/asio_demo1.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/asio_demo1.cc.i
-.PHONY : src/cppdemo/asio_demo1.cc.i
-
-src/cppdemo/asio_demo1.s: src/cppdemo/asio_demo1.cc.s
-.PHONY : src/cppdemo/asio_demo1.s
-
-# target to generate assembly for a file
-src/cppdemo/asio_demo1.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/asio_demo1.cc.s
-.PHONY : src/cppdemo/asio_demo1.cc.s
-
-src/cppdemo/asio_demo2.o: src/cppdemo/asio_demo2.cc.o
-.PHONY : src/cppdemo/asio_demo2.o
-
-# target to build an object file
-src/cppdemo/asio_demo2.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/asio_demo2.cc.o
-.PHONY : src/cppdemo/asio_demo2.cc.o
-
-src/cppdemo/asio_demo2.i: src/cppdemo/asio_demo2.cc.i
-.PHONY : src/cppdemo/asio_demo2.i
-
-# target to preprocess a source file
-src/cppdemo/asio_demo2.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/asio_demo2.cc.i
-.PHONY : src/cppdemo/asio_demo2.cc.i
-
-src/cppdemo/asio_demo2.s: src/cppdemo/asio_demo2.cc.s
-.PHONY : src/cppdemo/asio_demo2.s
-
-# target to generate assembly for a file
-src/cppdemo/asio_demo2.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/asio_demo2.cc.s
-.PHONY : src/cppdemo/asio_demo2.cc.s
-
-src/cppdemo/json_demo.o: src/cppdemo/json_demo.cc.o
-.PHONY : src/cppdemo/json_demo.o
-
-# target to build an object file
-src/cppdemo/json_demo.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/json_demo.cc.o
-.PHONY : src/cppdemo/json_demo.cc.o
-
-src/cppdemo/json_demo.i: src/cppdemo/json_demo.cc.i
-.PHONY : src/cppdemo/json_demo.i
-
-# target to preprocess a source file
-src/cppdemo/json_demo.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/json_demo.cc.i
-.PHONY : src/cppdemo/json_demo.cc.i
-
-src/cppdemo/json_demo.s: src/cppdemo/json_demo.cc.s
-.PHONY : src/cppdemo/json_demo.s
-
-# target to generate assembly for a file
-src/cppdemo/json_demo.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/json_demo.cc.s
-.PHONY : src/cppdemo/json_demo.cc.s
-
-src/cppdemo/main.o: src/cppdemo/main.cc.o
-.PHONY : src/cppdemo/main.o
-
-# target to build an object file
-src/cppdemo/main.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/main.cc.o
-.PHONY : src/cppdemo/main.cc.o
-
-src/cppdemo/main.i: src/cppdemo/main.cc.i
-.PHONY : src/cppdemo/main.i
-
-# target to preprocess a source file
-src/cppdemo/main.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/main.cc.i
-.PHONY : src/cppdemo/main.cc.i
-
-src/cppdemo/main.s: src/cppdemo/main.cc.s
-.PHONY : src/cppdemo/main.s
-
-# target to generate assembly for a file
-src/cppdemo/main.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/main.cc.s
-.PHONY : src/cppdemo/main.cc.s
-
-src/cppdemo/spdlog_demo.o: src/cppdemo/spdlog_demo.cc.o
-.PHONY : src/cppdemo/spdlog_demo.o
-
-# target to build an object file
-src/cppdemo/spdlog_demo.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/spdlog_demo.cc.o
-.PHONY : src/cppdemo/spdlog_demo.cc.o
-
-src/cppdemo/spdlog_demo.i: src/cppdemo/spdlog_demo.cc.i
-.PHONY : src/cppdemo/spdlog_demo.i
-
-# target to preprocess a source file
-src/cppdemo/spdlog_demo.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/spdlog_demo.cc.i
-.PHONY : src/cppdemo/spdlog_demo.cc.i
-
-src/cppdemo/spdlog_demo.s: src/cppdemo/spdlog_demo.cc.s
-.PHONY : src/cppdemo/spdlog_demo.s
-
-# target to generate assembly for a file
-src/cppdemo/spdlog_demo.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppdemo.dir/build.make CMakeFiles/cppdemo.dir/src/cppdemo/spdlog_demo.cc.s
-.PHONY : src/cppdemo/spdlog_demo.cc.s
-
-src/lynx/log.o: src/lynx/log.cpp.o
-.PHONY : src/lynx/log.o
-
-# target to build an object file
-src/lynx/log.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lynx.dir/build.make CMakeFiles/lynx.dir/src/lynx/log.cpp.o
-.PHONY : src/lynx/log.cpp.o
-
-src/lynx/log.i: src/lynx/log.cpp.i
-.PHONY : src/lynx/log.i
-
-# target to preprocess a source file
-src/lynx/log.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lynx.dir/build.make CMakeFiles/lynx.dir/src/lynx/log.cpp.i
-.PHONY : src/lynx/log.cpp.i
-
-src/lynx/log.s: src/lynx/log.cpp.s
-.PHONY : src/lynx/log.s
-
-# target to generate assembly for a file
-src/lynx/log.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lynx.dir/build.make CMakeFiles/lynx.dir/src/lynx/log.cpp.s
-.PHONY : src/lynx/log.cpp.s
-
-src/lynx/main.o: src/lynx/main.cpp.o
-.PHONY : src/lynx/main.o
-
-# target to build an object file
-src/lynx/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lynx.dir/build.make CMakeFiles/lynx.dir/src/lynx/main.cpp.o
-.PHONY : src/lynx/main.cpp.o
-
-src/lynx/main.i: src/lynx/main.cpp.i
-.PHONY : src/lynx/main.i
-
-# target to preprocess a source file
-src/lynx/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lynx.dir/build.make CMakeFiles/lynx.dir/src/lynx/main.cpp.i
-.PHONY : src/lynx/main.cpp.i
-
-src/lynx/main.s: src/lynx/main.cpp.s
-.PHONY : src/lynx/main.s
-
-# target to generate assembly for a file
-src/lynx/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lynx.dir/build.make CMakeFiles/lynx.dir/src/lynx/main.cpp.s
-.PHONY : src/lynx/main.cpp.s
-
-src/lynx/repl.o: src/lynx/repl.cpp.o
-.PHONY : src/lynx/repl.o
-
-# target to build an object file
-src/lynx/repl.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lynx.dir/build.make CMakeFiles/lynx.dir/src/lynx/repl.cpp.o
-.PHONY : src/lynx/repl.cpp.o
-
-src/lynx/repl.i: src/lynx/repl.cpp.i
-.PHONY : src/lynx/repl.i
-
-# target to preprocess a source file
-src/lynx/repl.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lynx.dir/build.make CMakeFiles/lynx.dir/src/lynx/repl.cpp.i
-.PHONY : src/lynx/repl.cpp.i
-
-src/lynx/repl.s: src/lynx/repl.cpp.s
-.PHONY : src/lynx/repl.s
-
-# target to generate assembly for a file
-src/lynx/repl.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lynx.dir/build.make CMakeFiles/lynx.dir/src/lynx/repl.cpp.s
-.PHONY : src/lynx/repl.cpp.s
-
-src/lynx/rest_server.o: src/lynx/rest_server.cpp.o
-.PHONY : src/lynx/rest_server.o
-
-# target to build an object file
-src/lynx/rest_server.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lynx.dir/build.make CMakeFiles/lynx.dir/src/lynx/rest_server.cpp.o
-.PHONY : src/lynx/rest_server.cpp.o
-
-src/lynx/rest_server.i: src/lynx/rest_server.cpp.i
-.PHONY : src/lynx/rest_server.i
-
-# target to preprocess a source file
-src/lynx/rest_server.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lynx.dir/build.make CMakeFiles/lynx.dir/src/lynx/rest_server.cpp.i
-.PHONY : src/lynx/rest_server.cpp.i
-
-src/lynx/rest_server.s: src/lynx/rest_server.cpp.s
-.PHONY : src/lynx/rest_server.s
-
-# target to generate assembly for a file
-src/lynx/rest_server.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lynx.dir/build.make CMakeFiles/lynx.dir/src/lynx/rest_server.cpp.s
-.PHONY : src/lynx/rest_server.cpp.s
-
-src/monster/main.o: src/monster/main.cpp.o
-.PHONY : src/monster/main.o
-
-# target to build an object file
-src/monster/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/monster.dir/build.make CMakeFiles/monster.dir/src/monster/main.cpp.o
-.PHONY : src/monster/main.cpp.o
-
-src/monster/main.i: src/monster/main.cpp.i
-.PHONY : src/monster/main.i
-
-# target to preprocess a source file
-src/monster/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/monster.dir/build.make CMakeFiles/monster.dir/src/monster/main.cpp.i
-.PHONY : src/monster/main.cpp.i
-
-src/monster/main.s: src/monster/main.cpp.s
-.PHONY : src/monster/main.s
-
-# target to generate assembly for a file
-src/monster/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/monster.dir/build.make CMakeFiles/monster.dir/src/monster/main.cpp.s
-.PHONY : src/monster/main.cpp.s
-
-src/started/main.o: src/started/main.cpp.o
-.PHONY : src/started/main.o
-
-# target to build an object file
-src/started/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/started.dir/build.make CMakeFiles/started.dir/src/started/main.cpp.o
-.PHONY : src/started/main.cpp.o
-
-src/started/main.i: src/started/main.cpp.i
-.PHONY : src/started/main.i
-
-# target to preprocess a source file
-src/started/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/started.dir/build.make CMakeFiles/started.dir/src/started/main.cpp.i
-.PHONY : src/started/main.cpp.i
-
-src/started/main.s: src/started/main.cpp.s
-.PHONY : src/started/main.s
-
-# target to generate assembly for a file
-src/started/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/started.dir/build.make CMakeFiles/started.dir/src/started/main.cpp.s
-.PHONY : src/started/main.cpp.s
+#=============================================================================
+# Target rules for targets named started
+
+# Build rule for target.
+started: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 started
+.PHONY : started
+
+# fast build rule for target.
+started/fast:
+	$(MAKE) $(MAKESILENT) -f src/cpp11/started/CMakeFiles/started.dir/build.make src/cpp11/started/CMakeFiles/started.dir/build
+.PHONY : started/fast
+
+#=============================================================================
+# Target rules for targets named t
+
+# Build rule for target.
+t : cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 t
+.PHONY : t
+
+# fast build rule for target.
+t/fast:
+	$(MAKE) $(MAKESILENT) -f src/cpp11/t/CMakeFiles/t.dir/build.make src/cpp11/t/CMakeFiles/t.dir/build
+.PHONY : t/fast
+
+#=============================================================================
+# Target rules for targets named cpp14_demo
+
+# Build rule for target.
+cpp14_demo: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cpp14_demo
+.PHONY : cpp14_demo
+
+# fast build rule for target.
+cpp14_demo/fast:
+	$(MAKE) $(MAKESILENT) -f src/cpp14/demo/CMakeFiles/cpp14_demo.dir/build.make src/cpp14/demo/CMakeFiles/cpp14_demo.dir/build
+.PHONY : cpp14_demo/fast
+
+#=============================================================================
+# Target rules for targets named cpp17_demo
+
+# Build rule for target.
+cpp17_demo: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cpp17_demo
+.PHONY : cpp17_demo
+
+# fast build rule for target.
+cpp17_demo/fast:
+	$(MAKE) $(MAKESILENT) -f src/cpp17/demo/CMakeFiles/cpp17_demo.dir/build.make src/cpp17/demo/CMakeFiles/cpp17_demo.dir/build
+.PHONY : cpp17_demo/fast
+
+#=============================================================================
+# Target rules for targets named cpp20_demo
+
+# Build rule for target.
+cpp20_demo: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cpp20_demo
+.PHONY : cpp20_demo
+
+# fast build rule for target.
+cpp20_demo/fast:
+	$(MAKE) $(MAKESILENT) -f src/cpp20/demo/CMakeFiles/cpp20_demo.dir/build.make src/cpp20/demo/CMakeFiles/cpp20_demo.dir/build
+.PHONY : cpp20_demo/fast
+
+#=============================================================================
+# Target rules for targets named lynx
+
+# Build rule for target.
+lynx: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lynx
+.PHONY : lynx
+
+# fast build rule for target.
+lynx/fast:
+	$(MAKE) $(MAKESILENT) -f src/cpp20/lynx/CMakeFiles/lynx.dir/build.make src/cpp20/lynx/CMakeFiles/lynx.dir/build
+.PHONY : lynx/fast
 
 # Help Target
 help:
@@ -476,48 +299,21 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
+	@echo "... install"
+	@echo "... install/local"
+	@echo "... install/strip"
+	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... app"
-	@echo "... cppdemo"
+	@echo "... cpp11_demo"
+	@echo "... cpp14_demo"
+	@echo "... cpp17_demo"
+	@echo "... cpp20_demo"
+	@echo "... daemon"
 	@echo "... lynx"
 	@echo "... monster"
 	@echo "... started"
-	@echo "... src/app/main.o"
-	@echo "... src/app/main.i"
-	@echo "... src/app/main.s"
-	@echo "... src/cppdemo/asio_demo1.o"
-	@echo "... src/cppdemo/asio_demo1.i"
-	@echo "... src/cppdemo/asio_demo1.s"
-	@echo "... src/cppdemo/asio_demo2.o"
-	@echo "... src/cppdemo/asio_demo2.i"
-	@echo "... src/cppdemo/asio_demo2.s"
-	@echo "... src/cppdemo/json_demo.o"
-	@echo "... src/cppdemo/json_demo.i"
-	@echo "... src/cppdemo/json_demo.s"
-	@echo "... src/cppdemo/main.o"
-	@echo "... src/cppdemo/main.i"
-	@echo "... src/cppdemo/main.s"
-	@echo "... src/cppdemo/spdlog_demo.o"
-	@echo "... src/cppdemo/spdlog_demo.i"
-	@echo "... src/cppdemo/spdlog_demo.s"
-	@echo "... src/lynx/log.o"
-	@echo "... src/lynx/log.i"
-	@echo "... src/lynx/log.s"
-	@echo "... src/lynx/main.o"
-	@echo "... src/lynx/main.i"
-	@echo "... src/lynx/main.s"
-	@echo "... src/lynx/repl.o"
-	@echo "... src/lynx/repl.i"
-	@echo "... src/lynx/repl.s"
-	@echo "... src/lynx/rest_server.o"
-	@echo "... src/lynx/rest_server.i"
-	@echo "... src/lynx/rest_server.s"
-	@echo "... src/monster/main.o"
-	@echo "... src/monster/main.i"
-	@echo "... src/monster/main.s"
-	@echo "... src/started/main.o"
-	@echo "... src/started/main.i"
-	@echo "... src/started/main.s"
+	@echo "... t"
 .PHONY : help
 
 
@@ -529,6 +325,7 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
+	$(CMAKE_COMMAND) -P /home/liyanjiu/projects/cpp-skeleton/build/CMakeFiles/VerifyGlobs.cmake
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
