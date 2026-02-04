@@ -1,18 +1,11 @@
-get_filename_component(MOD_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
-set(MOD_CXX_STANDARD 11)
+cmake_minimum_required(VERSION 3.10)
+project(cpp17-demo)
 
-file(GLOB_RECURSE MOD_SRCS CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/*.c")
-if(MOD_SRCS)
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp")
-        add_executable(${MOD_NAME} ${MOD_SRCS})
-    else()
-        add_library(${MOD_NAME} STATIC ${MOD_SRCS})
-    endif()
-    target_include_directories(${MOD_NAME} PUBLIC ${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/3rd/include)
-    set_target_properties(${MOD_NAME} PROPERTIES CXX_STANDARD ${MOD_CXX_STANDARD} CXX_STANDARD_REQUIRED ON CXX_EXTENSIONS OFF)
-endif()
+add_executable(cpp17_demo main.cpp)
+set_target_properties(cpp17_demo PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
+target_include_directories(cpp17_demo PUBLIC ${CMAKE_SOURCE_DIR}/3rd/include)
 
-# Install module-specific config and docs from module directory
+# Install module-specific config and doc files from this module dir
 set(MODULE_BUILD_DIR ${CMAKE_BINARY_DIR})
 if(DEFINED MODULE_COLLECTION)
     set(MODULE_BUILD_DIR ${MODULE_BUILD_DIR}/${MODULE_COLLECTION})
@@ -30,7 +23,12 @@ else()
     set(INSTALL_ETC_DIR ${OUTPUT_DIR}/etc)
     set(INSTALL_DOC_DIR ${OUTPUT_DIR}/doc)
 endif()
-file(GLOB CFG_FILES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/etc/*)
+file(GLOB CFG_FILES CONFIGURE_DEPENDS
+    ${CMAKE_CURRENT_SOURCE_DIR}/*.json
+    ${CMAKE_CURRENT_SOURCE_DIR}/*.toml
+    ${CMAKE_CURRENT_SOURCE_DIR}/*.yml
+    ${CMAKE_CURRENT_SOURCE_DIR}/*.yaml
+    ${CMAKE_CURRENT_SOURCE_DIR}/*.ini)
 if(CFG_FILES)
     file(INSTALL ${CFG_FILES} DESTINATION ${INSTALL_ETC_DIR})
 endif()

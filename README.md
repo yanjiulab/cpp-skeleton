@@ -44,8 +44,10 @@ config-cpp| 14| C++ configuration management library inspired by the Viper packa
 catch2|【TODO】|【TODO】
 redis|【TODO】|【TODO】
 flatbuffers|【TODO】|【TODO】
-threadpool| TOBECHOSEN | 
 concurrentqueue | TODO
+rest_rpc 20
+ormpp 11/14/17
+iguana 17/20
 
 **If you have recommendations for useful libraries, feel free to open an issue!**
 
@@ -96,6 +98,9 @@ Key points:
 ## Build
 
 ```shell
+cmake -S . -B build -Wno-dev
+cmake --build build --target help
+
 mkdir build; cd build
 cmake ..
 cmake --build . # or make <target>

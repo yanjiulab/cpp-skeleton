@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
     ConfigCpp::ConfigCpp config(argc, argv);
 
     config.SetConfigName("config");
-    // config.SetConfigType(ConfigCpp::ConfigType::TOML);
+    config.SetConfigType(ConfigCpp::ConfigType::TOML);
 
     // config.AddConfigPath("../inputs/json/");
     // config.AddConfigPath("../../inputs/json/");

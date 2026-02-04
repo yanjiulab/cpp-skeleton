@@ -7,3 +7,32 @@
     - Flat Mode: All output files are placed directly in build/cpp14/demo.
 4. All configuration files and documentation files are collected from the current module directory based on their file suffixes.
 5. Please update all CMakeLists.txt files in accordance with the above specifications.
+
+##
+
+create modules based on src/cpp11/app11
+
+
+- cpp11
+  - app11: a demo using asio 11
+  - demo11: a demo
+  - spdlog_demo
+  - CLI11_demo
+  - json_demo
+  - toml11_demo
+  - tabulate_demo
+  - threadpool_demo
+  - queue_demo
+- 14
+  - app14
+  - demo14
+  - cli_demo
+  - config_demo
+  - sigslot_demo
+- 17
+  - app17
+  - demo17
+- 20
+  - app20
+  - demo20
+  - lynx

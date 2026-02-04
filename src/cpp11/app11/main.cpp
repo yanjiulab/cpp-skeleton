@@ -1,30 +1,16 @@
-// #include "cinatra.hpp"
-// using namespace cinatra;
-
-// int main() {
-//     int max_thread_num = std::thread::hardware_concurrency();
-//     coro_http_server server(max_thread_num, 8080);
-//     server.set_http_handler<GET, POST>("/", [](coro_http_request& req, coro_http_response& res) {
-//         res.set_status_and_content(status_type::ok, "hello world");
-//     });
-
-//     server.sync_start();
-//     return 0;
-// }
 #include <iostream>
-#include "spdlog/spdlog.h"
+
 #include "config.h"
+#include "spdlog/spdlog.h"
 
 int main() {
     spdlog::info("{}", app_VERSION_FULLSTR);
     // 1. 直接使用默认logger记录日志，这将使用默认的sink（控制台彩色输出）
     spdlog::info("这是一条通过默认logger输出的信息");
 
-
     // 2. 获取默认logger并查看其sinks
     auto default_logger = spdlog::default_logger();
     auto& sinks = default_logger->sinks();
-
 
     std::cout << "默认logger包含 " << sinks.size() << " 个sink" << std::endl;
 

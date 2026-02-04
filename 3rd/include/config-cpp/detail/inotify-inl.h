@@ -196,7 +196,7 @@ inline void Inotify::run() {
 
 inline void Inotify::sendStopSignal() {
     std::vector<std::uint8_t> buf(1, 0);
-    write(m_stopPipeFd[PIPE_WRITE_INDEX], buf.data(), buf.size());
+    ssize_t n = write(m_stopPipeFd[PIPE_WRITE_INDEX], buf.data(), buf.size());
 }
 
 inline bool Inotify::hasStopped() {

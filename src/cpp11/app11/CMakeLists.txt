@@ -1,7 +1,13 @@
 get_filename_component(MOD_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
+project(${MOD_NAME} VERSION 0.3.0)
 set(MOD_CXX_STANDARD 11)
 
-file(GLOB_RECURSE MOD_SRCS CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/*.c")
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/config.h.in
+    ${CMAKE_CURRENT_SOURCE_DIR}/config.h
+)
+
+file(GLOB_RECURSE MOD_SRCS CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 if(MOD_SRCS)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp")
         add_executable(${MOD_NAME} ${MOD_SRCS})
@@ -12,7 +18,7 @@ if(MOD_SRCS)
     set_target_properties(${MOD_NAME} PROPERTIES CXX_STANDARD ${MOD_CXX_STANDARD} CXX_STANDARD_REQUIRED ON CXX_EXTENSIONS OFF)
 endif()
 
-# Install module-specific config and docs from module directory
+# Install module-specific config/docs from the module directory
 set(MODULE_BUILD_DIR ${CMAKE_BINARY_DIR})
 if(DEFINED MODULE_COLLECTION)
     set(MODULE_BUILD_DIR ${MODULE_BUILD_DIR}/${MODULE_COLLECTION})
@@ -30,6 +36,7 @@ else()
     set(INSTALL_ETC_DIR ${OUTPUT_DIR}/etc)
     set(INSTALL_DOC_DIR ${OUTPUT_DIR}/doc)
 endif()
+
 file(GLOB CFG_FILES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/etc/*)
 if(CFG_FILES)
     file(INSTALL ${CFG_FILES} DESTINATION ${INSTALL_ETC_DIR})
