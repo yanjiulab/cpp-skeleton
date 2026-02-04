@@ -79,7 +79,7 @@ int main(int argc, char **argv) {
 
         std::cout << config.GetConfigData() << "\n";
 
-        // config.WriteConfig();
+        config.WriteConfig();
 
         config.OnConfigChange(onConfigChange);
         config.WatchConfig();

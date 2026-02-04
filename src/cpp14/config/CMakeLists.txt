@@ -1,13 +1,7 @@
 get_filename_component(MOD_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 set(MOD_CXX_STANDARD 14)
 
-file(GLOB_RECURSE MOD_SRCS CONFIGURE_DEPENDS 
-     "${CMAKE_CURRENT_SOURCE_DIR}/*.c"          # C source
-     "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"        # C++ source
-     "${CMAKE_CURRENT_SOURCE_DIR}/*.cc"         # Linux C++ source
-     "${CMAKE_CURRENT_SOURCE_DIR}/*.cxx"        # Standard C++ source
-     "${CMAKE_CURRENT_SOURCE_DIR}/*.C")         # Uppercase C++ source
-
+file(GLOB_RECURSE MOD_SRCS CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 if(MOD_SRCS)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp")
         add_executable(${MOD_NAME} ${MOD_SRCS})

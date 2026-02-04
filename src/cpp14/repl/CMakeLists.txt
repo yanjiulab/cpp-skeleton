@@ -1,11 +1,19 @@
-cmake_minimum_required(VERSION 3.10)
-project(demo14)
+get_filename_component(MOD_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
+project(${MOD_NAME} VERSION 0.1.0)
+set(MOD_CXX_STANDARD 14)
 
-add_executable(demo14 main.cpp)
-set_target_properties(demo14 PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
-target_include_directories(demo14 PUBLIC ${CMAKE_SOURCE_DIR}/3rd/include)
+file(GLOB_RECURSE MOD_SRCS CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
+if(MOD_SRCS)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp")
+        add_executable(${MOD_NAME} ${MOD_SRCS})
+    else()
+        add_library(${MOD_NAME} STATIC ${MOD_SRCS})
+    endif()
+    target_include_directories(${MOD_NAME} PUBLIC ${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/3rd/include)
+    set_target_properties(${MOD_NAME} PROPERTIES CXX_STANDARD ${MOD_CXX_STANDARD} CXX_STANDARD_REQUIRED ON CXX_EXTENSIONS OFF)
+endif()
 
-# Install module-local config/docs
+# Install module-specific config/docs from the module directory
 set(MODULE_BUILD_DIR ${CMAKE_BINARY_DIR})
 if(DEFINED MODULE_COLLECTION)
     set(MODULE_BUILD_DIR ${MODULE_BUILD_DIR}/${MODULE_COLLECTION})
@@ -23,6 +31,7 @@ else()
     set(INSTALL_ETC_DIR ${OUTPUT_DIR}/etc)
     set(INSTALL_DOC_DIR ${OUTPUT_DIR}/doc)
 endif()
+
 file(GLOB CFG_FILES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/etc/*)
 if(CFG_FILES)
     file(INSTALL ${CFG_FILES} DESTINATION ${INSTALL_ETC_DIR})

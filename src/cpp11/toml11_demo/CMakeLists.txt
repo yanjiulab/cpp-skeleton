@@ -1,18 +1,11 @@
-get_filename_component(MOD_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
-set(MOD_CXX_STANDARD 11)
+cmake_minimum_required(VERSION 3.10)
+project(toml11_demo)
 
-file(GLOB_RECURSE MOD_SRCS CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/*.c")
-if(MOD_SRCS)
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp")
-        add_executable(${MOD_NAME} ${MOD_SRCS})
-    else()
-        add_library(${MOD_NAME} STATIC ${MOD_SRCS})
-    endif()
-    target_include_directories(${MOD_NAME} PUBLIC ${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/3rd/include)
-    set_target_properties(${MOD_NAME} PROPERTIES CXX_STANDARD ${MOD_CXX_STANDARD} CXX_STANDARD_REQUIRED ON CXX_EXTENSIONS OFF)
-endif()
+add_executable(toml11_demo main.cpp)
+set_target_properties(toml11_demo PROPERTIES CXX_STANDARD 11 CXX_STANDARD_REQUIRED ON)
+target_include_directories(toml11_demo PUBLIC ${CMAKE_SOURCE_DIR}/3rd/include)
 
-# Install module-specific config and docs from module directory
+# Install module-local config/docs
 set(MODULE_BUILD_DIR ${CMAKE_BINARY_DIR})
 if(DEFINED MODULE_COLLECTION)
     set(MODULE_BUILD_DIR ${MODULE_BUILD_DIR}/${MODULE_COLLECTION})

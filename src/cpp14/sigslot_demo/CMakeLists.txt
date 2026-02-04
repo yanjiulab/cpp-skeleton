@@ -1,9 +1,14 @@
 cmake_minimum_required(VERSION 3.10)
-project(demo14)
+project(sigslot_demo)
 
-add_executable(demo14 main.cpp)
-set_target_properties(demo14 PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
-target_include_directories(demo14 PUBLIC ${CMAKE_SOURCE_DIR}/3rd/include)
+file(GLOB CPP_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
+
+foreach(CPP_FILE ${CPP_SOURCES})
+    get_filename_component(EXE_NAME ${CPP_FILE} NAME_WE)
+    add_executable(sigslot_demo_${EXE_NAME} ${CPP_FILE})
+    set_target_properties(sigslot_demo_${EXE_NAME} PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
+    target_include_directories(sigslot_demo_${EXE_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/3rd/include)
+endforeach()
 
 # Install module-local config/docs
 set(MODULE_BUILD_DIR ${CMAKE_BINARY_DIR})

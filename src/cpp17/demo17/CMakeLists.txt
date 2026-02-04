@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.10)
-project(cpp17-demo)
+project(demo17)
 
-add_executable(cpp17_demo main.cpp)
-set_target_properties(cpp17_demo PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
-target_include_directories(cpp17_demo PUBLIC ${CMAKE_SOURCE_DIR}/3rd/include)
+add_executable(demo17 main.cpp)
+set_target_properties(demo17 PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
+target_include_directories(demo17 PUBLIC ${CMAKE_SOURCE_DIR}/3rd/include)
 
-# Install module-specific config and doc files from this module dir
+# Install module-local config/docs
 set(MODULE_BUILD_DIR ${CMAKE_BINARY_DIR})
 if(DEFINED MODULE_COLLECTION)
     set(MODULE_BUILD_DIR ${MODULE_BUILD_DIR}/${MODULE_COLLECTION})
@@ -23,12 +23,7 @@ else()
     set(INSTALL_ETC_DIR ${OUTPUT_DIR}/etc)
     set(INSTALL_DOC_DIR ${OUTPUT_DIR}/doc)
 endif()
-file(GLOB CFG_FILES CONFIGURE_DEPENDS
-    ${CMAKE_CURRENT_SOURCE_DIR}/*.json
-    ${CMAKE_CURRENT_SOURCE_DIR}/*.toml
-    ${CMAKE_CURRENT_SOURCE_DIR}/*.yml
-    ${CMAKE_CURRENT_SOURCE_DIR}/*.yaml
-    ${CMAKE_CURRENT_SOURCE_DIR}/*.ini)
+file(GLOB CFG_FILES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/etc/*)
 if(CFG_FILES)
     file(INSTALL ${CFG_FILES} DESTINATION ${INSTALL_ETC_DIR})
 endif()

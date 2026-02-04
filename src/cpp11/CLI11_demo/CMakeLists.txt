@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
-project(demo14)
+project(CLI11_demo)
 
-add_executable(demo14 main.cpp)
-set_target_properties(demo14 PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
-target_include_directories(demo14 PUBLIC ${CMAKE_SOURCE_DIR}/3rd/include)
+add_executable(CLI11_demo main.cpp)
+set_target_properties(CLI11_demo PROPERTIES CXX_STANDARD 11 CXX_STANDARD_REQUIRED ON)
+target_include_directories(CLI11_demo PUBLIC ${CMAKE_SOURCE_DIR}/3rd/include)
 
 # Install module-local config/docs
 set(MODULE_BUILD_DIR ${CMAKE_BINARY_DIR})
