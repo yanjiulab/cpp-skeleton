@@ -1,5 +1,5 @@
 get_filename_component(MOD_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
-project(${MOD_NAME} VERSION 0.3.0)
+project(${MOD_NAME} VERSION 0.1.0)
 set(MOD_CXX_STANDARD 11)
 
 configure_file(
